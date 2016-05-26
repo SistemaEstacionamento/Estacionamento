@@ -1,0 +1,76 @@
+Configuring mono-traversable-0.10.2...
+Building mono-traversable-0.10.2...
+Preprocessing library mono-traversable-0.10.2...
+[1 of 7] Compiling Data.ByteVector  ( src/Data/ByteVector.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/ByteVector.o )
+[2 of 7] Compiling Data.MonoTraversable ( src/Data/MonoTraversable.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/MonoTraversable.o )
+
+src/Data/MonoTraversable.hs:82:1: Warning:
+    Module ‘Control.Monad.Trans.Error’ is deprecated:
+      Use Control.Monad.Trans.Except instead
+
+src/Data/MonoTraversable.hs:146:24: Warning:
+    In the use of type constructor or class ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+
+src/Data/MonoTraversable.hs:223:36: Warning:
+    In the use of type constructor or class ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+
+src/Data/MonoTraversable.hs:438:32: Warning:
+    In the use of ‘Unsafe.inlinePerformIO’
+    (imported from Data.ByteString.Internal):
+    Deprecated: "If you think you know what you are doing, use 'unsafePerformIO'. If you are sure you know what you are doing, use 'unsafeDupablePerformIO'. If you enjoy sharing an address space with a malevolent agent of chaos, try 'accursedUnutterablePerformIO'."
+
+src/Data/MonoTraversable.hs:440:29: Warning:
+    In the use of ‘Unsafe.inlinePerformIO’
+    (imported from Data.ByteString.Internal):
+    Deprecated: "If you think you know what you are doing, use 'unsafePerformIO'. If you are sure you know what you are doing, use 'unsafeDupablePerformIO'. If you enjoy sharing an address space with a malevolent agent of chaos, try 'accursedUnutterablePerformIO'."
+
+src/Data/MonoTraversable.hs:723:40: Warning:
+    In the use of type constructor or class ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+
+src/Data/MonoTraversable.hs:831:50: Warning:
+    In the use of type constructor or class ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+
+src/Data/MonoTraversable.hs:942:52: Warning:
+    In the use of type constructor or class ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+
+src/Data/MonoTraversable.hs:1070:44: Warning:
+    In the use of type constructor or class ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+
+src/Data/MonoTraversable.hs:1189:40: Warning:
+    In the use of type constructor or class ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+
+src/Data/MonoTraversable.hs:1190:14: Warning:
+    In the use of data constructor ‘ErrorT’
+    (imported from Control.Monad.Trans.Error):
+    Deprecated: "Use Control.Monad.Trans.Except instead"
+[3 of 7] Compiling Data.GrowingAppend ( src/Data/GrowingAppend.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/GrowingAppend.o )
+[4 of 7] Compiling Data.Containers  ( src/Data/Containers.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/Containers.o )
+
+src/Data/Containers.hs:23:1: Warning:
+    The import of ‘Data.Monoid’ is redundant
+      except perhaps to import instances from ‘Data.Monoid’
+    To import instances alone, use: import Data.Monoid()
+[5 of 7] Compiling Data.Sequences   ( src/Data/Sequences.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/Sequences.o )
+[6 of 7] Compiling Data.MinLen      ( src/Data/MinLen.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/MinLen.o )
+
+src/Data/MinLen.hs:44:1: Warning:
+    The import of ‘otherwise, Bool’ from module ‘Prelude’ is redundant
+[7 of 7] Compiling Data.NonNull     ( src/Data/NonNull.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/NonNull.o )
+In-place registering mono-traversable-0.10.2...
+Installing library in
+/home/ubuntu/.stack/snapshots/x86_64-linux/lts-5.18/7.10.3/lib/x86_64-linux-ghc-7.10.3/mono-traversable-0.10.2-CFLiYmjbTBXLHncYjMC138
+Registering mono-traversable-0.10.2...

@@ -1,0 +1,684 @@
+
+==================== FINAL INTERFACE ====================
+2016-05-26 21:55:18.87722 UTC
+
+interface main@main:Import 7103
+  interface hash: d6e572360e9e1242dda9400035a6b469
+  ABI hash: f9a451bd88caf962d5aa2edca0ba88f7
+  export-list hash: 3f81b358abbdd755233af520aa5259f2
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 002b4a2b1e8bd7f74f446f3277c2cd0a
+  sig of: Nothing
+  used TH splices: True
+  where
+exports:
+  Import.pRoutes
+module dependencies:
+package dependencies: aeson-compat-0.3.3.0@aeson_0xjzVmng3iDFSqREKtljlA
+                      aeson-0.9.0.1@aeson_DFvprtDBUdB2suCwa7lgtv
+                      ansi-terminal-0.6.2.3@ansit_BDlVdfJGo3VHCIHxPTNjH1
+                      appar-0.1.4@appar_0ov5bpGH3STIB4U7WU8MFi
+                      array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      attoparsec-0.13.0.2@attop_41FU8li3hiTHrQHazQNzh3
+                      auto-update-0.1.4@autou_Fnqbq5K41573zil7J3s62I base-4.8.2.0
+                      base64-bytestring-1.0.0.1@base6_AkCk8zInckjJsyQ4AIFHPN
+                      base-compat-0.9.1@basec_3Zy8UsyHmBEEwbReR8x1KT
+                      binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi
+                      blaze-html-0.8.1.1@blaze_1fCoF4onMJE2jDLBViwynk
+                      blaze-builder-0.4.0.2@blaze_5LQurmvTy7l9rPlWgPlNE4
+                      blaze-markup-0.7.0.3@blaze_JGtgJgx8yqB3DdKuU3sbgD
+                      byteable-0.1.1@bytea_38yjJsjDRm9KusCn8Yo4aB
+                      byteorder-1.0.4@byteo_6yQGE3rJo3bBqr3CFoBQ27
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      case-insensitive-1.2.0.6@casei_8joO9kPGMysIcGsv22FmhM
+                      cereal-0.5.1.0@cerea_843xOxvPj94HAJ9SD4EJuq
+                      cipher-aes-0.2.11@ciphe_8XNwNKI71EdCLNQ4WGdMQq
+                      clientsession-0.9.1.1@clien_5voyFsgo1EG4Zcy2KTreld
+                      conduit-extra-1.1.13.1@condu_1LMl3SW4LtrHkXhIuAcim5
+                      conduit-1.2.6.6@condu_JdeDIbfFlF2LFouNeugyxh
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      cookie-0.4.2@cooki_HgYmE0LnTLQI3ZHrNmxIUf
+                      cprng-aes-0.6.1@cprng_FqpwhJtWO8g27pB5PJZtIq
+                      crypto-api-0.13.2@crypt_2BEYKdRP8nrKGHynW1FWqA
+                      crypto-random-0.0.9@crypt_7BiCOK9v78J36YeClUc9KE
+                      crypto-cipher-types-0.0.9@crypt_AkbdiYWeXYI5D4jAOMIXve
+                      css-text-0.1.2.1@csste_DCmJgQlbndx5J1dp3gjSY0
+                      data-default-instances-base-0.0.1@datad_Bh5w1rt638k3gekgUnZ9Qe
+                      data-default-0.5.3@datad_DLQPsKM7BNMFfKH45X8LEe
+                      data-default-instances-dlist-0.0.1@datad_IV2dTGx3Pj09NowR0FWGzk
+                      data-default-instances-containers-0.0.1@datad_IvTKAI579b047LLJfQOYbY
+                      data-default-class-0.0.1@datad_K91y8NcZUJI9yaBI61rgdD
+                      data-default-instances-old-locale-0.0.1@datad_LQTewb1b5hK22W4h2rIWVQ
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      directory-1.2.2.0@direc_0hFG6ZxK1nk4zsyOqbNHfm
+                      dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui
+                      easy-file-0.2.1@easyf_IjQ6MMskJyDEpOwcfCdF0G
+                      email-validate-2.2.0@email_852PUaAoFuMCJCuSp1iWYg
+                      entropy-0.3.7@entro_7gYJ61Ci0NNBp8LB4CGmrG
+                      exceptions-0.8.2.1@excep_6lgwjdgwblY7rzh5s6SLd8
+                      fast-logger-2.4.6@fastl_KNzHEmV4CAC3sAdPGCavvx
+                      filepath-1.4.0.0@filep_Ey7a1in9roBAE8bUFJ5R9m ghc-prim-0.4.0.0
+                      hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I
+                      http2-1.4.5@http2_DoxR3dWy5TOCdpHywL3J3q
+                      http-api-data-0.2.2@httpa_3kiLcpdXTUe4CYRpIoinpP
+                      http-date-0.0.6.1@httpd_5DCnWjYhsQa9SYTqbDecLX
+                      http-types-0.9@httpt_GVuxyBdW2yt88cWrjZfRWC integer-gmp-1.0.0.0
+                      iproute-1.7.0@iprou_51qGM7UdLbAGjwdVd1zynT
+                      lifted-base-0.2.3.6@lifte_DoOvgrTvmEtENHs0ypaZTR
+                      memory-0.11@memor_0EiEBIg44i8KGjAeoKnPDs
+                      mmorph-1.0.6@mmorp_42KUkOfzC6q3qCtAMiSHam
+                      monad-logger-0.3.18@monad_4zFmsKEb02q80NkYIgzdSA
+                      monad-control-1.0.1.0@monad_7Tqv3C2ASZP4J7swGaIkqS
+                      monad-loops-0.4.3@monad_LQiHRUYhFhYBU7nOOWDOrb
+                      mtl-2.2.1@mtl_Aue4leSeVkpKLsfHIV51E8
+                      mwc-random-0.13.4.0@mwcra_0lrQ1SkkNA85sa8eZ98xQk
+                      network-uri-2.6.1.0@netwo_8hCRgBDYvZA6nRJCSPBXws
+                      network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ
+                      old-locale-1.0.0.7@oldlo_7h2Gx6mVPJ5Gheca8j9Mpe
+                      old-time-1.1.0.3@oldti_JVjJvknZJ0JKghfag2Jw2L
+                      parsec-3.1.11@parse_AtBt9uDOS2NCyWnucTHV3y
+                      path-pieces-0.2.1@pathp_4qW9xznk5mC6aJZVVgmWEO
+                      persistent-template-2.1.8.1@persi_1tD6A5SgofA9bCUT3OrmYW
+                      persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h
+                      pretty-1.1.2.0@prett_JItwetRppk1H5Uq3xbjDGC
+                      primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3
+                      process-1.2.3.0@proce_52AgREEfSrnJLlkGV9YZZJ
+                      psqueues-0.2.2.1@psque_AvLcbKUIB1yCm8wZoS0YR7
+                      random-1.1@rando_9Kgekc9yEaLHLNUuw6paWL
+                      resource-pool-0.2.3.2@resou_BPzNUl5kJsI1qo7V284Tgq
+                      resourcet-1.1.7.4@resou_HqDlSpmGRphG5PMbskXVNU
+                      safe-0.3.9@safe_Eus5OohxO2XHvdWxKAmhFS
+                      scientific-0.3.4.6@scien_5s26qRhE5w04kI4pP1Rtwm
+                      securemem-0.1.9@secur_ArobkR9k7uwJiSXmFUrDYT
+                      semigroups-0.18.1@semig_G8J7ers5FBV50jV0jAmDo0
+                      shakespeare-2.0.8.2@shake_3RhVQT7BnaCFlMCPbnICF4
+                      silently-1.2.5@silen_5nVdOe0bUXfLPEbxHJT4m4
+                      simple-sendfile-0.2.23@simpl_4cgd7qT6IWhK1oBB4nw9KS
+                      skein-1.0.9.4@skein_Er8QdQfWtp79PgFByyaiMF
+                      stm-2.4.4.1@stm_EyxFXFfnfY05IrjGaqCxeD
+                      stm-chans-3.0.0.4@stmch_4ac5OLG4E0w1rpuIDCribD
+                      streaming-commons-0.1.15.5@strea_EmmPiWycOZRDBDTh9xaABj
+                      stringsearch-0.3.6.6@strin_CAOAc0sCfAC9gi7YClo2KY
+                      tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6
+                      tagsoup-0.13.10@tagso_3rEkgaaJ74Z8iYKiJ2gVLz
+                      template-haskell-2.10.0.0 text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      time-locale-compat-0.1.1.1@timel_Ciz7M1U3da73rRwCjRF3Np
+                      transformers-base-0.4.4@trans_74WedXVmfaHHDJItmBRTVp
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unix-2.7.1.0@unix_KZL8h98IqDM57kQSPo1mKx
+                      unix-compat-0.4.1.4@unixc_Km8uiabmElX5mrb8D4Fywe
+                      unix-time-0.3.6@unixt_4DXmhADld9WFju1Q636Hdx
+                      unordered-containers-0.2.5.1@unord_Kh4ayEkEku2Hr3yyCwld2j
+                      utf8-string-1.0.1.1@utf8s_L8eKHa7Iv9q7FVKUYW6u4b
+                      vault-0.3.0.6@vault_8aId1RjvIBs9AcRd6Dlytd
+                      vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln
+                      wai-3.2.1@wai_0sX35KG3ls0DbfkAiL2KUt
+                      wai-extra-3.0.15.1@waiex_EWHXUlMsXiT8I0K03tLj8q
+                      wai-logger-2.2.7@wailo_1X00Br1oGNaGIwtKEg2Oq9
+                      warp-3.2.2@warp_BFfPE5siJYR7AwyKWfQUnI
+                      word8-0.1.2@word8_6yKBsGbmsbLB2UCORShr75
+                      xss-sanitize-0.3.5.7@xsssa_AUbijHu4zP0D8gM2KdDi0S
+                      yesod-persistent-1.4.0.5@yesod_3pJn032f2j34oA1FGRgBps
+                      yesod-form-1.4.7.1@yesod_5qqGWLvJ7hT5L1p57VmswX
+                      yesod-core-1.4.20.2@yesod_B7Rbgnw3aXNHuiCFI7aEeK
+                      yesod-1.4.3@yesod_FpHh22gomk01kN3v1wP7Ls
+                      zlib-0.6.1.1@zlib_7LjT7TSHX8U3VTy3t378Vu
+orphans: aeson-compat-0.3.3.0@aeson_0xjzVmng3iDFSqREKtljlA:Data.Aeson.Compat
+         aeson-0.9.0.1@aeson_DFvprtDBUdB2suCwa7lgtv:Data.Aeson.Types.Generic
+         aeson-0.9.0.1@aeson_DFvprtDBUdB2suCwa7lgtv:Data.Aeson.Types.Instances
+         attoparsec-0.13.0.2@attop_41FU8li3hiTHrQHazQNzh3:Data.Attoparsec.ByteString.Char8
+         attoparsec-0.13.0.2@attop_41FU8li3hiTHrQHazQNzh3:Data.Attoparsec.Text.Internal
+         base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         crypto-api-0.13.2@crypt_2BEYKdRP8nrKGHynW1FWqA:Crypto.Classes
+         data-default-instances-base-0.0.1@datad_Bh5w1rt638k3gekgUnZ9Qe:Data.Default.Instances.Base
+         data-default-instances-dlist-0.0.1@datad_IV2dTGx3Pj09NowR0FWGzk:Data.Default.Instances.DList
+         data-default-instances-containers-0.0.1@datad_IvTKAI579b047LLJfQOYbY:Data.Default.Instances.Containers
+         data-default-instances-old-locale-0.0.1@datad_LQTewb1b5hK22W4h2rIWVQ:Data.Default.Instances.OldLocale
+         hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I:Data.Hashable.Generic
+         network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ:Network.Socket
+         network-2.6.2.1@netwo_A6pE0dLgMEk2GtUa1JtTJQ:Network.Socket.Types
+         persistent-template-2.1.8.1@persi_1tD6A5SgofA9bCUT3OrmYW:Database.Persist.TH
+         persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h:Database.Persist.Sql.Orphan.PersistQuery
+         persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h:Database.Persist.Sql.Orphan.PersistStore
+         persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h:Database.Persist.Sql.Orphan.PersistUnique
+         stm-2.4.4.1@stm_EyxFXFfnfY05IrjGaqCxeD:Control.Monad.STM
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Show
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+         unix-time-0.3.6@unixt_4DXmhADld9WFju1Q636Hdx:Data.UnixTime.Diff
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+family instance modules: attoparsec-0.13.0.2@attop_41FU8li3hiTHrQHazQNzh3:Data.Attoparsec.Internal.Types
+                         base-4.8.2.0:Control.Applicative base-4.8.2.0:Data.Either
+                         base-4.8.2.0:Data.Functor.Identity base-4.8.2.0:Data.Monoid
+                         base-4.8.2.0:Data.Type.Equality base-4.8.2.0:Data.Void
+                         base-4.8.2.0:GHC.Exts base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+                         dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui:Data.DList
+                         email-validate-2.2.0@email_852PUaAoFuMCJCuSp1iWYg:Text.Email.Parser
+                         iproute-1.7.0@iprou_51qGM7UdLbAGjwdVd1zynT:Data.IP.Addr
+                         iproute-1.7.0@iprou_51qGM7UdLbAGjwdVd1zynT:Data.IP.Range
+                         monad-logger-0.3.18@monad_4zFmsKEb02q80NkYIgzdSA:Control.Monad.Logger
+                         monad-control-1.0.1.0@monad_7Tqv3C2ASZP4J7swGaIkqS:Control.Monad.Trans.Control
+                         mwc-random-0.13.4.0@mwcra_0lrQ1SkkNA85sa8eZ98xQk:System.Random.MWC
+                         network-uri-2.6.1.0@netwo_8hCRgBDYvZA6nRJCSPBXws:Network.URI
+                         persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h:Database.Persist.Class.PersistConfig
+                         persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h:Database.Persist.Sql.Orphan.PersistStore
+                         pretty-1.1.2.0@prett_JItwetRppk1H5Uq3xbjDGC:Text.PrettyPrint.HughesPJ
+                         primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3:Control.Monad.Primitive
+                         resourcet-1.1.7.4@resou_HqDlSpmGRphG5PMbskXVNU:Control.Monad.Trans.Resource.Internal
+                         semigroups-0.18.1@semig_G8J7ers5FBV50jV0jAmDo0:Data.List.NonEmpty
+                         semigroups-0.18.1@semig_G8J7ers5FBV50jV0jAmDo0:Data.Semigroup
+                         shakespeare-2.0.8.2@shake_3RhVQT7BnaCFlMCPbnICF4:Text.Css
+                         shakespeare-2.0.8.2@shake_3RhVQT7BnaCFlMCPbnICF4:Text.Shakespeare
+                         tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6:Data.Tagged
+                         template-haskell-2.10.0.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+                         unordered-containers-0.2.5.1@unord_Kh4ayEkEku2Hr3yyCwld2j:Data.HashMap.Base
+                         unordered-containers-0.2.5.1@unord_Kh4ayEkEku2Hr3yyCwld2j:Data.HashSet
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Primitive
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Storable
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed.Base
+                         yesod-core-1.4.20.2@yesod_B7Rbgnw3aXNHuiCFI7aEeK:Yesod.Core.Class.Handler
+                         yesod-core-1.4.20.2@yesod_B7Rbgnw3aXNHuiCFI7aEeK:Yesod.Core.Internal.LiteApp
+                         yesod-core-1.4.20.2@yesod_B7Rbgnw3aXNHuiCFI7aEeK:Yesod.Core.Types
+                         zlib-0.6.1.1@zlib_7LjT7TSHX8U3VTy3t378Vu:Codec.Compression.Zlib.Stream
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  yesod-core-1.4.20.2@yesod_B7Rbgnw3aXNHuiCFI7aEeK:Yesod.Routes.TH.Types c6efdf0a15bad3bb1dd7f3f893e92fd5
+import  -/  yesod-1.4.3@yesod_FpHh22gomk01kN3v1wP7Ls:Yesod 318d44ba081746b664dcf909b019ac81
+addDependentFile "/home/ubuntu/.stack/programs/x86_64-linux/ghc-7.10.3/lib/ghc-7.10.3/include/ghcversion.h"
+addDependentFile ".stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/autogen/cabal_macros.h"
+addDependentFile "/usr/include/stdc-predef.h"
+2ff0e2cbb44f6fdc627efd1c4135d12d
+  pRoutes :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes67 @ typ)
+                   (Import.pRoutes1 @ typ)) -}
+4661979b9c57ee3b831328745214920d
+  pRoutes1 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes61 @ typ)
+                   (Import.pRoutes2 @ typ)) -}
+01055f3f690e3b524fa19eabe5edaff5
+  pRoutes10 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes11 @ typ)) -}
+a607d2a1198c74f8cee9f6f17f50bfbe
+  pRoutes11 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes18
+                   (Import.pRoutes15 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+d542fdec9bb79241fb33e3c30a811eae
+  pRoutes12 :: Yesod.Routes.TH.Types.Dispatch typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Methods
+                   @ typ
+                   (GHC.Base.Nothing @ typ)
+                   Import.pRoutes13) -}
+dc07254a33283cf34167e9419ca4448e
+  pRoutes13 :: [GHC.Base.String]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ GHC.Base.String
+                   Import.pRoutes14
+                   (GHC.Types.[] @ GHC.Base.String)) -}
+d69de635bef4b45a584381677e7810ba
+  pRoutes14 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "POST"#) -}
+f8e69035781183168d4f5f7ef2cf4e4d
+  pRoutes15 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes16 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+318f864cca855f65e58755f00442001f
+  pRoutes16 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes17) -}
+a1326423030130ef1fff63a92194db3a
+  pRoutes17 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "cadastrofuncionario"#) -}
+66c2d8438e246a9aab2e3ac56097b3a1
+  pRoutes18 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "FuncionarioR"#) -}
+6f1c7b95b4d7e54d6604af2d897663be
+  pRoutes19 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes20 @ typ)) -}
+53b106e5ff4b9c09efb16a435b50603e
+  pRoutes2 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes55 @ typ)
+                   (Import.pRoutes3 @ typ)) -}
+8dcc1acb5bd99f263e1556c28b4a21b7
+  pRoutes20 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes24
+                   (Import.pRoutes21 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+2eb014c5176ba12671c24feebd128654
+  pRoutes21 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes22 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+c698093a6cacb5cf8b69c60d9d237595
+  pRoutes22 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes23) -}
+ab76fe9a11fd608eeae93e7c9100cebb
+  pRoutes23 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "entrada"#) -}
+2549571cfef5d32602db34b7056242ae
+  pRoutes24 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "AvulsoR"#) -}
+1ea30a85cac4e7ff6ba32043f1146d2b
+  pRoutes25 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes26 @ typ)) -}
+74d18f006e1ea27d828bb9de0b6e4a53
+  pRoutes26 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes30
+                   (Import.pRoutes27 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+1f345bc335e942042741d1dfaa407b18
+  pRoutes27 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes28 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+c88345f65a6d03bd811bc4b2e7aef38f
+  pRoutes28 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes29) -}
+ec1186da5f430b2ced19bd2b72416c8e
+  pRoutes29 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cadastroconveniado"#) -}
+2c052026b9311f13738c37e41785d8f8
+  pRoutes3 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes49 @ typ)
+                   (Import.pRoutes4 @ typ)) -}
+f604f9a8dbb126443792e8f23fb36e6d
+  pRoutes30 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "ConveniadoR"#) -}
+6636d4d984c0486e9b1dca01687dd63a
+  pRoutes31 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes32 @ typ)) -}
+fe0e4a3cd3d4a535b10798889629913c
+  pRoutes32 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes36
+                   (Import.pRoutes33 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+fc6e6f3653f9d3d25d62f1bfdd67a1d4
+  pRoutes33 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes34 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+16bb28e15345fe46bb04da1c8f567571
+  pRoutes34 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes35) -}
+8fb3866ecabaccc7dd112d45f78d94d8
+  pRoutes35 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cadastroevento"#) -}
+36db50a6566470fb97a7a765a69ff1b1
+  pRoutes36 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "EventoR"#) -}
+7572ecf585024962d2376a92b8951bce
+  pRoutes37 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes38 @ typ)) -}
+a1fc679ec7a34242fc2b71b69287cce5
+  pRoutes38 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes42
+                   (Import.pRoutes39 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+e40f3e7eb49169288c8bc9ad358d5274
+  pRoutes39 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes40 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+d643586f33aa06ccb02fb659cb3f6b53
+  pRoutes4 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes43 @ typ)
+                   (Import.pRoutes5 @ typ)) -}
+3aba52c423fe6fb114c4a4a3952d0f41
+  pRoutes40 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes41) -}
+d56ba0e5f8793f2274a8ae555c4f3d57
+  pRoutes41 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cadastrovagavalor"#) -}
+28d7d804c1800f0bad5fa2591cc459fa
+  pRoutes42 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "VagaValorR"#) -}
+ded57a836cfa70f14d20c58ac719e408
+  pRoutes43 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes44 @ typ)) -}
+4b429ec977c5d99359012afc0ac364e7
+  pRoutes44 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes48
+                   (Import.pRoutes45 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+841beb1a24893c5ffc9f7a17dad9d2dc
+  pRoutes45 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes46 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+5cdf663607dab6754e240b3de47369f2
+  pRoutes46 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes47) -}
+6dcee8b30111593a9f1fcadcb9bab1d2
+  pRoutes47 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cadastrovaga"#) -}
+bfcecf9d4abb35a620c8b0aaaab7e14c
+  pRoutes48 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "VagaR"#) -}
+8411d0c4c988a113d7c5a3774510882a
+  pRoutes49 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes50 @ typ)) -}
+45f4f1f19a386195965b06d999df7655
+  pRoutes5 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes37 @ typ)
+                   (Import.pRoutes6 @ typ)) -}
+fdd90383f15dd1a6e9e650d6b5fccd0a
+  pRoutes50 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes54
+                   (Import.pRoutes51 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+f4ff62ebc5840c8b8606a77811bfa78d
+  pRoutes51 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes52 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+91b85bec3b4b6f86dcb6a4e377a2e108
+  pRoutes52 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes53) -}
+93340c989371f848c29d59243bb92dfd
+  pRoutes53 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cadastrocontrato"#) -}
+89f8892a6b8a77d92bc57c1d6984f4d0
+  pRoutes54 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "ContratoR"#) -}
+da1603024510a506bdd5648da8000fe6
+  pRoutes55 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes56 @ typ)) -}
+6a2af8e5ed50330b4036adba47f42862
+  pRoutes56 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes60
+                   (Import.pRoutes57 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+0ef3aa5ea077f16533cbc7c922a5da0d
+  pRoutes57 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes58 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+2f6b49c6799251ea950ae038ea6dc77b
+  pRoutes58 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes59) -}
+c32eff182d634fbe4cdc21aa26e8a2d7
+  pRoutes59 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "cadastrotipoveiculo"#) -}
+23d15d6f294dfa0b067dd3c7ac423d64
+  pRoutes6 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes31 @ typ)
+                   (Import.pRoutes7 @ typ)) -}
+7b40899c7e1cf43ea179b089e374f4cf
+  pRoutes60 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "TipoVeiculoR"#) -}
+ba129356d75cc5ded87ea640dc0e0c08
+  pRoutes61 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes62 @ typ)) -}
+6ae64b377b4c345189be7f3697a84b21
+  pRoutes62 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes66
+                   (Import.pRoutes63 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+02d7eb02d57e2f9453729766af3f2342
+  pRoutes63 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes64 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+bcdc08593853b98ccad90deb651a861d
+  pRoutes64 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes65) -}
+6624f638d37e65064de8397b9f45b638
+  pRoutes65 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cadastroveiculo"#) -}
+0d2078285b4bd2204ffbdbac3ef198cd
+  pRoutes66 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "VeiculoR"#) -}
+f5e38d3c0bf60a36186ba650a4877cd6
+  pRoutes67 :: Yesod.Routes.TH.Types.ResourceTree typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.ResourceLeaf
+                   @ typ
+                   (Import.pRoutes68 @ typ)) -}
+06ef549102a7c6273f66f12dee58c8a3
+  pRoutes68 :: Yesod.Routes.TH.Types.Resource typ
+  {- Strictness: m,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Resource
+                   @ typ
+                   Import.pRoutes72
+                   (Import.pRoutes69 @ typ)
+                   (Import.pRoutes12 @ typ)
+                   (GHC.Types.[] @ GHC.Base.String)
+                   GHC.Types.True) -}
+604cd0795ef0eee3ce03b782d5e1be2e
+  pRoutes69 :: [Yesod.Routes.TH.Types.Piece typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece typ)
+                   (Import.pRoutes70 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece typ))) -}
+79d4974c620cf23af1bb3e065148b74c
+  pRoutes7 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes25 @ typ)
+                   (Import.pRoutes8 @ typ)) -}
+e76bb7e7aa80077f0e3fdf2e326f3988
+  pRoutes70 :: Yesod.Routes.TH.Types.Piece typ
+  {- Strictness: m1,
+     Unfolding: (\ @ typ ->
+                 Yesod.Routes.TH.Types.Static @ typ Import.pRoutes71) -}
+a6764135066dd742cf2a6b1bc7be811c
+  pRoutes71 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cadastrocliente"#) -}
+7ebedd01905ec94c751c91720590625e
+  pRoutes72 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "ClienteR"#) -}
+f2708bbe3fb98fb41986ee94bdf0e954
+  pRoutes8 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes19 @ typ)
+                   (Import.pRoutes9 @ typ)) -}
+0e978d981211d0231ba4a4836cb03aae
+  pRoutes9 :: [Yesod.Routes.TH.Types.ResourceTree typ]
+  {- Strictness: m2,
+     Unfolding: (\ @ typ ->
+                 GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.ResourceTree typ)
+                   (Import.pRoutes10 @ typ)
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.ResourceTree typ))) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

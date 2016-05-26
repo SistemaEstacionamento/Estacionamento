@@ -1,0 +1,26 @@
+Configuring yesod-newsfeed-1.5...
+Building yesod-newsfeed-1.5...
+Preprocessing library yesod-newsfeed-1.5...
+[1 of 4] Compiling Yesod.FeedTypes  ( Yesod/FeedTypes.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Yesod/FeedTypes.o )
+[2 of 4] Compiling Yesod.RssFeed    ( Yesod/RssFeed.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Yesod/RssFeed.o )
+
+Yesod/RssFeed.hs:27:1: Warning:
+    The import of ‘Text.Hamlet’ is redundant
+      except perhaps to import instances from ‘Text.Hamlet’
+    To import instances alone, use: import Text.Hamlet()
+
+Yesod/RssFeed.hs:90:22: Warning:
+    This binding for ‘length’ shadows the existing binding
+      imported from ‘Prelude’ at Yesod/RssFeed.hs:17:8-20
+      (and originally defined in ‘Data.Foldable’)
+[3 of 4] Compiling Yesod.AtomFeed   ( Yesod/AtomFeed.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Yesod/AtomFeed.o )
+
+Yesod/AtomFeed.hs:31:1: Warning:
+    The import of ‘Text.Hamlet’ is redundant
+      except perhaps to import instances from ‘Text.Hamlet’
+    To import instances alone, use: import Text.Hamlet()
+[4 of 4] Compiling Yesod.Feed       ( Yesod/Feed.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Yesod/Feed.o )
+In-place registering yesod-newsfeed-1.5...
+Installing library in
+/home/ubuntu/.stack/snapshots/x86_64-linux/lts-5.18/7.10.3/lib/x86_64-linux-ghc-7.10.3/yesod-newsfeed-1.5-8fILobFfDhN3x2MdzqaoBC
+Registering yesod-newsfeed-1.5...

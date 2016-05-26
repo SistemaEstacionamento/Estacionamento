@@ -1,0 +1,22 @@
+Configuring conduit-combinators-1.0.3.1...
+Building conduit-combinators-1.0.3.1...
+Preprocessing library conduit-combinators-1.0.3.1...
+[1 of 5] Compiling Data.Conduit.Combinators.Stream ( Data/Conduit/Combinators/Stream.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/Conduit/Combinators/Stream.o )
+[2 of 5] Compiling Data.Conduit.Combinators.Internal ( Data/Conduit/Combinators/Internal.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/Conduit/Combinators/Internal.o )
+[3 of 5] Compiling Data.Conduit.Combinators ( Data/Conduit/Combinators.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/Conduit/Combinators.o )
+[4 of 5] Compiling Data.Conduit.Combinators.Unqualified ( Data/Conduit/Combinators/Unqualified.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Data/Conduit/Combinators/Unqualified.o )
+
+Data/Conduit/Combinators/Unqualified.hs:192:1: Warning:
+    The qualified import of ‘Data.Conduit.List’ is redundant
+      except perhaps to import instances from ‘Data.Conduit.List’
+    To import instances alone, use: import Data.Conduit.List()
+
+Data/Conduit/Combinators/Unqualified.hs:204:1: Warning:
+    The qualified import of ‘Prelude’ is redundant
+      except perhaps to import instances from ‘Prelude’
+    To import instances alone, use: import Prelude()
+[5 of 5] Compiling Conduit          ( Conduit.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Conduit.o )
+In-place registering conduit-combinators-1.0.3.1...
+Installing library in
+/home/ubuntu/.stack/snapshots/x86_64-linux/lts-5.18/7.10.3/lib/x86_64-linux-ghc-7.10.3/conduit-combinators-1.0.3.1-2ze1qOkIYAb77JItICWaNo
+Registering conduit-combinators-1.0.3.1...

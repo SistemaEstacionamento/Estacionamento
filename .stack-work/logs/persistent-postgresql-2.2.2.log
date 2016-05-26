@@ -1,0 +1,18 @@
+Configuring persistent-postgresql-2.2.2...
+Building persistent-postgresql-2.2.2...
+Preprocessing library persistent-postgresql-2.2.2...
+[1 of 1] Compiling Database.Persist.Postgresql ( Database/Persist/Postgresql.hs, .stack-work/dist/x86_64-linux/Cabal-1.22.5.0/build/Database/Persist/Postgresql.o )
+
+Database/Persist/Postgresql.hs:31:1: Warning:
+    The qualified import of ‘Database.PostgreSQL.Simple.TypeInfo’ is redundant
+      except perhaps to import instances from ‘Database.PostgreSQL.Simple.TypeInfo’
+    To import instances alone, use: import Database.PostgreSQL.Simple.TypeInfo()
+
+Database/Persist/Postgresql.hs:45:1: Warning:
+    The import of ‘Data.Typeable’ is redundant
+      except perhaps to import instances from ‘Data.Typeable’
+    To import instances alone, use: import Data.Typeable()
+In-place registering persistent-postgresql-2.2.2...
+Installing library in
+/home/ubuntu/.stack/snapshots/x86_64-linux/lts-5.18/7.10.3/lib/x86_64-linux-ghc-7.10.3/persistent-postgresql-2.2.2-I35172shMYp78kjIUv4icT
+Registering persistent-postgresql-2.2.2...
