@@ -18,18 +18,19 @@ getClienteR = defaultLayout $ do
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
   [whamlet| 
     <form>
+        Tipo: <select id="tipo"><option value="f"> Fisico <option value="j"> Juridico
         Nome: <input type="text" id="usuario">
     <button #btn> OK
-  |]  
+  |] 
   toWidget [julius|
      $(main);
      function main(){
          $("#btn").click(function(){
             $.ajax({
                  contentType: "application/json",
-                 url: "@{UserR}",
+                 url: "@{ClienteR}",
                  type: "POST",
-                 data: JSON.stringify({"nome":$("#usuario").val()}),
+                 data: JSON.stringify({"nome":$("#usuario").val(),"flcliente":$("#tipo").val()}),
                  success: function(data) {
                      alert(data);
                      $("#usuario").val("");
@@ -47,11 +48,8 @@ postClienteR :: Handler ()
 postClienteR = do
     clientes <- requireJsonBody :: Handler Cliente
     runDB $ insert clientes
-    cid <- runDB $ (rawSql (pack $ "SELECT ClienteId FROM ?? order by ClienteId DESC LIMIT 1 ") []) :: Handler [(Entity Cliente)]
-    sendResponse (object [pack "data" .=  cid ])
+    sendResponse (object [pack "data" .= pack "CREATED"])
 
-    
-    
 postVeiculoR :: Handler ()
 postVeiculoR = do
     veiculo <- requireJsonBody :: Handler Veiculo
