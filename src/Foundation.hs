@@ -20,6 +20,7 @@ Cliente json
 Telefone json
    ordem Text
    clienteid ClienteId
+   telefone Text
    deriving Show
    
 ClienteFisico json

@@ -13,11 +13,44 @@ import Database.Persist.Postgresql
 
 mkYesodDispatch "Sitio" pRoutes
 
+getClienteR :: Handler Html
+getClienteR = defaultLayout $ do
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  [whamlet| 
+    <form>
+        Nome: <input type="text" id="usuario">
+    <button #btn> OK
+  |]  
+  toWidget [julius|
+     $(main);
+     function main(){
+         $("#btn").click(function(){
+            $.ajax({
+                 contentType: "application/json",
+                 url: "@{UserR}",
+                 type: "POST",
+                 data: JSON.stringify({"nome":$("#usuario").val()}),
+                 success: function(data) {
+                     alert(data);
+                     $("#usuario").val("");
+                 }
+            })
+         });
+     }
+  |]
+
+
+--------------------------------------------------------
+--              METHODS POST
+--------------------------------------------------------
 postClienteR :: Handler ()
 postClienteR = do
     clientes <- requireJsonBody :: Handler Cliente
     runDB $ insert clientes
-    sendResponse (object [pack "resp" .= pack "CREATED"])
+    cid <- runDB $ (rawSql (pack $ "SELECT ClienteId FROM ?? order by ClienteId DESC LIMIT 1 ") []) :: Handler [(Entity Cliente)]
+    sendResponse (object [pack "data" .=  cid ])
+
+    
     
 postVeiculoR :: Handler ()
 postVeiculoR = do
