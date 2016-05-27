@@ -4,7 +4,8 @@ module Import where
 import Yesod
  
 pRoutes = [parseRoutes|
-	/cadastrocliente ClienteR POST 
+	/cadastrocliente ClienteR POST GET
+	/telefone TelefoneR POST
 	/cadastroveiculo VeiculoR POST
 	/cadastrotipoveiculo TipoVeiculoR POST
 	/cadastrocontrato ContratoR POST
