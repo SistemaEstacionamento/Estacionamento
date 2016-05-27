@@ -17,9 +17,9 @@ mkYesodDispatch "Sitio" pRoutes
 getClientR :: Handler Html
 getClientR = defaultLayout $ do
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  [whamlet| 
+  [whamlet|
     <form>
-    <button #btn> OK
+    Tipo: <select id="flcliente"><option value="f"> Fisico </option><option value="j"> Juridico </option></select>
     Nome: <input type="text" id="nome">
     Telefone: <input type="text" id="telefone">
     RG: <input type="text" id="rg">
@@ -32,23 +32,45 @@ getClientR = defaultLayout $ do
     Estado: <input type="text" id="estado">
     Bairro: <input type="text" id="bairro">
     CEP: <input type="text" id="cep">
-    Tipo: <select id="flcliente"><option value="f"> Fisico <option value="j"> Juridico
+    <div id="content">
+    <button #btn> OK
+    <table id="t1">
+        <thead>
+            <tr>
+            <th>ID
+            <th>Nome
+            <th>Telefone
+        <tbody id="tb">
   |] 
   toWidget [julius|
      $(main);
      function main(){
-         $("#btn").click(function(){
+     	$(listar());
+        $("#btn").click(function(){
             $.ajax({
                  contentType: "application/json",
                  url: "@{ClientR}",
                  type: "POST",
                  data: JSON.stringify({"nome":$("#nome").val(),"flcliente":$("#flcliente").val(),"telefone":$("#telefone").val(),"rg":$("#rg").val(),"sexo":$("#sexo").val(),"cpf":$("#cpf").val(),"cnpj":$("#cnpj").val(),"razaosocial":$("#razaosocial").val(),"logradouro":$("#logradouro").val(),"cidade":$("#cidade").val(),"estado":$("#estado").val(),"bairro":$("#bairro").val(),"cep":$("#cep").val()}),
-                 success: function(data) {
-                     alert(data);
-                     $("#usuario").val("");
+                 success: function(){
+					$("#nome").val("");
+					$("#flcliente").val("f");
+					$("#telefone").val("");
+					$("#rg").val("");
+					$("#sexo").val("");
+					$("#cpf").val("");
+					$("#cnpj").val("")
+					$("#razaosocial").val("");
+					$("#logradouro").val("");
+					$("#cidade").val("");
+					$("#estado").val("");
+					$("#bairro").val("");
+					$("#cep").val("");	
+       				$("#tb").html("");
+       				listar();
                  }
             })
-         });
+        });
         $("#cnpj").attr("disabled","disabled");
         $("#razaosocial").attr("disabled","disabled");
         $("#flcliente").click(function(){
@@ -66,10 +88,40 @@ getClientR = defaultLayout $ do
          		$("#razaosocial").removeAttr("disabled","disabled");
          	}
         });
+        
+    	function listar(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<tr><td>";
+                		itens+="<span id='cd'>"
+                		itens+=e.data[i].id;
+                		itens+="</span>"
+                		itens+="</td><td class='nomeprod'>";
+            	    	itens+="<span id='nm'>"
+                		itens+=e.data[i].nome;
+                		itens+="</span>"
+            	    	itens+="</td><td>";
+        	        	itens+="<span id='tl'>"
+                		itens+=e.data[i].telefone;
+    	            	itens+="</span>"
+	                	itens+="</td></tr>";
+                	}
+                	$("#tb").html(itens);
+			});
+		}
      }
   |]
 
-
+getListaR :: Handler ()
+getListaR = do
+    allClientes <- runDB $ selectList [] [Asc ClientNome]
+    sendResponse (object [pack "data" .= fmap toJSON allClientes])
+    
 --------------------------------------------------------
 --              METHODS POST
 --------------------------------------------------------
