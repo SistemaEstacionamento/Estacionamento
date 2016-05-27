@@ -11,16 +11,28 @@ import Data.Text
 
 import Database.Persist.Postgresql
 
+
 mkYesodDispatch "Sitio" pRoutes
 
-getClienteR :: Handler Html
-getClienteR = defaultLayout $ do
+getClientR :: Handler Html
+getClientR = defaultLayout $ do
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
   [whamlet| 
     <form>
     <button #btn> OK
-    Nome: <input type="text" id="usuario">
-    Tipo: <select id="tipo"><option value="f"> Fisico <option value="j"> Juridico
+    Nome: <input type="text" id="nome">
+    Telefone: <input type="text" id="telefone">
+    RG: <input type="text" id="rg">
+    Sexo: <input type="text" id="sexo">
+    CPF: <input type="text" id="cpf">
+    CNPJ: <input type="text" id="cnpj">
+    Razão Social: <input type="text" id="razaosocial">
+    Logradouro: <input type="text" id="logradouro">
+    Cidade: <input type="text" id="cidade">
+    Estado: <input type="text" id="estado">
+    Bairro: <input type="text" id="bairro">
+    CEP: <input type="text" id="cep">
+    Tipo: <select id="flcliente"><option value="f"> Fisico <option value="j"> Juridico
   |] 
   toWidget [julius|
      $(main);
@@ -28,16 +40,32 @@ getClienteR = defaultLayout $ do
          $("#btn").click(function(){
             $.ajax({
                  contentType: "application/json",
-                 url: "@{ClienteR}",
-                 url: "@{ClienteR}",
+                 url: "@{ClientR}",
                  type: "POST",
-                 data: JSON.stringify({"nome":$("#usuario").val(),"flcliente":$("#tipo").val()}),
+                 data: JSON.stringify({"nome":$("#nome").val(),"flcliente":$("#flcliente").val(),"telefone":$("#telefone").val(),"rg":$("#rg").val(),"sexo":$("#sexo").val(),"cpf":$("#cpf").val(),"cnpj":$("#cnpj").val(),"razaosocial":$("#razaosocial").val(),"logradouro":$("#logradouro").val(),"cidade":$("#cidade").val(),"estado":$("#estado").val(),"bairro":$("#bairro").val(),"cep":$("#cep").val()}),
                  success: function(data) {
                      alert(data);
                      $("#usuario").val("");
                  }
             })
          });
+        $("#cnpj").attr("disabled","disabled");
+        $("#razaosocial").attr("disabled","disabled");
+        $("#flcliente").click(function(){
+        	if($("#flcliente").val()=="f"){
+         		$("#cnpj").attr("disabled","disabled");
+         		$("#razaosocial").attr("disabled","disabled");
+         		$("#rg").removeAttr("disabled","disabled");
+         		$("#sexo").removeAttr("disabled","disabled");
+         		$("#cpf").removeAttr("disabled","disabled");
+         	}else{
+          		$("#rg").attr("disabled","disabled");
+         		$("#sexo").attr("disabled","disabled");
+         		$("#cpf").attr("disabled","disabled");
+         		$("#cnpj").removeAttr("disabled","disabled");
+         		$("#razaosocial").removeAttr("disabled","disabled");
+         	}
+        });
      }
   |]
 
@@ -45,16 +73,10 @@ getClienteR = defaultLayout $ do
 --------------------------------------------------------
 --              METHODS POST
 --------------------------------------------------------
-postClienteR :: Handler ()
-postClienteR = do
-    clientes <- requireJsonBody :: Handler Cliente
+postClientR :: Handler ()
+postClientR = do
+    clientes <- requireJsonBody :: Handler Client
     runDB $ insert clientes
-    sendResponse (object [pack "data" .= pack "CREATED"])
-    
-postTelefoneR :: Handler ()
-postTelefoneR = do
-    tel <- requireJsonBody :: Handler Telefone
-    runDB $ insert tel
     sendResponse (object [pack "data" .= pack "CREATED"])
 
 postVeiculoR :: Handler ()

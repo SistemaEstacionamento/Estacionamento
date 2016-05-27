@@ -12,32 +12,21 @@ import Database.Persist.Postgresql
 data Sitio = Sitio { connPool :: ConnectionPool }
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
-Cliente json
+Client json
    nome Text
    flcliente Text
-   deriving Show
-
-Telefone json
-   ordem Text
-   clienteid ClienteId
    telefone Text
-   deriving Show
-   
-ClienteFisico json
    rg Text
    sexo Text
    cpf Text
-   clientefisicoid ClienteId
+   logradouro Text
+   cidade Text
+   estado Text
+   bairro Text
+   cep Text
+   cnpj Text
+   razaosocial Text
    deriving Show
-   
-Endereco json
-    logradouro Text
-    cidade Text
-    estado Text
-    bairro Text
-    cep Text
-    clienteid ClienteId
-    deriving Show
 
 Contrato json
     valor Double
@@ -45,7 +34,7 @@ Contrato json
     contratofim Text sqltype=date
     quantidadeparcela Int 
     quantidadevagas Int
-    clienteid ClienteId
+    clienteid ClientId
     deriving Show
 
 Parcela json
@@ -62,11 +51,6 @@ Evento json
     clienteid ContratoId
     deriving Show
     
-ClienteJuridico json
-    cnpj Text
-    razaosocial Text
-    clientejuridicoid ClienteId
-    deriving Show
 
 TipoVeiculo json
     nome Text
@@ -79,7 +63,7 @@ Veiculo json
     ano Text
     cor Text
     tipoveiculoid TipoVeiculoId
-    clienteid ClienteId
+    clienteid ClientId
     deriving Show
     
 VagaValor json
