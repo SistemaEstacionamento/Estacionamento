@@ -97,28 +97,15 @@ getClientR = defaultLayout $ do
         		    url: 'https://estacionamento-bruno-alcamin.c9users.io/update/'+modeledt.id,
             		data: JSON.stringify(modeledt),  
         		}).done(function(e){
-           			$("#nome").val("");
-					$("#flcliente").val("f");
-					$("#telefone").val("");
-					$("#rg").val("");
-					$("#sexo").val("");
-					$("#cpf").val("");
-					$("#cnpj").val("")
-					$("#razaosocial").val("");
-					$("#logradouro").val("");
-					$("#cidade").val("");
-					$("#estado").val("");
-					$("#bairro").val("");
-					$("#cep").val("");	
+           			limpaCampos();	
        				$("#tb").html("");
        				listar();
         		});
         		ajusteEdit();
 		}
-
-		function novo(){
-    		$('tbody tr').off("click")
-    		$("#nome").val("");
+		
+		function limpaCampos(){
+			$("#nome").val("");
 			$("#flcliente").val("f");
 			$("#telefone").val("");
 			$("#rg").val("");
@@ -131,6 +118,12 @@ getClientR = defaultLayout $ do
 			$("#estado").val("");
 			$("#bairro").val("");
 			$("#cep").val("");	
+		}
+		
+		
+		function novo(){
+    		$('tbody tr').off("click");
+    		limpaCampos();
     		$('#btn-alt').removeAttr("onclick");
     		$('#btn-nv').removeAttr("onclick");
     		$("#nome").removeAttr("disabled","disabled");
@@ -335,19 +328,7 @@ getClientR = defaultLayout $ do
 		
 		function ajuste(){
 		    $('tbody tr').on("click");
-		    $("#nome").val("");
-			$("#flcliente").val("f");
-			$("#telefone").val("");
-			$("#rg").val("");
-			$("#sexo").val("");
-			$("#cpf").val("");
-			$("#cnpj").val("")
-			$("#razaosocial").val("");
-			$("#logradouro").val("");
-			$("#cidade").val("");
-			$("#estado").val("");
-			$("#bairro").val("");
-			$("#cep").val("");	
+		    limpaCampos();
 		    $('#btn-nv').attr("onclick","novo()");
 		    $("#nome").attr("disabled","disabled");
 			$("#flcliente").attr("disabled","disabled");
