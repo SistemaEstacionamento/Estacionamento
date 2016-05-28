@@ -7,7 +7,8 @@ pRoutes = [parseRoutes|
 	/cadastrocliente ClientR POST GET
 	/lista ListaR GET
 	/cadastroveiculo VeiculoR POST
-	/cadastrotipoveiculo TipoVeiculoR POST
+	/cadastrotipoveiculo TipoVeiculoR POST GET
+	/listaVeiculo ListaVeiculoR GET
 	/cadastrocontrato ContratoR POST
 	/cadastrovaga VagaR POST
 	/cadastrovagavalor VagaValorR POST

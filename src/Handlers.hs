@@ -32,7 +32,6 @@ getClientR = defaultLayout $ do
     Estado: <input type="text" id="estado">
     Bairro: <input type="text" id="bairro">
     CEP: <input type="text" id="cep">
-    <div id="content">
     <button #btn> OK
     <table id="t1">
         <thead>
@@ -116,12 +115,48 @@ getClientR = defaultLayout $ do
 		}
      }
   |]
+  
+getTipoVeiculoR :: Handler Html
+getTipoVeiculoR = defaultLayout $ do
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  [whamlet|
+    <form>
+    Nome: <input type="text" id="nome">
+    <button #btn> OK
+    <table id="t1">
+        <thead>
+            <tr>
+            <th>ID
+            <th>Nome
+        <tbody id="tb">
+  |] 
+  toWidget [julius|
+     $(main);
+     function main(){
+        $("#btn").click(function(){
+            $.ajax({
+                 contentType: "application/json",
+                 url: "@{TipoVeiculoR}",
+                 type: "POST",
+                 data: JSON.stringify({"nome":$("#nome").val()}),
+                 success: function(){
+					$("#nome").val("");
+                 }
+            })
+        });
+        }
+	|]
 
 getListaR :: Handler ()
 getListaR = do
     allClientes <- runDB $ selectList [] [Asc ClientNome]
     sendResponse (object [pack "data" .= fmap toJSON allClientes])
-    
+
+getListaVeiculoR :: Handler ()
+getListaVeiculoR = do
+    allVec <- runDB $ selectList [] [Asc TipoVeiculoNome]
+    sendResponse (object [pack "data" .= fmap toJSON allVec])
+        
 --------------------------------------------------------
 --              METHODS POST
 --------------------------------------------------------
