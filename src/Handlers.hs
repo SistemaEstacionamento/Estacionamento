@@ -384,8 +384,11 @@ getTipoVeiculoR = defaultLayout $ do
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
   [whamlet|
     <form>
+<button id="btn-nv">Novo</button>
+<button id="btn-alt">Alterar</button>
     Nome: <input type="text" id="nome">
-    <button #btn> OK
+    <button id="btn-canc">cancelar</button>
+    <button id="btn-conc">confirmar</button>
     <table id="t1">
         <thead>
             <tr>
@@ -394,23 +397,85 @@ getTipoVeiculoR = defaultLayout $ do
         <tbody id="tb">
   |] 
   toWidget [julius|
-     $(main);
-     function main(){
-     	$(listar());
-        $("#btn").click(function(){
+     
+     $(listar());
+		var modeledt = {};
+		function confirmar(){
             $.ajax({
                  contentType: "application/json",
                  url: "@{TipoVeiculoR}",
                  type: "POST",
                  data: JSON.stringify({"nome":$("#nome").val()}),
                  success: function(){
-					$("#nome").val("");
+					limpaCampos();	
 					listar();
                  }
-            })
-        });
-        
-       function listar(){
+            });
+        	ajuste();
+        	$('tbody tr').css('background-color','#fff');   
+		}
+
+		function confedit(){
+    		modeledt.nome = $("#nome").val();
+        		$.ajax({
+            		type: "PUT",
+            		dataType: "json",
+            		cache: false,
+		            contentType:"application/json",    
+        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculoupdate/'+modeledt.id,
+            		data: JSON.stringify(modeledt),  
+        		}).done(function(e){
+           			limpaCampos();	
+       				$("#tb").html("");
+       				listar();
+        		});
+        		ajusteEdit();
+		}
+		
+		function limpaCampos(){
+			$("#nome").val("");
+		}
+		
+		
+		function novo(){
+    		$('tbody tr').off("click");
+    		limpaCampos();
+    		$('#btn-alt').removeAttr("onclick");
+    		$('#btn-nv').removeAttr("onclick");
+    		$("#nome").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confirmar()");
+    		$('#btn-canc').attr("onclick","cancelar()");
+    		$('#btn-canc').removeAttr("disabled",'disabled');
+    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-alt').attr("disabled",'disabled');
+		}
+		
+
+		function cancelar(){
+    		selecao();
+    		$('tbody tr').css('background-color','#fff');   
+    		ajuste();
+		}
+
+		function cancelarEdit(){
+    		selecao();
+    		$("#nome").val($('tr[select="select"]').find('span[id="nm"]').html());
+    		ajusteEdit();
+		}
+	
+		function alterar(){
+    		$('tbody tr').off("click");
+    		$('#btn-nv').removeAttr("onclick");
+    		$('#btn-nv').attr("disabled",'disabled');
+    		$("#nome").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confedit()");
+    		$('#btn-canc').attr("onclick","cancelarEdit()");
+    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-canc').removeAttr("disabled",'disabled');
+		}
+
+		function listar(){
+			ajuste();
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
@@ -422,16 +487,70 @@ getTipoVeiculoR = defaultLayout $ do
                 		itens+="<span id='cd'>"
                 		itens+=e.data[i].id;
                 		itens+="</span>"
-                		itens+="</td><td class='nomeprod'>";
+                		itens+="</td><td>";
             	    	itens+="<span id='nm'>"
                 		itens+=e.data[i].nome;
                 		itens+="</span>"
-            	      	itens+="</td></tr>";
+            	      	itens+="</td><td>";
+            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+			            itens+="</td></tr>";
                 	}
                 	$("#tb").html(itens);
+                	selecao();
 			});
 		}
-        }
+
+		function excluir(x){
+     		if(confirm("Confirma a exclusão do usuário "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
+        		$.ajax({
+        			type: 'DELETE',
+        			dataType: "json",
+        			cache: false,
+        			contentType:"application/json",    
+        			url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculodelete/'+x,
+        		});
+        		$("#t1 tbody").html("");
+        		listar();
+    		}
+		}
+
+		function selecao(){
+    		$('tbody tr').css('cursor','pointer');
+        	$('tbody tr').click(function(){
+            	$('#btn-alt').removeAttr("disabled",'disabled');
+            	$('#btn-alt').attr("onclick","alterar()");
+            	$('tbody tr').css('background-color','#fff');
+            	$('tbody tr').removeAttr('select','select');
+            	$(this).css('background-color','#76affd');
+            	$(this).attr('select','select');
+            	$("#nome").val($(this).find('span[id="nm"]').html());
+            	modeledt = {"id":$(this).find('span[id="cd"]').html(),"nome":$(this).find('span[id="nm"]').html()};
+    		});
+		}
+		
+		function ajuste(){
+		    $('tbody tr').on("click");
+		    limpaCampos();
+		    $('#btn-nv').attr("onclick","novo()");
+		    $("#nome").attr("disabled","disabled");
+		    $('#btn-alt').removeAttr("onclick");
+		    $('#btn-alt').attr("disabled",'disabled');
+		    $('#btn-conc').attr("disabled",'disabled');
+		    $('#btn-canc').attr("disabled",'disabled');
+		    $('#btn-conc').removeAttr("onclick");
+		    $('#btn-canc').removeAttr("onclick");
+		}
+
+		function ajusteEdit(){
+		    $('tbody tr').on("click");
+		    $('#btn-nv').attr("onclick","novo()");
+		    $('#btn-nv').removeAttr("disabled",'disabled');
+		    $("#nome").attr("disabled","disabled");
+		    $('#btn-conc').removeAttr("onclick");
+		    $('#btn-canc').removeAttr("onclick");
+		    $('#btn-conc').attr("disabled",'disabled');
+		    $('#btn-canc').attr("disabled",'disabled');
+		}
 	|]
 
 getVeiculoR :: Handler Html
@@ -601,6 +720,13 @@ putUpdateR pid = do
     runDB $ update pid [ClientCnpj =. clientCnpj cli ]
     runDB $ update pid [ClientRazaosocial =. clientRazaosocial cli ]
     sendResponse (object [pack "resp" .= pack "UPDATED"])
+    
+    
+putTipoVeiUpdateR :: TipoVeiculoId -> Handler ()
+putTipoVeiUpdateR  tvid = do
+    tpv <- requireJsonBody :: Handler TipoVeiculo 
+    runDB $ update tvid [TipoVeiculoNome =. tipoVeiculoNome tpv ]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])
 
 -----------------------------------------------------------
 --                  METHODS DELETE
@@ -609,4 +735,9 @@ putUpdateR pid = do
 deleteDeleteR :: ClientId -> Handler ()
 deleteDeleteR pid = do
     runDB $ delete pid
+    sendResponse (object [pack "resp" .= pack "DELETED"])
+    
+deleteTipoVeiDeleteR :: TipoVeiculoId -> Handler ()
+deleteTipoVeiDeleteR tvid = do
+    runDB $ delete tvid
     sendResponse (object [pack "resp" .= pack "DELETED"])

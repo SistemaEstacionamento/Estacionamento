@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes #-}
 module Import where
 
-import Yesod
+import Yesod  
  
 pRoutes = [parseRoutes|
 	/cadastrocliente ClientR POST GET
@@ -10,6 +10,8 @@ pRoutes = [parseRoutes|
 	/lista ListaR GET
 	/cadastroveiculo VeiculoR POST GET
 	/cadastrotipoveiculo TipoVeiculoR POST GET
+	/tipoveiculoupdate/#TipoVeiculoId TipoVeiUpdateR PUT
+	/tipoveiculodelete/#TipoVeiculoId TipoVeiDeleteR DELETE
 	/listaVeiculo ListaVeiculoR GET
 	/cadastrocontrato ContratoR POST
 	/cadastrovaga VagaR POST
