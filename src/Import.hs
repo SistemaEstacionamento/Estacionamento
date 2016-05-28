@@ -9,10 +9,13 @@ pRoutes = [parseRoutes|
 	/delete/#ClientId DeleteR DELETE
 	/lista ListaR GET
 	/cadastroveiculo VeiculoR POST GET
+	/veiculoupdate/#VeiculoId VeiUpdateR PUT
+	/veiculodelete/#VeiculoId VeiDeleteR DELETE
+	/listaVeiculo ListaVeiculoR GET
 	/cadastrotipoveiculo TipoVeiculoR POST GET
 	/tipoveiculoupdate/#TipoVeiculoId TipoVeiUpdateR PUT
 	/tipoveiculodelete/#TipoVeiculoId TipoVeiDeleteR DELETE
-	/listaVeiculo ListaVeiculoR GET
+	/listaTpVeiculo ListaTpVeiculoR GET
 	/cadastrocontrato ContratoR POST
 	/cadastrovaga VagaR POST
 	/cadastrovagavalor VagaValorR POST

@@ -287,7 +287,7 @@ getClientR = defaultLayout $ do
 		}
 
 		function excluir(x){
-     		if(confirm("Confirma a exclusão do usuário "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
+     		if(confirm("Confirma a exclusão do Cliente "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
         		$.ajax({
         			type: 'DELETE',
         			dataType: "json",
@@ -479,7 +479,7 @@ getTipoVeiculoR = defaultLayout $ do
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
-                url: "@{ListaVeiculoR}",
+                url: "@{ListaTpVeiculoR}",
                 type: "GET",
     		}).done(function(e){
             		for(var i = 0; i<e.data.length; i++){
@@ -501,7 +501,7 @@ getTipoVeiculoR = defaultLayout $ do
 		}
 
 		function excluir(x){
-     		if(confirm("Confirma a exclusão do usuário "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
+     		if(confirm("Confirma a exclusão do Tipo de veiculo "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
         		$.ajax({
         			type: 'DELETE',
         			dataType: "json",
@@ -557,6 +557,8 @@ getVeiculoR :: Handler Html
 getVeiculoR = defaultLayout $ do
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
   [whamlet|
+<button id="btn-nv">Novo</button>
+<button id="btn-alt">Alterar</button>
     <form>
     Clientes: <select id="clienteid"></select>
     Placa: <input type="text" id="placa">
@@ -565,30 +567,249 @@ getVeiculoR = defaultLayout $ do
     Ano: <input type="text" id="ano">
     Cor: <input type="text" id="cor">
     Tipos de Veiculo: <select id="tipoveiculoid"></select>
-    <button #btn> OK
+    <button id="btn-canc">cancelar</button>
+    <button id="btn-conc">confirmar</button>
+    <table id="t1">
+        <thead>
+            <tr>
+            <th>ID
+            <th>Placa
+            <th>Cliente
+            <th>Marca
+            <th>Ano
+            <th>Cor
+            <th>Descricao
+            <th>Tipo de Veiculo
+        <tbody id="tb">
   |]     
   toWidget [julius|
-     $(main);
-     function main(){
-     	$(listarClientes());
+  		$(listarClientes());
      	$(listarTiposveiculos());
-        $("#btn").click(function(){
+  		$(listar());
+		var modeledt = {};
+		function confirmar(){
             $.ajax({
                  contentType: "application/json",
                  url: "@{VeiculoR}",
                  type: "POST",
                  data: JSON.stringify({"clienteid":parseInt($("#clienteid").val()),"placa":$("#placa").val(),"descricao":$("#descricao").val(),"marca":$("#marca").val(),"ano":$("#ano").val(),"cor":$("#cor").val(),"tipoveiculoid":parseInt($("#tipoveiculoid").val())}),
                  success: function(){
-					$("#placa").val("");
-					$("#clienteid").val("1");
-					$("#descricao").val("");
-					$("#marca").val("");
-					$("#ano").val("");
-					$("#cor").val("");
-					$("#tipoveiculoid").val("1");
+					limpaCampos();
+					listar();
                  }
             })
-        });
+        	ajuste();
+        	$('tbody tr').css('background-color','#fff');   
+		}
+
+		function confedit(){
+    		modeledt.placa = $("#placa").val();
+    		modeledt.clienteid = parseInt($("#clienteid").val());
+    		modeledt.descricao = $("#descricao").val();
+    		modeledt.marca = $("#marca").val();
+    		modeledt.ano = $("#ano").val();
+    		modeledt.cor = $("#cor").val();	
+    		modeledt.tipoveiculoid = parseInt($("#tipoveiculoid").val());	
+        		$.ajax({
+            		type: "PUT",
+            		dataType: "json",
+            		cache: false,
+		            contentType:"application/json",    
+        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/veiculoupdate/'+modeledt.id,
+            		data: JSON.stringify(modeledt),  
+        		}).done(function(e){
+           			limpaCampos();	
+       				$("#tb").html("");
+       				listar();
+        		});
+        		ajusteEdit();
+		}
+		
+		function limpaCampos(){
+			$("#placa").val("");
+			$("#clienteid").val("1");
+			$("#descricao").val("");
+			$("#marca").val("");
+			$("#ano").val("");
+			$("#cor").val("");
+			$("#tipoveiculoid").val("1");
+		}
+		
+		
+		function novo(){
+    		$('tbody tr').off("click");
+    		limpaCampos();
+    		$('#btn-alt').removeAttr("onclick");
+    		$('#btn-nv').removeAttr("onclick");
+    		$("#placa").removeAttr("disabled","disabled");
+			$("#clienteid").removeAttr("disabled","disabled");
+			$("#descricao").removeAttr("disabled","disabled");
+			$("#marca").removeAttr("disabled","disabled");
+			$("#ano").removeAttr("disabled","disabled");
+			$("#cor").removeAttr("disabled","disabled");
+			$("#tipoveiculoid").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confirmar()");
+    		$('#btn-canc').attr("onclick","cancelar()");
+    		$('#btn-canc').removeAttr("disabled",'disabled');
+    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-alt').attr("disabled",'disabled');
+		}
+		
+		function cancelar(){
+    		selecao();
+    		$('tbody tr').css('background-color','#fff');   
+    		ajuste();
+		}
+
+		function cancelarEdit(){
+    		selecao();
+    		$("#placa").val($('tr[select="select"]').find('span[id="pl"]').html());
+			$("#clienteid").val($('tr[select="select"]').find('span[id="cdcli"]').html());
+			$("#descricao").val($('tr[select="select"]').find('span[id="dsc"]').html());
+			$("#marca").val($('tr[select="select"]').find('span[id="mc"]').html());
+			$("#ano").val($('tr[select="select"]').find('span[id="aa"]').html());
+			$("#cor").val($('tr[select="select"]').find('span[id="cr"]').html());
+			$("#tipoveiculoid").val($('tr[select="select"]').find('span[id="cdtv"]').html());
+    		ajusteEdit();
+		}
+	
+		function alterar(){
+    		$('tbody tr').off("click");
+    		$('#btn-nv').removeAttr("onclick");
+    		$('#btn-nv').attr("disabled",'disabled');
+    		$("#placa").removeAttr("disabled","disabled");
+			$("#clienteid").removeAttr("disabled","disabled");
+			$("#descricao").removeAttr("disabled","disabled");
+			$("#marca").removeAttr("disabled","disabled");
+			$("#ano").removeAttr("disabled","disabled");
+			$("#cor").removeAttr("disabled","disabled");
+			$("#tipoveiculoid").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confedit()");
+    		$('#btn-canc').attr("onclick","cancelarEdit()");
+    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-canc').removeAttr("disabled",'disabled');
+    		$("#cnpj").attr("disabled","disabled");
+		}
+
+		function listar(){
+    		ajuste();
+    		var itens = "";
+   			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaVeiculoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<tr><td>";
+                		itens+="<span id='cd'>"
+                		itens+=e.data[i].id;
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	    	itens+="<span id='pl'>"
+                		itens+=e.data[i].placa;
+                		itens+="</span>"
+            	    	itens+="</td><td>";
+        	        	itens+="<span id='cdcli'>"
+                		itens+=e.data[i].clienteid;
+    	            	itens+="</span>"
+	                	itens+="</td><td>";
+	                	itens+="<span id='dsc'>"
+                		itens+=e.data[i].descricao;
+    	            	itens+="</span>"
+	                	itens+="</td><td>";
+	                	itens+="<span id='mc'>"
+                		itens+=e.data[i].marca;
+    	            	itens+="</span>"
+	                	itens+="</td><td>";
+	                	itens+="<span id='aa'>"
+                		itens+=e.data[i].ano;
+    	            	itens+="</span>"
+	                	itens+="</td><td>";
+	                	itens+="<span id='cr'>"
+                		itens+=e.data[i].cor;
+    	            	itens+="</span>"
+	                	itens+="</td><td>";
+	                	itens+="<span id='cdtv'>"
+                		itens+=e.data[i].tipoveiculoid;
+    	            	itens+="</span>"
+	                	itens+="</td><td>";
+			            itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+			            itens+="</td></tr>";
+                	}
+                	$("#tb").html(itens);
+				    selecao();
+    		});
+		}
+
+		function excluir(x){
+     		if(confirm("Confirma a exclusão do Veiculo com a placa "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="pl"]').html()+"?")){
+        		$.ajax({
+        			type: 'DELETE',
+        			dataType: "json",
+        			cache: false,
+        			contentType:"application/json",    
+        			url: 'https://estacionamento-bruno-alcamin.c9users.io/veiculodelete/'+x,
+        		});
+        		$("#t1 tbody").html("");
+        		listar();
+    		}
+		}
+
+		function selecao(){
+    		$('tbody tr').css('cursor','pointer');
+        	$('tbody tr').click(function(){
+            	$('#btn-alt').removeAttr("disabled",'disabled');
+            	$('#btn-alt').attr("onclick","alterar()");
+            	$('tbody tr').css('background-color','#fff');
+            	$('tbody tr').removeAttr('select','select');
+            	$(this).css('background-color','#76affd');
+            	$(this).attr('select','select');
+            	$("#placa").val($(this).find('span[id="pl"]').html());
+            	$("#clienteid").val($(this).find('span[id="cdcli"]').html());
+				$("#descricao").val($(this).find('span[id="dsc"]').html());
+				$("#marca").val($(this).find('span[id="mc"]').html());
+				$("#ano").val($(this).find('span[id="aa"]').html());
+				$("#cor").val($(this).find('span[id="cr"]').html());
+				$("#tipoveiculoid").val($(this).find('span[id="cdtv"]').html());
+            	modeledt = {"id":$(this).find('span[id="cd"]').html(),"placa":$(this).find('span[id="pl"]').html(),"clienteid":$(this).find('span[id="cdcli"]').html(),"descricao":$(this).find('span[id="dsc"]').html(),"marca":$(this).find('span[id="mc"]').html(),"ano":$(this).find('span[id="aa"]').html(),"cor":$(this).find('span[id="cr"]').html(),"tipoveiculoid":$(this).find('span[id="cdtv"]').html()};
+    		});
+		}
+		
+		function ajuste(){
+		    $('tbody tr').on("click");
+		    limpaCampos();
+		    $('#btn-nv').attr("onclick","novo()");
+		    $("#placa").attr("disabled","disabled");
+			$("#clienteid").attr("disabled","disabled");
+			$("#descricao").attr("disabled","disabled");
+			$("#marca").attr("disabled","disabled");
+			$("#ano").attr("disabled","disabled");
+			$("#cor").attr("disabled","disabled");
+			$("#tipoveiculoid").attr("disabled","disabled");
+		    $('#btn-alt').removeAttr("onclick");
+		    $('#btn-alt').attr("disabled",'disabled');
+		    $('#btn-conc').attr("disabled",'disabled');
+		    $('#btn-canc').attr("disabled",'disabled');
+		    $('#btn-conc').removeAttr("onclick");
+		    $('#btn-canc').removeAttr("onclick");
+		}
+
+		function ajusteEdit(){
+		    $('tbody tr').on("click");
+		    $('#btn-nv').attr("onclick","novo()");
+		    $('#btn-nv').removeAttr("disabled",'disabled');
+			$("#placa").attr("disabled","disabled");
+			$("#clienteid").attr("disabled","disabled");
+			$("#descricao").attr("disabled","disabled");
+			$("#marca").attr("disabled","disabled");
+			$("#ano").attr("disabled","disabled");
+			$("#cor").attr("disabled","disabled");
+			$("#tipoveiculoid").attr("disabled","disabled");
+		    $('#btn-conc').removeAttr("onclick");
+		    $('#btn-canc').removeAttr("onclick");
+		    $('#btn-conc').attr("disabled",'disabled');
+		    $('#btn-canc').attr("disabled",'disabled');
+		}
         
     	function listarClientes(){
     		var itens = "";
@@ -610,7 +831,7 @@ getVeiculoR = defaultLayout $ do
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
-                url: "@{ListaVeiculoR}",
+                url: "@{ListaTpVeiculoR}",
                 type: "GET",
     		}).done(function(e){
             		for(var i = 0; i<e.data.length; i++){
@@ -621,7 +842,7 @@ getVeiculoR = defaultLayout $ do
                 	$("#tipoveiculoid").append(itens);
 			});
 		}
-     }
+     
   |]	
 	
 
@@ -631,10 +852,15 @@ getListaR = do
     allClientes <- runDB $ selectList [] [Asc ClientNome]
     sendResponse (object [pack "data" .= fmap toJSON allClientes])
 
-getListaVeiculoR :: Handler ()
-getListaVeiculoR = do
+getListaTpVeiculoR :: Handler ()
+getListaTpVeiculoR = do
     allVec <- runDB $ selectList [] [Asc TipoVeiculoNome]
     sendResponse (object [pack "data" .= fmap toJSON allVec])
+    
+getListaVeiculoR :: Handler ()
+getListaVeiculoR = do
+    allVe <- runDB $ selectList [] [Asc VeiculoId]
+    sendResponse (object [pack "data" .= fmap toJSON allVe])
         
 --------------------------------------------------------
 --              METHODS POST
@@ -727,6 +953,18 @@ putTipoVeiUpdateR  tvid = do
     tpv <- requireJsonBody :: Handler TipoVeiculo 
     runDB $ update tvid [TipoVeiculoNome =. tipoVeiculoNome tpv ]
     sendResponse (object [pack "resp" .= pack "UPDATED"])
+    
+putVeiUpdateR :: VeiculoId -> Handler ()
+putVeiUpdateR vid = do
+    pv <- requireJsonBody :: Handler Veiculo 
+    runDB $ update vid [VeiculoPlaca =. veiculoPlaca pv ]
+    runDB $ update vid [VeiculoDescricao =. veiculoDescricao pv ]
+    runDB $ update vid [VeiculoMarca =. veiculoMarca pv ]
+    runDB $ update vid [VeiculoAno =. veiculoAno pv ]
+    runDB $ update vid [VeiculoCor =. veiculoCor pv ]
+    runDB $ update vid [VeiculoTipoveiculoid =. veiculoTipoveiculoid pv ]
+    runDB $ update vid [VeiculoClienteid =. veiculoClienteid pv ]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])
 
 -----------------------------------------------------------
 --                  METHODS DELETE
@@ -740,4 +978,9 @@ deleteDeleteR pid = do
 deleteTipoVeiDeleteR :: TipoVeiculoId -> Handler ()
 deleteTipoVeiDeleteR tvid = do
     runDB $ delete tvid
+    sendResponse (object [pack "resp" .= pack "DELETED"])
+    
+deleteVeiDeleteR :: VeiculoId -> Handler ()
+deleteVeiDeleteR vid = do
+    runDB $ delete vid
     sendResponse (object [pack "resp" .= pack "DELETED"])
