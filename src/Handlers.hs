@@ -118,7 +118,19 @@ getClientR = defaultLayout $ do
 
 		function novo(){
     		$('tbody tr').off("click")
-    		$('input[name="nome"]').val("");
+    		$("#nome").val("");
+			$("#flcliente").val("f");
+			$("#telefone").val("");
+			$("#rg").val("");
+			$("#sexo").val("");
+			$("#cpf").val("");
+			$("#cnpj").val("")
+			$("#razaosocial").val("");
+			$("#logradouro").val("");
+			$("#cidade").val("");
+			$("#estado").val("");
+			$("#bairro").val("");
+			$("#cep").val("");	
     		$('#btn-alt').removeAttr("onclick");
     		$('#btn-nv').removeAttr("onclick");
     		$("#nome").removeAttr("disabled","disabled");
