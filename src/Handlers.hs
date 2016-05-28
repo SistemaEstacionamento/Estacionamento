@@ -193,9 +193,9 @@ getVeiculoR = defaultLayout $ do
         $("#btn").click(function(){
             $.ajax({
                  contentType: "application/json",
-                 url: "@{ClientR}",
+                 url: "@{VeiculoR}",
                  type: "POST",
-                 data: JSON.stringify({"clienteid":$("#clienteid").val(),"placa":$("#placa").val(),"descricao":$("#descricao").val(),"marca":$("#marca").val(),"ano":$("#ano").val(),"cor":$("#cor").val(),"tipoveiculoid":$("#tipoveiculoid").val()}),
+                 data: JSON.stringify({"clienteid":parseInt($("#clienteid").val()),"placa":$("#placa").val(),"descricao":$("#descricao").val(),"marca":$("#marca").val(),"ano":$("#ano").val(),"cor":$("#cor").val(),"tipoveiculoid":parseInt($("#tipoveiculoid").val())}),
                  success: function(){
 					$("#placa").val("");
 					$("#clienteid").val("1");
