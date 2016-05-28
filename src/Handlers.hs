@@ -170,7 +170,77 @@ getTipoVeiculoR = defaultLayout $ do
 		}
         }
 	|]
-	
+
+getVeiculoR :: Handler Html
+getVeiculoR = defaultLayout $ do
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  [whamlet|
+    <form>
+    Clientes: <select id="clienteid"></select>
+    Placa: <input type="text" id="placa">
+    Descricao: <input type="text" id="descricao">
+    Marca: <input type="text" id="marca">
+    Ano: <input type="text" id="ano">
+    Cor: <input type="text" id="cor">
+    Tipos de Veiculo: <select id="tipoveiculoid"></select>
+    <button #btn> OK
+  |]     
+  toWidget [julius|
+     $(main);
+     function main(){
+     	$(listarClientes());
+     	$(listarTiposveiculos());
+        $("#btn").click(function(){
+            $.ajax({
+                 contentType: "application/json",
+                 url: "@{ClientR}",
+                 type: "POST",
+                 data: JSON.stringify({"clienteid":$("#clienteid").val(),"placa":$("#placa").val(),"descricao":$("#descricao").val(),"marca":$("#marca").val(),"ano":$("#ano").val(),"cor":$("#cor").val(),"tipoveiculoid":$("#tipoveiculoid").val()}),
+                 success: function(){
+					$("#placa").val("");
+					$("#clienteid").val("1");
+					$("#descricao").val("");
+					$("#marca").val("");
+					$("#ano").val("");
+					$("#cor").val("");
+					$("#tipoveiculoid").val("1");
+                 }
+            })
+        });
+        
+    	function listarClientes(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<option value="+e.data[i].id+">";
+                		itens+=e.data[i].nome;
+                		itens+="</option>";
+                	}
+                	$("#clienteid").append(itens);
+			});
+		}
+		
+		function listarTiposveiculos(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaVeiculoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<option value="+e.data[i].id+">";
+                		itens+=e.data[i].nome;
+                		itens+="</option>";
+                	}
+                	$("#tipoveiculoid").append(itens);
+			});
+		}
+     }
+  |]	
 	
 
 

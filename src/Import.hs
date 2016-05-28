@@ -6,7 +6,7 @@ import Yesod
 pRoutes = [parseRoutes|
 	/cadastrocliente ClientR POST GET
 	/lista ListaR GET
-	/cadastroveiculo VeiculoR POST
+	/cadastroveiculo VeiculoR POST GET
 	/cadastrotipoveiculo TipoVeiculoR POST GET
 	/listaVeiculo ListaVeiculoR GET
 	/cadastrocontrato ContratoR POST
