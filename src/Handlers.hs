@@ -133,6 +133,7 @@ getTipoVeiculoR = defaultLayout $ do
   toWidget [julius|
      $(main);
      function main(){
+     	$(listar());
         $("#btn").click(function(){
             $.ajax({
                  contentType: "application/json",
@@ -141,11 +142,37 @@ getTipoVeiculoR = defaultLayout $ do
                  data: JSON.stringify({"nome":$("#nome").val()}),
                  success: function(){
 					$("#nome").val("");
+					listar();
                  }
             })
         });
+        
+       function listar(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaVeiculoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<tr><td>";
+                		itens+="<span id='cd'>"
+                		itens+=e.data[i].id;
+                		itens+="</span>"
+                		itens+="</td><td class='nomeprod'>";
+            	    	itens+="<span id='nm'>"
+                		itens+=e.data[i].nome;
+                		itens+="</span>"
+            	      	itens+="</td></tr>";
+                	}
+                	$("#tb").html(itens);
+			});
+		}
         }
 	|]
+	
+	
+
 
 getListaR :: Handler ()
 getListaR = do
