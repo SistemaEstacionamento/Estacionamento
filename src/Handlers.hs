@@ -172,8 +172,19 @@ getClientR = defaultLayout $ do
 
 		function cancelarEdit(){
     		selecao();
-    		$('input[name="nome"]').val($('tr[select="select"]').find('span[id="nm"]').html());
-    		
+    		$("#nome").val($('tr[select="select"]').find('span[id="nm"]').html());
+			$("#flcliente").val($('tr[select="select"]').find('span[id="flc"]').html());
+			$("#telefone").val($('tr[select="select"]').find('span[id="tl"]').html());
+			$("#rg").val($('tr[select="select"]').find('span[id="gr"]').html());
+			$("#sexo").val($('tr[select="select"]').find('span[id="sx"]').html());
+			$("#cpf").val($('tr[select="select"]').find('span[id="cf"]').html());
+			$("#cnpj").val($('tr[select="select"]').find('span[id="cpj"]').html());
+			$("#razaosocial").val($('tr[select="select"]').find('span[id="raz"]').html());
+			$("#logradouro").val($('tr[select="select"]').find('span[id="log"]').html());
+			$("#cidade").val($('tr[select="select"]').find('span[id="cdd"]').html());
+			$("#estado").val($('tr[select="select"]').find('span[id="est"]').html());
+			$("#bairro").val($('tr[select="select"]').find('span[id="ba"]').html());
+			$("#cep").val($('tr[select="select"]').find('span[id="cp"]').html());
     		ajusteEdit();
 		}
 	
