@@ -69,6 +69,7 @@ Veiculo json
 VagaValor json
     valordiurno Double
     valornoturno Double
+    funcionarioid FuncionarioId
     deriving Show
     
 Vaga json
@@ -100,7 +101,8 @@ Avulso json
     
 Funcionario json
     nome Text
-    senha Text 
+    senha Text
+    ativo Text
     deriving Show
 
 HistoricoPreco json

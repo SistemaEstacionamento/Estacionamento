@@ -843,8 +843,71 @@ getVeiculoR = defaultLayout $ do
 			});
 		}
      
-  |]	
-	
+  |]
+
+getFuncionarioR :: Handler Html
+getFuncionarioR = defaultLayout $ do
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  [whamlet|
+    <button id="btnNovo">Novo
+    <button id="btnAlterar">Alterar
+    <form>
+    Nome: <input type="text" name="nome">
+    Senha: <input type="password" name="senha">
+    Ativo: <select id="FuncionarioAtivo"><option value="true">Sim</option> <option value="false">Não</option></select>
+    <button id="btnCancelar">cancelar
+    <button id="btnConfirmar" onclick="confirmar()">confirmar
+    <table id="table1">
+        <thead>
+            <tr>
+                <th>ID
+                <th>Nome
+                <th>Ativo
+        <tbody id="tbody1">
+  |]
+  toWidget [julius|
+    $(listar());
+    function confirmar(){
+        $.ajax({
+            contentType: "application/json",
+            url: "@{FuncionarioR}",
+            type: "POST",
+            data: JSON.stringify({"nome":$("input[name='nome']").val(),"senha":$("input[name='senha']").val(),"ativo":$("#FuncionarioAtivo").val()}),
+            success: function(){
+				$("input[name='nome']").val("");
+				$("input[name='senha']").val("");
+				$("#FuncionarioAtivo").val("true");
+       			listar();
+            }
+        });
+    	$('tbody tr').css('background-color','#fff');   
+	}
+    function listar(){
+    	var itens = "";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaFuncionarioR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+           		itens+="<tr><td>";
+           		itens+="<span id='idFuncionario'>"
+           		itens+=e.data[i].id;
+           		itens+="</span>"
+           		itens+="</td><td>";
+       	    	itens+="<span id='nomeFuncionario'>"
+           		itens+=e.data[i].nome;
+           		itens+="</span>"
+       	    	itens+="</td><td>";
+            	itens+="<span id='atFuncionario'>"
+           		itens+=e.data[i].ativo;
+             	itens+="</span>"
+	           	itens+="</td></tr>";
+           	}
+		    $("#tbody1").html(itens);
+        });
+    }
+  |]
 
 
 getListaR :: Handler ()
@@ -861,7 +924,12 @@ getListaVeiculoR :: Handler ()
 getListaVeiculoR = do
     allVe <- runDB $ selectList [] [Asc VeiculoId]
     sendResponse (object [pack "data" .= fmap toJSON allVe])
-        
+
+getListaFuncionarioR :: Handler ()
+getListaFuncionarioR = do
+    allFuncionarios <- runDB $ selectList [] [Asc FuncionarioId]
+    sendResponse (object [pack "data" .= fmap toJSON allFuncionarios])
+
 --------------------------------------------------------
 --              METHODS POST
 --------------------------------------------------------
