@@ -23,5 +23,6 @@ pRoutes = [parseRoutes|
 	/cadastroconveniado ConveniadoR POST
 	/entrada AvulsoR POST -- pode ser entrada de veiculo também
 	/cadastrofuncionario FuncionarioR POST GET
+	/alterafuncionario/#FuncionarioId UpdateFuncionarioR PUT
 	/listafuncionario ListaFuncionarioR GET
 |]

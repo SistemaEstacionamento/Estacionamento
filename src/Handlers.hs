@@ -54,19 +54,8 @@ getClientR = defaultLayout $ do
                  type: "POST",
                  data: JSON.stringify({"nome":$("#nome").val(),"flcliente":$("#flcliente").val(),"telefone":$("#telefone").val(),"rg":$("#rg").val(),"sexo":$("#sexo").val(),"cpf":$("#cpf").val(),"cnpj":$("#cnpj").val(),"razaosocial":$("#razaosocial").val(),"logradouro":$("#logradouro").val(),"cidade":$("#cidade").val(),"estado":$("#estado").val(),"bairro":$("#bairro").val(),"cep":$("#cep").val()}),
                  success: function(){
-					$("#nome").val("");
+					$("#nome, #telefone, #rg, #sexo, #cpf, #cnpj, #razaosocial, #logradouro, #cidade, #estado, #bairro, #cep").val("");
 					$("#flcliente").val("f");
-					$("#telefone").val("");
-					$("#rg").val("");
-					$("#sexo").val("");
-					$("#cpf").val("");
-					$("#cnpj").val("")
-					$("#razaosocial").val("");
-					$("#logradouro").val("");
-					$("#cidade").val("");
-					$("#estado").val("");
-					$("#bairro").val("");
-					$("#cep").val("");	
        				$("#tb").html("");
        				listar();
                  }
@@ -105,27 +94,15 @@ getClientR = defaultLayout $ do
 		}
 		
 		function limpaCampos(){
-			$("#nome").val("");
+			$("#nome, #telefone, #rg, #sexo, #cpf, #cnpj, #razaosocial, #logradouro, #cidade, #estado, #bairro, #cep").val("");
 			$("#flcliente").val("f");
-			$("#telefone").val("");
-			$("#rg").val("");
-			$("#sexo").val("");
-			$("#cpf").val("");
-			$("#cnpj").val("")
-			$("#razaosocial").val("");
-			$("#logradouro").val("");
-			$("#cidade").val("");
-			$("#estado").val("");
-			$("#bairro").val("");
-			$("#cep").val("");	
 		}
 		
 		
 		function novo(){
     		$('tbody tr').off("click");
     		limpaCampos();
-    		$('#btn-alt').removeAttr("onclick");
-    		$('#btn-nv').removeAttr("onclick");
+    		$('#btn-alt, #btn-nv').removeAttr("onclick");
     		$("#nome").removeAttr("disabled","disabled");
 			$("#flcliente").removeAttr("disabled","disabled");
 			$("#telefone").removeAttr("disabled","disabled");
@@ -295,6 +272,7 @@ getClientR = defaultLayout $ do
         			contentType:"application/json",    
         			url: 'https://estacionamento-bruno-alcamin.c9users.io/delete/'+x,
         		});
+        		$("#tb").html("");
         		$("#t1 tbody").html("");
         		listar();
     		}
@@ -509,6 +487,7 @@ getTipoVeiculoR = defaultLayout $ do
         			contentType:"application/json",    
         			url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculodelete/'+x,
         		});
+        		$("#tb").html("");
         		$("#t1 tbody").html("");
         		listar();
     		}
@@ -750,6 +729,7 @@ getVeiculoR = defaultLayout $ do
         			contentType:"application/json",    
         			url: 'https://estacionamento-bruno-alcamin.c9users.io/veiculodelete/'+x,
         		});
+        		$("#tb").html("");
         		$("#t1 tbody").html("");
         		listar();
     		}
@@ -862,11 +842,13 @@ getFuncionarioR = defaultLayout $ do
             <tr>
                 <th>ID
                 <th>Nome
+                <th>Senha
                 <th>Ativo
         <tbody id="tbody1">
   |]
   toWidget [julius|
     $(listar());
+    var modeledt = {};
     function confirmar(){
         $.ajax({
             contentType: "application/json",
@@ -883,6 +865,7 @@ getFuncionarioR = defaultLayout $ do
     	$('tbody tr').css('background-color','#fff');   
 	}
     function listar(){
+    	ajuste();
     	var itens = "";
    		$.ajax({
 			contentType: "application/json",
@@ -899,14 +882,125 @@ getFuncionarioR = defaultLayout $ do
            		itens+=e.data[i].nome;
            		itens+="</span>"
        	    	itens+="</td><td>";
+       	    	itens+="<span id='senhaFuncionario'>"
+           		itens+=e.data[i].senha;
+           		itens+="</span>"
+       	    	itens+="</td><td>";
             	itens+="<span id='atFuncionario'>"
            		itens+=e.data[i].ativo;
              	itens+="</span>"
 	           	itens+="</td></tr>";
            	}
 		    $("#tbody1").html(itens);
+		    selecao();
         });
     }
+    function novo(){
+    	$('tbody tr').off("click");
+    	limpaCampos();
+    	$('#btnAlterar').removeAttr("onclick");
+    	$('#btnNovo').removeAttr("onclick");
+    	$("input[name='nome']").removeAttr("disabled","disabled");
+		$("input[name='senha']").removeAttr("disabled","disabled");
+		$("#FuncionarioAtivo").removeAttr("disabled","disabled");
+		$("#tbody1").removeAttr("disabled","disabled");
+    	$('#btnConfirmar').attr("onclick","confirmar()");
+    	$('#btnCancelar').attr("onclick","cancelar()");
+    	$('#btnCancelar').removeAttr("disabled",'disabled');
+    	$('#btnConfirmar').removeAttr("disabled",'disabled');
+    	$('#btnAlterar').attr("disabled",'disabled');
+	}
+	function alterar(){
+    		$('tbody tr').off("click");
+    		$('#btnNovo').removeAttr("onclick");
+    		$('#btnNovo').attr("disabled",'disabled');
+			$("input[name='senha']").removeAttr("disabled","disabled");
+			$("#FuncionarioAtivo").removeAttr("disabled","disabled");
+			$("#tbody1").removeAttr("disabled","disabled");
+    		$('#btnConfirmar').attr("onclick","confedit()");
+    		$('#btnCancelar').attr("onclick","cancelarEdit()");
+    		$('#btnConfirmar').removeAttr("disabled",'disabled');
+    		$('#btnCancelar').removeAttr("disabled",'disabled');
+	}
+	function confedit(){
+    	modeledt.senha = $("input[name='senha']").val();
+    	modeledt.ativo = $("#FuncionarioAtivo").val();
+    	$.ajax({
+       		type: "PUT",
+       		dataType: "json",
+       		cache: false,
+	        contentType:"application/json",    
+    	    url: 'https://estacionamento-bruno-alcamin.c9users.io/alterafuncionario/'+modeledt.id,
+      		data: JSON.stringify(modeledt),  
+    	}).done(function(e){
+    		limpaCampos();
+    		$("#tbody1").html("");
+    		listar();
+       	});
+       	ajusteEdit();
+	}
+	function cancelarEdit(){
+    	selecao();
+    	$("input[name='nome']").val($('tr[select="select"]').find('span[id="nomeFuncionario"]').html());
+		$("input[name='senha']").val($('tr[select="select"]').find('span[id="senhaFuncionario"]').html());
+		$("#FuncionarioAtivo").val($('tr[select="select"]').find('span[id="atFuncionario"]').html());
+    	ajusteEdit();
+	}
+	function cancelar(){
+    	selecao();
+    	$('tbody tr').css('background-color','#fff');   
+    	ajuste();
+	}
+	function selecao(){
+    	$('tbody tr').css('cursor','pointer');
+       	$('tbody tr').click(function(){
+         	$('#btnAlterar').removeAttr("disabled",'disabled');
+           	$('#btnAlterar').attr("onclick","alterar()");
+           	$('tbody tr').css('background-color','#fff');
+           	$('tbody tr').removeAttr('select','select');
+           	$(this).css('background-color','#76affd');
+           	$(this).attr('select','select');
+           	$("input[name='nome']").val($(this).find('span[id="nomeFuncionario"]').html());
+           	$("input[name='senha']").val($(this).find('span[id="senhaFuncionario"]').html());
+			$("#FuncionarioAtivo").val($(this).find('span[id="atFuncionario"]').html());
+           	modeledt = {"id":$(this).find('span[id="idFuncionario"]').html(),"nome":$(this).find('span[id="nomeFuncionario"]').html(),"senha":$(this).find('span[id="senhaFuncionario"]').html(),"ativo":$(this).find('span[id="atFuncionario"]').html()};
+    	});
+	}
+    function ajuste(){
+	    $('tbody tr').on("click");
+	    limpaCampos();
+	    $('#btnNovo').attr("onclick","novo()");
+	    $("input[name='nome']").attr("disabled","disabled");
+		$("input[name='senha']").attr("disabled","disabled");
+		$("#FuncionarioAtivo").attr("disabled","disabled");
+		$("#tbody1").attr("disabled","disabled");
+	    $('#btnAlterar').removeAttr("onclick");
+	    $('#btnAlterar').attr("disabled",'disabled');
+	    $('#btnConfirmar').attr("disabled",'disabled');
+	    $('#btnCancelar').attr("disabled",'disabled');
+	    $('#btnConfirmar').removeAttr("onclick");
+	    $('#btnCancelar').removeAttr("onclick");
+	    $("input[name='nome']").css("border-color","#fff");
+    }
+    function ajusteEdit(){
+	    $('tbody tr').on("click");
+	    $('#btnNovo').attr("onclick","novo()");
+	    $('#btnNovo').removeAttr("disabled",'disabled');
+	    $("input[name='nome']").attr("disabled","disabled");
+		$("input[name='senha']").attr("disabled","disabled");
+		$("#FuncionarioAtivo").attr("disabled","disabled");
+		$("#tbody1").attr("disabled","disabled");
+	    $('#btnConfirmar').removeAttr("onclick");
+	    $('#btnCancelar').removeAttr("onclick");
+	    $('#btnConfirmar').attr("disabled",'disabled');
+	    $('#btnCancelar').attr("disabled",'disabled');
+	    $("input[name='nome']").css("border-color","#fff");
+	}
+    function limpaCampos(){
+		$("input[name='nome']").val("");
+		$("input[name='senha']").val("");
+		$("#FuncionarioAtivo").val("true");
+	}
   |]
 
 
@@ -1032,6 +1126,13 @@ putVeiUpdateR vid = do
     runDB $ update vid [VeiculoCor =. veiculoCor pv ]
     runDB $ update vid [VeiculoTipoveiculoid =. veiculoTipoveiculoid pv ]
     runDB $ update vid [VeiculoClienteid =. veiculoClienteid pv ]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])
+
+putUpdateFuncionarioR :: FuncionarioId -> Handler ()
+putUpdateFuncionarioR pid = do
+    fun <- requireJsonBody :: Handler Funcionario
+    runDB $ update pid [FuncionarioSenha =. funcionarioSenha fun]
+    runDB $ update pid [FuncionarioAtivo =. funcionarioAtivo fun]
     sendResponse (object [pack "resp" .= pack "UPDATED"])
 
 -----------------------------------------------------------
