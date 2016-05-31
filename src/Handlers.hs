@@ -16,35 +16,124 @@ mkYesodDispatch "Sitio" pRoutes
 
 getClientR :: Handler Html
 getClientR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Cliente"
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
   [whamlet|
-<button id="btn-nv">Novo</button>
-<button id="btn-alt">Alterar</button>
-    <form>
-    Tipo: <select id="flcliente"><option value="f"> Fisico </option><option value="j"> Juridico </option></select>
-    Nome: <input type="text" id="nome">
-    Telefone: <input type="text" id="telefone">
-    RG: <input type="text" id="rg">
-    Sexo: <input type="text" id="sexo">
-    CPF: <input type="text" id="cpf">
-    CNPJ: <input type="text" id="cnpj">
-    Razão Social: <input type="text" id="razaosocial">
-    Logradouro: <input type="text" id="logradouro">
-    Cidade: <input type="text" id="cidade">
-    Estado: <input type="text" id="estado">
-    Bairro: <input type="text" id="bairro">
-    CEP: <input type="text" id="cep">
-    <button id="btn-canc">cancelar</button>
-    <button id="btn-conc">confirmar</button>
-    <table id="t1">
-        <thead>
-            <tr>
-            <th>ID
-            <th>Nome
-            <th>Telefone
-        <tbody id="tb">
+<h1>Cadastrar Cliente
+<div .container>  
+    <div id="formulario" .col-md-12 .col-lg-12>
+        
+        <button id="btn-nv" .btn .btn-default >Novo</button>
+        <button id="btn-alt" .btn .btn-default>Alterar</button>
+        <br><br>
+            
+        <!-- <form .form-horizontal>
+            <div .control-group>
+                <label .control-label for="inputEmail">Email
+                <div .controls>
+                    <input type="text" id="inputEmail" placeholder="Email">
+                </div>
+            </div>    -->
+            
+            
+        <form .form-horizontal>
+            <div .control-group>
+                <label .control-label for="flcliente">Tipo: 
+                    <div .controls>
+                        <select id="flcliente"><option value="f"> Fisico </option><option value="j"> Juridico </option></select>
+            
+            <div .fisico .control-group>
+                <label .control-label for="nome">Nome: 
+                    <div .controls>
+                        <input type="text" id="nome">
+                        
+            <div .fisico .control-group>
+                <label .control-label for="rg">RG: 
+                    <div .controls>
+                        <input type="text" id="rg">
+                        
+            <div .fisico .control-group>
+                <label .control-label for="sexo">Sexo: 
+                    <div .controls>
+                        <input type="text" id="sexo">
+                        
+            <div .fisico .control-group>
+                <label .control-label for="cpf">CPF: 
+                    <div .controls>
+                        <input type="text" id="cpf">
+                
+            <div .juridico .control-group>
+                <label .control-label for="cnpj">CNPJ: 
+                    <div .controls>
+                        <input type="text" id="cnpj">
+                        
+            <div .juridico .control-group>
+                <label .control-label for="razaosocial">Razão Social: 
+                    <div .controls>
+                        <input type="text" id="razaosocial">
+            
+            <div .endereco .control-group>    
+                <label .control-label for="telefone">Telefone:
+                    <div .controls>
+                        <input type="text" id="telefone">
+                        
+            <div .endereco .control-group>    
+                <label .control-label for="logradouro">Logradouro:
+                    <div .controls>
+                        <input type="text" id="logradouro">
+                        
+            <div .endereco .control-group>    
+                <label .control-label for="cidade">Cidade:
+                    <div .controls>
+                        <input type="text" id="cidade">
+                        
+            <div .endereco .control-group>    
+                <label .control-label for="estado">Estado:
+                    <div .controls>
+                        <input type="text" id="estado">
+                        
+            <div .endereco .control-group>    
+                <label .control-label for="bairro">Bairro:
+                    <div .controls>
+                        <input type="text" id="bairro">
+                        
+            <div .endereco .control-group>    
+                <label .control-label for="cep">CEP:
+                    <div .controls>
+                        <input type="text" id="cep" .form-control>
+            
+            <br>
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+
+    <div id="tabela" .col-md-12 .col-lg-12>
+        <table id="t1">
+            <thead>
+                <tr>
+                    <th>ID
+                    <th>Nome
+                    <th>Telefone
+            <tbody id="tb">
   |] 
   toWidget [julius|
+  
+  		$($(document).ready(function(){
+  			$(".juridico").hide();
+  			$("#btn-nv, btn-alt").click(function(){
+  				$("#flcliente").change(function(){
+	  				if($("#flcliente").val()=="f"){
+	  					$(".juridico").hide();
+	  					$(".fisico").show();
+	  				} else {
+	  					$(".fisico").hide();
+	  					$(".juridico").show();
+	  				}
+  				});
+  			});
+  		}));
+  
   		$(listar());
 		var modeledt = {};
 		function confirmar(){
@@ -103,44 +192,30 @@ getClientR = defaultLayout $ do
     		$('tbody tr').off("click");
     		limpaCampos();
     		$('#btn-alt, #btn-nv').removeAttr("onclick");
-    		$("#nome").removeAttr("disabled","disabled");
-			$("#flcliente").removeAttr("disabled","disabled");
-			$("#telefone").removeAttr("disabled","disabled");
-			$("#rg").removeAttr("disabled","disabled");
-			$("#sexo").removeAttr("disabled","disabled");
-			$("#cpf").removeAttr("disabled","disabled");
-			$("#cnpj").removeAttr("disabled","disabled");
-			$("#razaosocial").removeAttr("disabled","disabled");
-			$("#logradouro").removeAttr("disabled","disabled");
-			$("#cidade").removeAttr("disabled","disabled");
-			$("#estado").removeAttr("disabled","disabled");
-			$("#bairro").removeAttr("disabled","disabled");
-			$("#cep").removeAttr("disabled","disabled");
-			$("#tb").removeAttr("disabled","disabled");
+    		$("#nome, #flcliente, #telefone, #rg, #sexo, #cpf, #cnpj, #razaosocial, #logradouro, #cidade, #estado, #bairro, #cep, #tb").removeAttr("disabled","disabled");
     		$('#btn-conc').attr("onclick","confirmar()");
     		$('#btn-canc').attr("onclick","cancelar()");
-    		$('#btn-canc').removeAttr("disabled",'disabled');
-    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-canc, #btn-conc').removeAttr("disabled",'disabled');
     		$('#btn-alt').attr("disabled",'disabled');
     		ajustefisicojuridico();
 		}
 		
 		function ajustefisicojuridico(){
-			$("#cnpj").attr("disabled","disabled");
-        	$("#razaosocial").attr("disabled","disabled");
+			$("#cnpj, #razaosocial").attr("disabled","disabled");
+        	
         	$("#flcliente").click(function(){
         		if($("#flcliente").val()=="f"){
-         			$("#cnpj").attr("disabled","disabled");
-         			$("#razaosocial").attr("disabled","disabled");
-         			$("#rg").removeAttr("disabled","disabled");
-         			$("#sexo").removeAttr("disabled","disabled");
-         			$("#cpf").removeAttr("disabled","disabled");
+         			$("#cnpj, #razaosocial").attr("disabled","disabled");
+         	
+         			$("#rg, #sexo, #cpf").removeAttr("disabled","disabled");
+         	
+         	
          		}else{
-	          		$("#rg").attr("disabled","disabled");
-         			$("#sexo").attr("disabled","disabled");
-         			$("#cpf").attr("disabled","disabled");
-         			$("#cnpj").removeAttr("disabled","disabled");
-         			$("#razaosocial").removeAttr("disabled","disabled");
+	          		$("#rg, #sexo, #cpf").attr("disabled","disabled");
+         	
+         			
+         			$("#cnpj, #razaosocial").removeAttr("disabled","disabled");
+         			
          		}
         	});
 		}
@@ -174,24 +249,10 @@ getClientR = defaultLayout $ do
     		$('tbody tr').off("click");
     		$('#btn-nv').removeAttr("onclick");
     		$('#btn-nv').attr("disabled",'disabled');
-    		$("#nome").removeAttr("disabled","disabled");
-			$("#flcliente").removeAttr("disabled","disabled");
-			$("#telefone").removeAttr("disabled","disabled");
-			$("#rg").removeAttr("disabled","disabled");
-			$("#sexo").removeAttr("disabled","disabled");
-			$("#cpf").removeAttr("disabled","disabled");
-			$("#cnpj").removeAttr("disabled","disabled");
-			$("#razaosocial").removeAttr("disabled","disabled");
-			$("#logradouro").removeAttr("disabled","disabled");
-			$("#cidade").removeAttr("disabled","disabled");
-			$("#estado").removeAttr("disabled","disabled");
-			$("#bairro").removeAttr("disabled","disabled");
-			$("#cep").removeAttr("disabled","disabled");
-			$("#tb").removeAttr("disabled","disabled");
+    		$("#nome, #flcliente, #telefone, #rg, #sexo, #cpf, #cnpj, #razaosocial, #logradouro, #cidade, #estado, #bairro, #cep, #tb").removeAttr("disabled","disabled");
     		$('#btn-conc').attr("onclick","confedit()");
     		$('#btn-canc').attr("onclick","cancelarEdit()");
-    		$('#btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-canc').removeAttr("disabled",'disabled');
+    		$('#btn-conc, #btn-canc').removeAttr("disabled",'disabled');
     		$("#cnpj").attr("disabled","disabled");
     		ajustefisicojuridico();
 		}
@@ -271,6 +332,7 @@ getClientR = defaultLayout $ do
         			cache: false,
         			contentType:"application/json",    
         			url: 'https://estacionamento-bruno-alcamin.c9users.io/delete/'+x,
+        			
         		});
         		$("#tb").html("");
         		$("#t1 tbody").html("");
@@ -281,12 +343,14 @@ getClientR = defaultLayout $ do
 		function selecao(){
     		$('tbody tr').css('cursor','pointer');
         	$('tbody tr').click(function(){
-            	$('#btn-alt').removeAttr("disabled",'disabled');
-            	$('#btn-alt').attr("onclick","alterar()");
-            	$('tbody tr').css('background-color','#fff');
-            	$('tbody tr').removeAttr('select','select');
-            	$(this).css('background-color','#76affd');
-            	$(this).attr('select','select');
+            	$('#btn-alt').removeAttr("disabled",'disabled').attr("onclick","alterar()");
+            	ajustefisicojuridico();
+            	$('tbody tr').css('background-color','#fff').removeAttr('select','select');
+            	
+            	$(this).css('background-color','#76affd').attr('select','select');
+            	
+            	
+            	
             	$("#nome").val($(this).find('span[id="nm"]').html());
             	$("#flcliente").val($(this).find('span[id="flc"]').html());
 				$("#telefone").val($(this).find('span[id="tl"]').html());
@@ -308,26 +372,10 @@ getClientR = defaultLayout $ do
 		    $('tbody tr').on("click");
 		    limpaCampos();
 		    $('#btn-nv').attr("onclick","novo()");
-		    $("#nome").attr("disabled","disabled");
-			$("#flcliente").attr("disabled","disabled");
-			$("#telefone").attr("disabled","disabled");
-			$("#rg").attr("disabled","disabled");
-			$("#sexo").attr("disabled","disabled");
-			$("#cpf").attr("disabled","disabled");
-			$("#cnpj").attr("disabled","disabled");
-			$("#razaosocial").attr("disabled","disabled");
-			$("#logradouro").attr("disabled","disabled");
-			$("#cidade").attr("disabled","disabled");
-			$("#estado").attr("disabled","disabled");
-			$("#bairro").attr("disabled","disabled");
-			$("#cep").attr("disabled","disabled");
-			$("#tb").attr("disabled","disabled");
-		    $('#btn-alt').removeAttr("onclick");
-		    $('#btn-alt').attr("disabled",'disabled');
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
+		    $("#nome, #flcliente, #telefone, #rg, #sexo, #cpf, #cnpj, #razaosocial, #logradouro, #cidade, #estado, #bairro, #cep, #tb").attr("disabled","disabled");
+			$('#btn-alt').removeAttr("onclick");
+		    $('#btn-alt, #btn-conc, #btn-canc').attr("disabled",'disabled');
+		    $('#btn-conc, #btn-canc').removeAttr("onclick");
 		    $('input[name="nome"]').css("border-color","#fff");
 		}
 
@@ -335,27 +383,31 @@ getClientR = defaultLayout $ do
 		    $('tbody tr').on("click");
 		    $('#btn-nv').attr("onclick","novo()");
 		    $('#btn-nv').removeAttr("disabled",'disabled');
-		    $("#nome").attr("disabled","disabled");
-			$("#flcliente").attr("disabled","disabled");
-			$("#telefone").attr("disabled","disabled");
-			$("#rg").attr("disabled","disabled");
-			$("#sexo").attr("disabled","disabled");
-			$("#cpf").attr("disabled","disabled");
-			$("#cnpj").attr("disabled","disabled");
-			$("#razaosocial").attr("disabled","disabled");
-			$("#logradouro").attr("disabled","disabled");
-			$("#cidade").attr("disabled","disabled");
-			$("#estado").attr("disabled","disabled");
-			$("#bairro").attr("disabled","disabled");
-			$("#cep").attr("disabled","disabled");
-			$("#tb").attr("disabled","disabled");
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
+		    $("#nome, #flcliente, #telefone, #rg, #sexo, #cpf, #cnpj, #razaosocial, #logradouro, #cidade, #estado, #bairro, #cep, #tb").attr("disabled","disabled");
+			$('#btn-conc, #btn-canc').removeAttr("onclick");
+		    $('#btn-conc, #btn-canc').attr("disabled",'disabled');
+		    
 		    $('input[name="nome"]').css("border-color","#fff");
 		}
+  |] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  		--background-color: #ddd;
+  	}
   |]
+  
   
 getTipoVeiculoR :: Handler Html
 getTipoVeiculoR = defaultLayout $ do
@@ -836,7 +888,7 @@ getFuncionarioR = defaultLayout $ do
     Senha: <input type="password" name="senha">
     Ativo: <select id="FuncionarioAtivo"><option value="true">Sim</option> <option value="false">Não</option></select>
     <button id="btnCancelar">cancelar
-    <button id="btnConfirmar" onclick="confirmar()">confirmar
+    <button id="btnConfirmar">confirmar
     <table id="table1">
         <thead>
             <tr>
@@ -856,13 +908,12 @@ getFuncionarioR = defaultLayout $ do
             type: "POST",
             data: JSON.stringify({"nome":$("input[name='nome']").val(),"senha":$("input[name='senha']").val(),"ativo":$("#FuncionarioAtivo").val()}),
             success: function(){
-				$("input[name='nome']").val("");
-				$("input[name='senha']").val("");
+				$("input[name='nome'], input[name='senha']").val("");
 				$("#FuncionarioAtivo").val("true");
        			listar();
             }
         });
-    	$('tbody tr').css('background-color','#fff');   
+    	$("tbody tr").css("background-color","#fff");   
 	}
     function listar(){
     	ajuste();
@@ -873,54 +924,40 @@ getFuncionarioR = defaultLayout $ do
             type: "GET",
     	}).done(function(e){
        		for(var i = 0; i<e.data.length; i++){
-           		itens+="<tr><td>";
-           		itens+="<span id='idFuncionario'>"
+           		itens+="<tr>";
+           		itens+="<td><span id='idFuncionario'>"
            		itens+=e.data[i].id;
-           		itens+="</span>"
-           		itens+="</td><td>";
-       	    	itens+="<span id='nomeFuncionario'>"
+           		itens+="</span></td>"
+       	    	itens+="<td><span id='nomeFuncionario'>"
            		itens+=e.data[i].nome;
-           		itens+="</span>"
-       	    	itens+="</td><td>";
-       	    	itens+="<span id='senhaFuncionario'>"
+           		itens+="</span></td>"
+       	    	itens+="<td><span id='senhaFuncionario'>"
            		itens+=e.data[i].senha;
-           		itens+="</span>"
-       	    	itens+="</td><td>";
-            	itens+="<span id='atFuncionario'>"
+           		itens+="</span></td>"
+            	itens+="<td><span id='atFuncionario'>"
            		itens+=e.data[i].ativo;
-             	itens+="</span>"
-	           	itens+="</td></tr>";
+             	itens+="</span></td>"
+	           	itens+="</tr>";
            	}
 		    $("#tbody1").html(itens);
 		    selecao();
         });
     }
     function novo(){
-    	$('tbody tr').off("click");
+    	$("tbody tr").off("click");
     	limpaCampos();
-    	$('#btnAlterar').removeAttr("onclick");
-    	$('#btnNovo').removeAttr("onclick");
-    	$("input[name='nome']").removeAttr("disabled","disabled");
-		$("input[name='senha']").removeAttr("disabled","disabled");
-		$("#FuncionarioAtivo").removeAttr("disabled","disabled");
-		$("#tbody1").removeAttr("disabled","disabled");
-    	$('#btnConfirmar').attr("onclick","confirmar()");
-    	$('#btnCancelar').attr("onclick","cancelar()");
-    	$('#btnCancelar').removeAttr("disabled",'disabled');
-    	$('#btnConfirmar').removeAttr("disabled",'disabled');
-    	$('#btnAlterar').attr("disabled",'disabled');
+    	$("#btnAlterar, #btnNovo").removeAttr("onclick");
+    	$("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
+    	$("#btnConfirmar").attr("onclick","confirmar()");
+    	$("#btnCancelar").attr("onclick","cancelar()");
+    	$("#btnAlterar").attr("disabled","disabled");
 	}
 	function alterar(){
-    		$('tbody tr').off("click");
-    		$('#btnNovo').removeAttr("onclick");
-    		$('#btnNovo').attr("disabled",'disabled');
-			$("input[name='senha']").removeAttr("disabled","disabled");
-			$("#FuncionarioAtivo").removeAttr("disabled","disabled");
-			$("#tbody1").removeAttr("disabled","disabled");
-    		$('#btnConfirmar').attr("onclick","confedit()");
-    		$('#btnCancelar').attr("onclick","cancelarEdit()");
-    		$('#btnConfirmar').removeAttr("disabled",'disabled');
-    		$('#btnCancelar').removeAttr("disabled",'disabled');
+    		$("tbody tr").off("click");
+    		$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
+			$("input[name='senha'], #FuncionarioAtivo, #tbody1, #btnConfirmar, #btnCancelar").removeAttr("disabled","disabled");
+    		$("#btnConfirmar").attr("onclick","confedit()");
+    		$("#btnCancelar").attr("onclick","cancelarEdit()");
 	}
 	function confedit(){
     	modeledt.senha = $("input[name='senha']").val();
@@ -948,18 +985,16 @@ getFuncionarioR = defaultLayout $ do
 	}
 	function cancelar(){
     	selecao();
-    	$('tbody tr').css('background-color','#fff');   
+    	$("tbody tr").css("background-color","#fff");   
     	ajuste();
 	}
 	function selecao(){
-    	$('tbody tr').css('cursor','pointer');
-       	$('tbody tr').click(function(){
-         	$('#btnAlterar').removeAttr("disabled",'disabled');
-           	$('#btnAlterar').attr("onclick","alterar()");
-           	$('tbody tr').css('background-color','#fff');
-           	$('tbody tr').removeAttr('select','select');
-           	$(this).css('background-color','#76affd');
-           	$(this).attr('select','select');
+    	$("tbody tr").css("cursor","pointer");
+       	$("tbody tr").click(function(){
+         	$("#btnAlterar").removeAttr("disabled","disabled").attr("onclick","alterar()");
+           	$("tbody tr").css("background-color","#fff").removeAttr("select","select");
+           	$(this).css("background-color","#76affd");
+           	$(this).attr("select","select");
            	$("input[name='nome']").val($(this).find('span[id="nomeFuncionario"]').html());
            	$("input[name='senha']").val($(this).find('span[id="senhaFuncionario"]').html());
 			$("#FuncionarioAtivo").val($(this).find('span[id="atFuncionario"]').html());
@@ -967,42 +1002,210 @@ getFuncionarioR = defaultLayout $ do
     	});
 	}
     function ajuste(){
-	    $('tbody tr').on("click");
+	    $("tbody tr").on("click");
 	    limpaCampos();
-	    $('#btnNovo').attr("onclick","novo()");
-	    $("input[name='nome']").attr("disabled","disabled");
-		$("input[name='senha']").attr("disabled","disabled");
-		$("#FuncionarioAtivo").attr("disabled","disabled");
-		$("#tbody1").attr("disabled","disabled");
-	    $('#btnAlterar').removeAttr("onclick");
-	    $('#btnAlterar').attr("disabled",'disabled');
-	    $('#btnConfirmar').attr("disabled",'disabled');
-	    $('#btnCancelar').attr("disabled",'disabled');
-	    $('#btnConfirmar').removeAttr("onclick");
-	    $('#btnCancelar').removeAttr("onclick");
+	    $("#btnNovo").attr("onclick","novo()");
+	    $("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1").attr("disabled","disabled");
+	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
+	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
 	    $("input[name='nome']").css("border-color","#fff");
     }
     function ajusteEdit(){
-	    $('tbody tr').on("click");
-	    $('#btnNovo').attr("onclick","novo()");
-	    $('#btnNovo').removeAttr("disabled",'disabled');
-	    $("input[name='nome']").attr("disabled","disabled");
-		$("input[name='senha']").attr("disabled","disabled");
-		$("#FuncionarioAtivo").attr("disabled","disabled");
-		$("#tbody1").attr("disabled","disabled");
-	    $('#btnConfirmar').removeAttr("onclick");
-	    $('#btnCancelar').removeAttr("onclick");
-	    $('#btnConfirmar').attr("disabled",'disabled');
-	    $('#btnCancelar').attr("disabled",'disabled');
+	    $("tbody tr").on("click");
+	    $("#btnNovo").attr("onclick","novo()");
+	    $("#btnNovo").removeAttr("disabled","disabled");
+	    $("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
+	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
 	    $("input[name='nome']").css("border-color","#fff");
 	}
     function limpaCampos(){
-		$("input[name='nome']").val("");
-		$("input[name='senha']").val("");
+		$("input[name='nome'], input[name='senha']").val("");
 		$("#FuncionarioAtivo").val("true");
 	}
   |]
 
+getVagaValorR :: Handler Html
+getVagaValorR = defaultLayout $ do
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  [whamlet|
+    <h1>Alterar valor vaga diurno e noturno
+    <button id="btnNovo">Novo
+    <button id="btnAlterar">Alterar
+    <form>
+    Valor diurno: <input type="number" name="diurno" step="0.01">
+    Valor noturno: <input type="number" name="noturno" step="0.01">
+    Funcionario: <select id="funcionario"></select>
+    <button id="btnCancelar">cancelar
+    <button id="btnConfirmar">confirmar
+    <table id="table1">
+        <caption>Valor atual</caption>
+            <thead>
+                <tr>
+                    <th>ID
+                    <th>Valor diurno
+                    <th>Valor noturno
+                    <th>Alterado por
+                    <th>Id Funcionario
+            <tbody id="tbody1">
+  |]
+  toWidget [julius|
+    $(listar());
+    $(optFuncionario());
+    var modeledt = {};
+    function optFuncionario(){
+        var opt = "";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaFuncionarioR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+           		opt+="<option value='"+e.data[i].id+"'>"+e.data[i].nome+"</option>";
+           	}
+           	$("#funcionario").html(opt);
+        });
+    }
+    function getFuncionario(id){
+        var opt = "";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaFuncionarioR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+       		    if(id == e.data[i].id){
+       		    	opt=e.data[i].nome;
+       		    	$("#nmFuncionario"+id).html(opt);
+       		    }
+           	}
+        });
+    }
+    function confirmar(){
+        $.ajax({
+            contentType: "application/json",
+            url: "@{VagaValorR}",
+            type: "POST",
+            data: JSON.stringify({"valordiurno":parseFloat($("input[name='diurno']").val()),"valornoturno":parseFloat($("input[name='noturno']").val()),"funcionarioid":parseInt($("#funcionario").val())}),
+            success: function(){
+				$("input[name='diurno'],input[name='noturno']").val("");
+				$("#funcionario").val("1");
+       			listar();
+            }
+        });
+    	$("tbody tr").css("background-color","#fff");   
+	}
+    function listar(){
+    	ajuste();
+    	var itens = "";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaVagaValorR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+           		itens+="<tr>";
+           		itens+="<td><span id='idVagaValor'>"
+           		itens+=e.data[i].id;
+           		itens+="</span></td>"
+       	    	itens+="<td><span id='valordiurno'>"
+           		itens+=e.data[i].valordiurno.toFixed(2);
+           		itens+="</span></td>"
+       	    	itens+="<td><span id='valornoturno'>"
+           		itens+=e.data[i].valornoturno.toFixed(2);
+           		itens+="</span></td>"
+            	itens+="<td><span id='nmFuncionario"+e.data[i].funcionarioid+"'>"
+           		itens+=getFuncionario(e.data[i].funcionarioid);
+             	itens+="</span></td>"
+             	itens+="<td><span id='idFuncionario'>"
+           		itens+=e.data[i].funcionarioid;
+             	itens+="</span></td>"
+	           	itens+="</tr>";
+           	}
+		    $("#tbody1").html(itens);
+		    selecao();
+        });
+    }
+    function novo(){
+    	$("tbody tr").off("click");
+    	limpaCampos();
+    	$("#btnAlterar, #btnNovo").removeAttr("onclick");
+    	$("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
+    	$("#btnConfirmar").attr("onclick","confirmar()");
+    	$("#btnCancelar").attr("onclick","cancelar()");
+    	$("#btnAlterar").attr("disabled","disabled");
+	}
+	function alterar(){
+    	$("tbody tr").off("click");
+    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
+		$("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnConfirmar, #btnCancelar").removeAttr("disabled","disabled");
+    	$("#btnConfirmar").attr("onclick","confedit()");
+    	$("#btnCancelar").attr("onclick","cancelarEdit()");
+	}
+	function confedit(){
+	    modeledt.valordiurno = parseFloat($("input[name='diurno']").val());
+    	modeledt.valornoturno = parseFloat($("input[name='noturno']").val());
+    	modeledt.funcionarioid = parseInt($("#funcionario").val());
+    	$.ajax({
+       		type: "PUT",
+       		dataType: "json",
+       		cache: false,
+	        contentType:"application/json",    
+    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravagavalor/"+modeledt.id,
+      		data: JSON.stringify(modeledt),  
+    	}).done(function(e){
+    		limpaCampos();
+    		$("#tbody1").html("");
+    		listar();
+       	});
+       	ajusteEdit();
+	}
+	function cancelarEdit(){
+    	selecao();
+    	$("input[name='diurno']").val($('tr[select="select"]').find('span[id="valordiurno"]').html());
+		$("input[name='noturno']").val($('tr[select="select"]').find('span[id="valornoturno"]').html());
+		$("#funcionario").val($('tr[select="select"]').find('span[id="nmFuncionario"]').html());
+    	ajusteEdit();
+	}
+	function cancelar(){
+    	selecao();
+    	$("tbody tr").css("background-color","#fff");   
+    	ajuste();
+	}
+	function selecao(){
+    	$("tbody tr").css("cursor","pointer");
+       	$("tbody tr").click(function(){
+         	$("#btnAlterar").removeAttr("disabled","disabled").attr("onclick","alterar()");
+           	$("tbody tr").css("background-color","#fff").removeAttr("select","select");
+           	$(this).css("background-color","#76affd");
+           	$(this).attr("select","select");
+           	$("input[name='diurno']").val($(this).find('span[id="valordiurno"]').html());
+           	$("input[name='noturno']").val($(this).find('span[id="valornoturno"]').html());
+			$("#funcionario").val($(this).find('span[id="idFuncionario"]').html());
+           	modeledt = {"id":$(this).find('span[id="idVagaValor"]').html(),"valordiurno":$(this).find('span[id="valordiurno"]').html(),"valornoturno":$(this).find('span[id="valornoturno"]').html(),"alteradopor":$(this).find('span[id="nmFuncionario"]').html(),"idfuncionario":$(this).find('span[id="idFuncionario"]').html()};
+    	});
+	}
+    function ajuste(){
+	    $("tbody tr").on("click");
+	    limpaCampos();
+	    $("#btnNovo").attr("onclick","novo()");
+	    $("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1").attr("disabled","disabled");
+	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
+	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
+	    $("input[name='diurno']").css("border-color","#fff");
+    }
+    function ajusteEdit(){
+	    $("tbody tr").on("click");
+	    $("#btnNovo").attr("onclick","novo()");
+	    $("#btnNovo").removeAttr("disabled","disabled");
+	    $("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
+	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
+	    $("input[name='diurno']").css("border-color","#fff");
+	}
+    function limpaCampos(){
+		$("input[name='diurno'], input[name='noturno']").val("");
+		$("#funcionario").val("1");
+	}
+  |]
 
 getListaR :: Handler ()
 getListaR = do
@@ -1023,6 +1226,11 @@ getListaFuncionarioR :: Handler ()
 getListaFuncionarioR = do
     allFuncionarios <- runDB $ selectList [] [Asc FuncionarioId]
     sendResponse (object [pack "data" .= fmap toJSON allFuncionarios])
+
+getListaVagaValorR :: Handler ()
+getListaVagaValorR = do
+    allVagaValor <- runDB $ selectList [] [Asc VagaValorId]
+    sendResponse (object [pack "data" .= fmap toJSON allVagaValor])
 
 --------------------------------------------------------
 --              METHODS POST
@@ -1094,19 +1302,7 @@ postFuncionarioR = do
 putUpdateR :: ClientId -> Handler ()
 putUpdateR pid = do
     cli <- requireJsonBody :: Handler Client 
-    runDB $ update pid [ClientNome =. clientNome cli ] 
-    runDB $ update pid [ClientFlcliente =. clientFlcliente cli ]
-    runDB $ update pid [ClientTelefone =. clientTelefone cli ]
-    runDB $ update pid [ClientRg =. clientRg cli ]
-    runDB $ update pid [ClientSexo =. clientSexo cli ]
-    runDB $ update pid [ClientCpf =. clientCpf cli ]
-    runDB $ update pid [ClientLogradouro =. clientLogradouro cli ]
-    runDB $ update pid [ClientCidade =. clientCidade cli ]
-    runDB $ update pid [ClientEstado =. clientEstado cli ]
-    runDB $ update pid [ClientBairro =. clientBairro cli ]
-    runDB $ update pid [ClientCep =. clientCep cli ]
-    runDB $ update pid [ClientCnpj =. clientCnpj cli ]
-    runDB $ update pid [ClientRazaosocial =. clientRazaosocial cli ]
+    runDB $ update pid [ClientNome =. clientNome cli, ClientFlcliente =. clientFlcliente cli,ClientTelefone =. clientTelefone cli,ClientRg =. clientRg cli,ClientSexo =. clientSexo cli, ClientCpf =. clientCpf cli, ClientLogradouro =. clientLogradouro cli, ClientCidade =. clientCidade cli, ClientEstado =. clientEstado cli, ClientBairro =. clientBairro cli, ClientCep =. clientCep cli, ClientCnpj =. clientCnpj cli, ClientRazaosocial =. clientRazaosocial cli ] 
     sendResponse (object [pack "resp" .= pack "UPDATED"])
     
     
@@ -1119,20 +1315,19 @@ putTipoVeiUpdateR  tvid = do
 putVeiUpdateR :: VeiculoId -> Handler ()
 putVeiUpdateR vid = do
     pv <- requireJsonBody :: Handler Veiculo 
-    runDB $ update vid [VeiculoPlaca =. veiculoPlaca pv ]
-    runDB $ update vid [VeiculoDescricao =. veiculoDescricao pv ]
-    runDB $ update vid [VeiculoMarca =. veiculoMarca pv ]
-    runDB $ update vid [VeiculoAno =. veiculoAno pv ]
-    runDB $ update vid [VeiculoCor =. veiculoCor pv ]
-    runDB $ update vid [VeiculoTipoveiculoid =. veiculoTipoveiculoid pv ]
-    runDB $ update vid [VeiculoClienteid =. veiculoClienteid pv ]
+    runDB $ update vid [VeiculoPlaca =. veiculoPlaca pv, VeiculoDescricao =. veiculoDescricao pv, VeiculoMarca =. veiculoMarca pv, VeiculoAno =. veiculoAno pv, VeiculoCor =. veiculoCor pv, VeiculoTipoveiculoid =. veiculoTipoveiculoid pv, VeiculoClienteid =. veiculoClienteid pv ]
     sendResponse (object [pack "resp" .= pack "UPDATED"])
 
 putUpdateFuncionarioR :: FuncionarioId -> Handler ()
 putUpdateFuncionarioR pid = do
     fun <- requireJsonBody :: Handler Funcionario
-    runDB $ update pid [FuncionarioSenha =. funcionarioSenha fun]
-    runDB $ update pid [FuncionarioAtivo =. funcionarioAtivo fun]
+    runDB $ update pid [FuncionarioSenha =. funcionarioSenha fun ,FuncionarioAtivo =. funcionarioAtivo fun]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])
+
+putUpdateVagaValorR :: VagaValorId -> Handler ()
+putUpdateVagaValorR pid = do
+    vava <- requireJsonBody :: Handler VagaValor
+    runDB $ update pid [VagaValorValordiurno =. vagaValorValordiurno vava, VagaValorValornoturno =. vagaValorValornoturno vava, VagaValorFuncionarioid =. vagaValorFuncionarioid vava]
     sendResponse (object [pack "resp" .= pack "UPDATED"])
 
 -----------------------------------------------------------

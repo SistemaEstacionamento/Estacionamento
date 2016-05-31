@@ -18,7 +18,9 @@ pRoutes = [parseRoutes|
 	/listaTpVeiculo ListaTpVeiculoR GET
 	/cadastrocontrato ContratoR POST
 	/cadastrovaga VagaR POST
-	/cadastrovagavalor VagaValorR POST
+	/cadastrovagavalor VagaValorR POST GET
+	/alteravagavalor/#VagaValorId UpdateVagaValorR PUT
+	/listavagavalor ListaVagaValorR GET
 	/cadastroevento EventoR POST
 	/cadastroconveniado ConveniadoR POST
 	/entrada AvulsoR POST -- pode ser entrada de veiculo também
