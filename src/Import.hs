@@ -19,6 +19,7 @@ pRoutes = [parseRoutes|
 	/cadastrocontrato ContratoR POST
 	/cadastrovaga VagaR POST GET
 	/alteravaga/#VagaId UpdateVagaR PUT
+	/deletevaga/#VagaId DeleteVagaR DELETE
 	/listavaga ListaVagaR GET
 	/cadastrovagavalor VagaValorR POST GET
 	/alteravagavalor/#VagaValorId UpdateVagaValorR PUT

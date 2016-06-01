@@ -1525,3 +1525,8 @@ deleteVeiDeleteR :: VeiculoId -> Handler ()
 deleteVeiDeleteR vid = do
     runDB $ delete vid
     sendResponse (object [pack "resp" .= pack "DELETED"])
+
+deleteDeleteVagaR :: VagaId -> Handler ()
+deleteDeleteVagaR vaid = do
+    runDB $ delete vaid
+    sendResponse (object [pack "resp" .= pack "DELETED"])
