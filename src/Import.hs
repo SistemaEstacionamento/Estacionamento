@@ -17,7 +17,9 @@ pRoutes = [parseRoutes|
 	/tipoveiculodelete/#TipoVeiculoId TipoVeiDeleteR DELETE
 	/listaTpVeiculo ListaTpVeiculoR GET
 	/cadastrocontrato ContratoR POST
-	/cadastrovaga VagaR POST
+	/cadastrovaga VagaR POST GET
+	/alteravaga/#VagaId UpdateVagaR PUT
+	/listavaga ListaVagaR GET
 	/cadastrovagavalor VagaValorR POST GET
 	/alteravagavalor/#VagaValorId UpdateVagaValorR PUT
 	/listavagavalor ListaVagaValorR GET

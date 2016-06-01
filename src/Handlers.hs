@@ -28,15 +28,6 @@ getClientR = defaultLayout $ do
         <button id="btn-alt" .btn .btn-default>Alterar</button>
         <br><br>
             
-        <!-- <form .form-horizontal>
-            <div .control-group>
-                <label .control-label for="inputEmail">Email
-                <div .controls>
-                    <input type="text" id="inputEmail" placeholder="Email">
-                </div>
-            </div>    -->
-            
-            
         <form .form-horizontal>
             <div .control-group>
                 <label .control-label for="flcliente">Tipo: 
@@ -1150,7 +1141,7 @@ getVagaValorR = defaultLayout $ do
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravagavalor/"+modeledt.id,
+    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravagavalor/"+modeledt.id,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();
@@ -1207,6 +1198,182 @@ getVagaValorR = defaultLayout $ do
 	}
   |]
 
+getVagaR :: Handler Html
+getVagaR = defaultLayout $ do
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  [whamlet|
+    <h1>Cadastro de vagas
+    <button id="btnNovo">Novo
+    <button id="btnAlterar">Alterar
+    <form>
+    Vaga: <select id="vaga"></select>
+    Diurno: <select id="optDiurno"><option value="livre">LIVRE</option><option value="ocupadoMensal">OCUPADO MENSAL</option><option value="ocupadoAvulso">OCUPADO AVULSO</option></select>
+    Noturno: <select id="optNoturno"><option value="livre">LIVRE</option><option value="ocupadoMensal">OCUPADO MENSAL</option><option value="ocupadoAvulso">OCUPADO AVULSO</option></select>
+    Id vaga valor: <select id="vagaValor"></select>
+    <button id="btnCancelar">cancelar
+    <button id="btnConfirmar">confirmar
+    <table id="table1">
+        <caption>Vagas disponíveis</caption>
+            <thead>
+                <tr>
+                    <th>Id/Vaga
+                    <th>Diurno
+                    <th>Noturno
+                    <th>Id vaga valor
+            <tbody id="tbody1">
+  |]
+  toWidget [julius|
+    $(listar());
+    $(optVagaValor());
+    $(optVaga());
+    var modeledt = {};
+    function optVagaValor(){
+        var opt = "<option value='0'></option>";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaVagaValorR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+           		opt+="<option value='"+e.data[i].id+"'>"+e.data[i].id+"</option>";
+           	}
+           	$("#vagaValor").html(opt);
+        });
+    }
+    function optVaga(){
+        var opt = "<option value='0'></option>";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaVagaR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+       		    opt+="<option value='"+e.data[i].id+"'>"+e.data[i].id+"</option>";
+           	}
+           	$("#vaga").html(opt);
+        });
+    }
+    function confirmar(){
+        $.ajax({
+            contentType: "application/json",
+            url: "@{VagaR}",
+            type: "POST",
+            data: JSON.stringify({"diurno":$("#optDiurno").val(),"noturno":$("#optNoturno").val(),"vagavalorid":parseInt($("#vagaValor").val())}),
+            success: function(){
+				$("#vaga, #optDiurno, #optNoturno, #vagaValor").val("");
+       			listar();
+            }
+        });
+    	$("tbody tr").css("background-color","#fff");   
+	}
+    function listar(){
+    	ajuste();
+    	var itens = "";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaVagaR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+           		itens+="<tr>";
+           		itens+="<td><span id='idVaga'>"
+           		itens+=e.data[i].id;
+           		itens+="</span></td>"
+       	    	itens+="<td><span id='diurno'>"
+           		itens+=e.data[i].diurno;
+           		itens+="</span></td>"
+       	    	itens+="<td><span id='noturno'>"
+           		itens+=e.data[i].noturno;
+           		itens+="</span></td>"
+             	itens+="<td><span id='idVagaValor'>"
+           		itens+=e.data[i].vagavalorid;
+             	itens+="</span></td>"
+	           	itens+="</tr>";
+           	}
+		    $("#tbody1").html(itens);
+		    selecao();
+        });
+    }
+    function novo(){
+    	$("tbody tr").off("click");
+    	limpaCampos();
+    	$("#btnAlterar, #btnNovo").removeAttr("onclick");
+    	$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
+    	$("#btnConfirmar").attr("onclick","confirmar()");
+    	$("#btnCancelar").attr("onclick","cancelar()");
+    	$("#btnAlterar").attr("disabled","disabled");
+	}
+	function alterar(){
+    	$("tbody tr").off("click");
+    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
+		$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btnConfirmar, #btnCancelar").removeAttr("disabled","disabled");
+    	$("#btnConfirmar").attr("onclick","confedit()");
+    	$("#btnCancelar").attr("onclick","cancelarEdit()");
+	}
+	function confedit(){
+	    modeledt.diurno = $("#optDiurno").val();
+    	modeledt.noturno = $("#optNoturno").val();
+    	modeledt.vagavalorid = parseInt($("#vagaValor").val());
+    	$.ajax({
+       		type: "PUT",
+       		dataType: "json",
+       		cache: false,
+	        contentType:"application/json",    
+    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravaga/"+modeledt.id,
+      		data: JSON.stringify(modeledt),  
+    	}).done(function(e){
+    		limpaCampos();
+    		$("#tbody1").html("");
+    		listar();
+       	});
+       	ajusteEdit();
+	}
+	function cancelarEdit(){
+    	selecao();
+    	$("#optDiurno").val($('tr[select="select"]').find('span[id="diurno"]').html());
+		$("#optNoturno").val($('tr[select="select"]').find('span[id="noturno"]').html());
+		$("#vagaValor").val($('tr[select="select"]').find('span[id="idVagaValor"]').html());
+    	ajusteEdit();
+	}
+	function cancelar(){
+    	selecao();
+    	$("tbody tr").css("background-color","#fff");   
+    	ajuste();
+	}
+	function selecao(){
+    	$("tbody tr").css("cursor","pointer");
+       	$("tbody tr").click(function(){
+         	$("#btnAlterar").removeAttr("disabled","disabled").attr("onclick","alterar()");
+           	$("tbody tr").css("background-color","#fff").removeAttr("select","select");
+           	$(this).css("background-color","#76affd");
+           	$(this).attr("select","select");
+           	$("#vaga").val($(this).find('span[id="idVaga"]').html());
+           	$("#optDiurno").val($(this).find('span[id="diurno"]').html());
+           	$("#optNoturno").val($(this).find('span[id="noturno"]').html());
+			$("#vagaValor").val($(this).find('span[id="idVagaValor"]').html());
+           	modeledt = {"id":$(this).find('span[id="idVaga"]').html(),"diurno":$(this).find('span[id="diurno"]').html(),"noturno":$(this).find('span[id="noturno"]').html(),"idVagaValor":$(this).find('span[id="idVagaValor"]').html()};
+    	});
+	}
+    function ajuste(){
+	    $("tbody tr").on("click");
+	    limpaCampos();
+	    $("#btnNovo").attr("onclick","novo()");
+	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1").attr("disabled","disabled");
+	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
+	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
+    }
+    function ajusteEdit(){
+	    $("tbody tr").on("click");
+	    $("#btnNovo").attr("onclick","novo()");
+	    $("#btnNovo").removeAttr("disabled","disabled");
+	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
+	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
+	}
+    function limpaCampos(){
+		$("#vaga, #optDiurno, #optNoturno, #vagaValor").val("");
+	}
+  |]
+
 getListaR :: Handler ()
 getListaR = do
     allClientes <- runDB $ selectList [] [Asc ClientNome]
@@ -1231,6 +1398,11 @@ getListaVagaValorR :: Handler ()
 getListaVagaValorR = do
     allVagaValor <- runDB $ selectList [] [Asc VagaValorId]
     sendResponse (object [pack "data" .= fmap toJSON allVagaValor])
+
+getListaVagaR :: Handler ()
+getListaVagaR = do
+    allVaga <- runDB $ selectList [] [Asc VagaId]
+    sendResponse (object [pack "data" .= fmap toJSON allVaga])
 
 --------------------------------------------------------
 --              METHODS POST
@@ -1330,6 +1502,11 @@ putUpdateVagaValorR pid = do
     runDB $ update pid [VagaValorValordiurno =. vagaValorValordiurno vava, VagaValorValornoturno =. vagaValorValornoturno vava, VagaValorFuncionarioid =. vagaValorFuncionarioid vava]
     sendResponse (object [pack "resp" .= pack "UPDATED"])
 
+putUpdateVagaR :: VagaId -> Handler ()
+putUpdateVagaR pid = do
+    va <- requireJsonBody :: Handler Vaga
+    runDB $ update pid [VagaDiurno =. vagaDiurno va,VagaNoturno =. vagaNoturno va,VagaVagavalorid =. vagaVagavalorid va]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])
 -----------------------------------------------------------
 --                  METHODS DELETE
 -----------------------------------------------------------   
