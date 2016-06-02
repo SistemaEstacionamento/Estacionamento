@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2016-05-26 23:33:10.556522 UTC
+2016-05-27 00:40:08.60939 UTC
 
 interface main@main:Foundation [family instance module] 7103
-  interface hash: d83f33c6dbd2a73e25af079e675e3aca
-  ABI hash: 18b75db8772a034035b5f7bb19ccb377
+  interface hash: d616d934d6a62425874a4f88ccbedede
+  ABI hash: d13e5d8f454e1b5d9f86943822c1633e
   export-list hash: 5abe7f65fe7098acc4a5dd7eb6a0abe4
   orphan hash: f526af13f66ede157b325cd735a999c7
   flag hash: 002b4a2b1e8bd7f74f446f3277c2cd0a
@@ -269,9 +269,9 @@ import  -/  containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base 681af8
 import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
 import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
 import  -/  http-api-data-0.2.2@httpa_3kiLcpdXTUe4CYRpIoinpP:Web.HttpApiData.Internal d4a95ffe9919bf31bb4c3c3a73306e22
-import  -/  Import f9a451bd88caf962d5aa2edca0ba88f7
+import  -/  Import 03aa9c061ae7b29a5230018ef5d9c67b
   exports: 3f81b358abbdd755233af520aa5259f2
-  pRoutes 2ff0e2cbb44f6fdc627efd1c4135d12d
+  pRoutes d1e4d53f7f6efe6409cb51f78569a77e
 import  -/  path-pieces-0.2.1@pathp_4qW9xznk5mC6aJZVVgmWEO:Web.PathPieces e7a246921fcfef213af85b6de92fc54c
 import  -/  persistent-template-2.1.8.1@persi_1tD6A5SgofA9bCUT3OrmYW:Database.Persist.TH 14eac1af9e2af0a9f09949b9f17c0dde
 import  -/  persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h:Database.Persist.Class.PersistEntity 9b498f62468214b5ccb2c732d79401f1
@@ -34495,7 +34495,7 @@ da5ee9ec76c931710a0427b8dd77d734
                 (\ ds :: Foundation.Parcela ->
                  case ds of wild { Foundation.Parcela ds1 dt dt1 ds2 ->
                  GHC.Types.D# dt1 }) -}
-dde8c934da9f371a126f0c9310fd7f14
+688dc07adfde9aa8a9da867bc4c351c4
   resourcesSitio ::
     [Yesod.Routes.TH.Types.ResourceTree GHC.Base.String]
   {- Strictness: m2,
@@ -34856,30 +34856,30 @@ cd8a5b438d89333ab29671b585acd737
 b9af8ba33f54cf92f1b6247ab92d4f2b
   resourcesSitio56 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "cadastroveiculo"#) -}
-60bdbf4745d7b99a9796d7e90c052724
+6bdb9e03581a4deb56abb4d04200c10d
   resourcesSitio57 ::
     Yesod.Routes.TH.Types.ResourceTree GHC.Base.String
   {- Strictness: m1,
      Unfolding: (Yesod.Routes.TH.Types.ResourceLeaf
                    @ GHC.Base.String
                    Foundation.resourcesSitio58) -}
-e5ca438b1e1aa84c10e182abb792e511
+949d721a14d84ed8a82e2d21d078ac57
   resourcesSitio58 :: Yesod.Routes.TH.Types.Resource GHC.Base.String
   {- Strictness: m,
      Unfolding: (Yesod.Routes.TH.Types.Resource
                    @ GHC.Base.String
                    Foundation.$fReadRoute43
+                   Foundation.resourcesSitio63
                    Foundation.resourcesSitio59
-                   Foundation.resourcesSitio12
                    (GHC.Types.[] @ GHC.Base.String)
                    GHC.Types.True) -}
-4c1c9330eae1dc050f0c6dd1f4be46f7
-  resourcesSitio59 :: [Yesod.Routes.TH.Types.Piece GHC.Base.String]
-  {- Strictness: m2,
-     Unfolding: (GHC.Types.:
-                   @ (Yesod.Routes.TH.Types.Piece GHC.Base.String)
-                   Foundation.resourcesSitio60
-                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece GHC.Base.String))) -}
+343846e03c958b574d87a72d1bf26518
+  resourcesSitio59 :: Yesod.Routes.TH.Types.Dispatch GHC.Base.String
+  {- Strictness: m1,
+     Unfolding: (Yesod.Routes.TH.Types.Methods
+                   @ GHC.Base.String
+                   (GHC.Base.Nothing @ GHC.Base.String)
+                   Foundation.resourcesSitio60) -}
 f70afbe1813bd5702b76fc0c4175ff8b
   resourcesSitio6 ::
     [Yesod.Routes.TH.Types.ResourceTree GHC.Base.String]
@@ -34888,14 +34888,38 @@ f70afbe1813bd5702b76fc0c4175ff8b
                    @ (Yesod.Routes.TH.Types.ResourceTree GHC.Base.String)
                    Foundation.resourcesSitio27
                    Foundation.resourcesSitio7) -}
-19609629e0db6200e4f7cc4070eaeb40
-  resourcesSitio60 :: Yesod.Routes.TH.Types.Piece GHC.Base.String
+18bbdc4940b2446b63499564e906c434
+  resourcesSitio60 :: [GHC.Base.String]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ GHC.Base.String
+                   Foundation.resourcesSitio14
+                   Foundation.resourcesSitio61) -}
+629704d15acb7228d60eebd97bedf13c
+  resourcesSitio61 :: [GHC.Base.String]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ GHC.Base.String
+                   Foundation.resourcesSitio62
+                   (GHC.Types.[] @ GHC.Base.String)) -}
+e6914ed770db552aac060b4d9160febd
+  resourcesSitio62 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "GET"#) -}
+e52cbc82594917e1ce32aa72f632839b
+  resourcesSitio63 :: [Yesod.Routes.TH.Types.Piece GHC.Base.String]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (Yesod.Routes.TH.Types.Piece GHC.Base.String)
+                   Foundation.resourcesSitio64
+                   (GHC.Types.[] @ (Yesod.Routes.TH.Types.Piece GHC.Base.String))) -}
+ec4e486c0fa20a5179642503cfb0a2fb
+  resourcesSitio64 :: Yesod.Routes.TH.Types.Piece GHC.Base.String
   {- Strictness: m1,
      Unfolding: (Yesod.Routes.TH.Types.Static
                    @ GHC.Base.String
-                   Foundation.resourcesSitio61) -}
-cd138581855a7d7625645be42aef2f1f
-  resourcesSitio61 :: [GHC.Types.Char]
+                   Foundation.resourcesSitio65) -}
+a0c815084dd1722125d07ddfe4885f5c
+  resourcesSitio65 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "cadastrocliente"#) -}
 8e14e7b986707bbfdbb37865a72cb10a
   resourcesSitio7 ::

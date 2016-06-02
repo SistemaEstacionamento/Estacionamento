@@ -1,9 +1,9 @@
 
 ==================== FINAL INTERFACE ====================
-2016-05-27 00:15:20.770876 UTC
+2016-05-27 00:43:21.717888 UTC
 
 interface main@main:Main 7103
-  interface hash: 823d53c9b6997f8ee960ec62a67519e8
+  interface hash: 803de2faafc1d74f5715acb9052a90fd
   ABI hash: 2f6c06be3b5d53ac7fea8393eb1b83b5
   export-list hash: 5f1481e54ac787a04b93c03830355470
   orphan hash: 3b6c7df76b9a1628328f2621e7a05a84
@@ -210,13 +210,13 @@ family instance modules: attoparsec-0.13.0.2@attop_41FU8li3hiTHrQHazQNzh3:Data.A
 import  -/  base-4.8.2.0:Control.Applicative a8ebf5ad4932b411ad7725da68be9801
 import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
 import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
-import  -/  Foundation 18b75db8772a034035b5f7bb19ccb377
+import  -/  Foundation d13e5d8f454e1b5d9f86943822c1633e
   exports: 5abe7f65fe7098acc4a5dd7eb6a0abe4
   Sitio 5cecfa3754c186200e66db1e2c134122
   migrateAll 6e02d73f17fd13344dc620b2ac8f106c
-import  -/  Handlers 5035ad69c3394a4bd3585f541e507e46
-  exports: 20b23673edfa1fc8127ce9fa03df19be
-import  -/  Import f9a451bd88caf962d5aa2edca0ba88f7
+import  -/  Handlers dc697ed29259cf57ac172900825c8835
+  exports: e24477f1f1a3a4fb89872b220239e6ba
+import  -/  Import 03aa9c061ae7b29a5230018ef5d9c67b
   exports: 3f81b358abbdd755233af520aa5259f2
 import  -/  monad-logger-0.3.18@monad_4zFmsKEb02q80NkYIgzdSA:Control.Monad.Logger 182fd28eab575faa0f8bc2038857c61b
 import  -/  persistent-2.2.4.1@persi_36FCcNA9a3h9UOROG7VC2h:Database.Persist.Sql.Migration 9f47cada8df0c2037851f568b798b322

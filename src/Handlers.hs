@@ -398,6 +398,256 @@ getClientR = defaultLayout $ do
   		--background-color: #ddd;
   	}
   |]
+
+
+--CONTRATO
+
+getContratoR :: Handler Html
+getContratoR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Contrato"
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  [whamlet|
+<h1>Cadastrar Contrato
+<div .container>  
+    <div id="formulario" .col-md-12 .col-lg-12>
+        
+        <button id="btn-nv" .btn .btn-default >Novo</button>
+        <button id="btn-alt" .btn .btn-default>Alterar</button>
+        <br><br>
+        
+        <form .form-horizontal role="form">
+        
+            <div .form-group>
+                <label .control-label .col-md-2 for="valor">Valor: 
+                <div .col-md-5 .input-group>
+                    <span .input-group-addon>R$
+                    <input .form-control type="number" id="valor">
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="inic">Início: 
+                <div .col-md-5>
+                    <input .form-control type="date" id="inic">
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="fim">Fim: 
+                <div .col-md-5>
+                    <input .form-control type="date" id="fim">
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="qtparcelas">Quantidade de Parcelas: 
+                <div .col-md-5>
+                    <input .form-control type="number" id="qtparcelas">
+                
+            <div .form-group>
+                <label .control-label .col-md-2 for="qtvagas">Quantidade de Vagas: 
+                <div .col-md-5>
+                    <input .form-control type="number" id="qtvagas">
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="clienteid">Cliente: 
+                <div .col-md-5>
+                    <select .form-control id="clienteid"></select>
+                        
+            <br>
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+
+    <div id="tabela" .col-md-12 .col-lg-12>
+        <table id="t1">
+            <thead>
+                <tr>
+                    <th>ID
+                    <th>Valor
+                    <th>Início
+                    <th>Fim
+                    <th>Quantidade de Parcelas
+                    <th>Quantidade de Vagas
+                    <th>Cliente
+            <tbody id="tb">
+  
+|] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  		--background-color: #ddd;
+  	}
+|] >> toWidget [julius|
+     
+     $(listar());
+		var modeledt = {};
+		function confirmar(){
+            $.ajax({
+                 contentType: "application/json",
+                 url: "@{ContratoR}",
+                 type: "POST",
+                 data: JSON.stringify({"valor":parseFloat($("#nome").val()), 
+                                       "contratoinc":$("inic").val().toUTCString(),
+                                       "contratofim":$("fim").val().toUTCString(),
+                                       "quantidadeparcela":parseInt($("qtparcelas").val()),
+                                       "quantidadevagas":parseInt($("qtvagas").val()),
+                                       "clienteid":parseInt($("clienteid").val())}),
+                 success: function(){
+					limpaCampos();	
+					listar();
+                 }
+            });
+        	ajuste();
+        	$('tbody tr').css('background-color','#fff');   
+		}
+
+	/*	function confedit(){
+    		modeledt.nome = $("#nome").val();
+        		$.ajax({
+            		type: "PUT",
+            		dataType: "json",
+            		cache: false,
+		            contentType:"application/json",    
+        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculoupdate/'+modeledt.id,
+            		data: JSON.stringify(modeledt),  
+        		}).done(function(e){
+           			limpaCampos();	
+       				$("#tb").html("");
+       				listar();
+        		});
+        		ajusteEdit();
+		}
+		
+		function limpaCampos(){
+			$("#nome").val("");
+		}
+		
+		
+		function novo(){
+    		$('tbody tr').off("click");
+    		limpaCampos();
+    		$('#btn-alt').removeAttr("onclick");
+    		$('#btn-nv').removeAttr("onclick");
+    		$("#nome").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confirmar()");
+    		$('#btn-canc').attr("onclick","cancelar()");
+    		$('#btn-canc').removeAttr("disabled",'disabled');
+    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-alt').attr("disabled",'disabled');
+		}
+		
+
+		function cancelar(){
+    		selecao();
+    		$('tbody tr').css('background-color','#fff');   
+    		ajuste();
+		}
+
+		function cancelarEdit(){
+    		selecao();
+    		$("#nome").val($('tr[select="select"]').find('span[id="nm"]').html());
+    		ajusteEdit();
+		}
+	
+		function alterar(){
+    		$('tbody tr').off("click");
+    		$('#btn-nv').removeAttr("onclick");
+    		$('#btn-nv').attr("disabled",'disabled');
+    		$("#nome").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confedit()");
+    		$('#btn-canc').attr("onclick","cancelarEdit()");
+    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-canc').removeAttr("disabled",'disabled');
+		}
+
+		function listar(){
+			ajuste();
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaTpVeiculoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<tr><td>";
+                		itens+="<span id='cd'>"
+                		itens+=e.data[i].id;
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	    	itens+="<span id='nm'>"
+                		itens+=e.data[i].nome;
+                		itens+="</span>"
+            	      	itens+="</td><td>";
+            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+			            itens+="</td></tr>";
+                	}
+                	$("#tb").html(itens);
+                	selecao();
+			});
+		}
+
+		function excluir(x){
+     		if(confirm("Confirma a exclusão do Tipo de veiculo "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
+        		$.ajax({
+        			type: 'DELETE',
+        			dataType: "json",
+        			cache: false,
+        			contentType:"application/json",    
+        			url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculodelete/'+x,
+        		});
+        		$("#tb").html("");
+        		$("#t1 tbody").html("");
+        		listar();
+    		}
+		}
+
+		function selecao(){
+    		$('tbody tr').css('cursor','pointer');
+        	$('tbody tr').click(function(){
+            	$('#btn-alt').removeAttr("disabled",'disabled');
+            	$('#btn-alt').attr("onclick","alterar()");
+            	$('tbody tr').css('background-color','#fff');
+            	$('tbody tr').removeAttr('select','select');
+            	$(this).css('background-color','#76affd');
+            	$(this).attr('select','select');
+            	$("#nome").val($(this).find('span[id="nm"]').html());
+            	modeledt = {"id":$(this).find('span[id="cd"]').html(),"nome":$(this).find('span[id="nm"]').html()};
+    		});
+		}
+		
+		function ajuste(){
+		    $('tbody tr').on("click");
+		    limpaCampos();
+		    $('#btn-nv').attr("onclick","novo()");
+		    $("#nome").attr("disabled","disabled");
+		    $('#btn-alt').removeAttr("onclick");
+		    $('#btn-alt').attr("disabled",'disabled');
+		    $('#btn-conc').attr("disabled",'disabled');
+		    $('#btn-canc').attr("disabled",'disabled');
+		    $('#btn-conc').removeAttr("onclick");
+		    $('#btn-canc').removeAttr("onclick");
+		}
+
+		function ajusteEdit(){
+		    $('tbody tr').on("click");
+		    $('#btn-nv').attr("onclick","novo()");
+		    $('#btn-nv').removeAttr("disabled",'disabled');
+		    $("#nome").attr("disabled","disabled");
+		    $('#btn-conc').removeAttr("onclick");
+		    $('#btn-canc').removeAttr("onclick");
+		    $('#btn-conc').attr("disabled",'disabled');
+		    $('#btn-canc').attr("disabled",'disabled');
+		} */
+	|]
+
+
   
   
 getTipoVeiculoR :: Handler Html
@@ -1146,7 +1396,7 @@ getVagaValorR = defaultLayout $ do
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
+    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();

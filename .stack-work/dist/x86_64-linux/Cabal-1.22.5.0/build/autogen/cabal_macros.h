@@ -147,5 +147,5 @@
   (major1) == 2 && (major2) <  24 || \
   (major1) == 2 && (major2) == 24 && (minor) <= 0)
 
-#define CURRENT_PACKAGE_KEY "Estac_4VbT1Fmk5JEJFwuEbPyPVg"
+#define CURRENT_PACKAGE_KEY "estac_3ZBQJH0UNYQCUn9357gnDR"
 

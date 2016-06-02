@@ -105,13 +105,13 @@ Funcionario json
     ativo Text
     deriving Show
 
-HistoricoPreco json
+HistoricoVagaValor json
     dataalteracao Text sqltype=date
     vldiurnoantigo Double
     vlnoturnoantigo Double
     vldiurnonovo Double
     vlnoturnonovo Double
-    vagaid VagaId
+    vagavalorid VagaValorId
     funcionarioid FuncionarioId
     deriving Show
 
