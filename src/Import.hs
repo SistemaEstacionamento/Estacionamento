@@ -32,4 +32,6 @@ pRoutes = [parseRoutes|
 	/alterafuncionario/#FuncionarioId UpdateFuncionarioR PUT
 	/deletefuncionario/#FuncionarioId DeleteFuncionarioR DELETE
 	/listafuncionario ListaFuncionarioR GET
+	/historicovagavalor HistoricoVagaValorR POST GET
+	/deletehistoricovagavalor/#HistoricoVagaValorId DeleteHistoricoVagaValorR DELETE	
 |]

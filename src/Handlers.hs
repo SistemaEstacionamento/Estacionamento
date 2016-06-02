@@ -1020,6 +1020,7 @@ getVagaValorR = defaultLayout $ do
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
   [whamlet|
     <h1>Alterar valor vaga diurno e noturno
+    <p id="alteracao">
     <button id="btnNovo">Novo
     <button id="btnAlterar">Alterar
     <form>
@@ -1136,18 +1137,31 @@ getVagaValorR = defaultLayout $ do
 	    modeledt.valordiurno = parseFloat($("input[name='diurno']").val());
     	modeledt.valornoturno = parseFloat($("input[name='noturno']").val());
     	modeledt.funcionarioid = parseInt($("#funcionario").val());
+    	modeledt.vldiurnonovo = parseFloat($("input[name='diurno']").val());
+    	modeledt.vlnoturnonovo = parseFloat($("input[name='noturno']").val());
+    	date = new Date;
+    	modeledt.dataalteracao = date.toUTCString();
     	$.ajax({
        		type: "PUT",
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravagavalor/"+modeledt.id,
+    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();
     		$("#tbody1").html("");
     		listar();
        	});
+        $.ajax({
+            contentType: "application/json",
+            url: "@{HistoricoVagaValorR}",
+            type: "POST",
+            data: JSON.stringify(modeledt),
+            success: function(){
+				$("#alteracao").html("Histórico de alteração de valor atualizado com sucesso!");
+            }
+        });
        	ajusteEdit();
 	}
 	function cancelarEdit(){
@@ -1172,7 +1186,13 @@ getVagaValorR = defaultLayout $ do
            	$("input[name='diurno']").val($(this).find('span[id="valordiurno"]').html());
            	$("input[name='noturno']").val($(this).find('span[id="valornoturno"]').html());
 			$("#funcionario").val($(this).find('span[id="idFuncionario"]').html());
-           	modeledt = {"id":$(this).find('span[id="idVagaValor"]').html(),"valordiurno":$(this).find('span[id="valordiurno"]').html(),"valornoturno":$(this).find('span[id="valornoturno"]').html(),"alteradopor":$(this).find('span[id="nmFuncionario"]').html(),"idfuncionario":$(this).find('span[id="idFuncionario"]').html()};
+           	modeledt = {"vagavalorid":parseInt($(this).find('span[id="idVagaValor"]').html()),
+           				"vldiurnoantigo":parseFloat($(this).find('span[id="valordiurno"]').html()),
+           				"vlnoturnoantigo":parseFloat($(this).find('span[id="valornoturno"]').html()),
+           				"vldiurnonovo":$(this).find('span[id="valordiurno"]').html(),
+           				"vlnoturnonovo":$(this).find('span[id="valornoturno"]').html(),
+           				"dataalteracao":null,
+           				"funcionarioid":parseInt($(this).find('span[id="idFuncionario"]').html())};
     	});
 	}
     function ajuste(){
@@ -1404,6 +1424,11 @@ getListaVagaR = do
     allVaga <- runDB $ selectList [] [Asc VagaId]
     sendResponse (object [pack "data" .= fmap toJSON allVaga])
 
+getHistoricoVagaValorR :: Handler ()
+getHistoricoVagaValorR = do
+    allHistoricoVagaValor <- runDB $ selectList [] [Asc HistoricoVagaValorId]
+    sendResponse (object [pack "data" .= fmap toJSON allHistoricoVagaValor])
+
 --------------------------------------------------------
 --              METHODS POST
 --------------------------------------------------------
@@ -1466,8 +1491,13 @@ postFuncionarioR = do
     funcionario <- requireJsonBody :: Handler Funcionario
     runDB $ insert funcionario
     sendResponse (object [pack "resp" .= pack "CREATED"])
-    
-    
+
+postHistoricoVagaValorR :: Handler ()
+postHistoricoVagaValorR = do
+    historicovagavalor <- requireJsonBody :: Handler HistoricoVagaValor
+    runDB $ insert historicovagavalor
+    sendResponse (object [pack "resp" .= pack "CREATED"])
+
 -----------------------------------------------------------
 --                  METHODS PUT
 -----------------------------------------------------------
@@ -1539,4 +1569,9 @@ deleteDeleteVagaR vaid = do
 deleteDeleteVagaValorR :: VagaValorId -> Handler ()
 deleteDeleteVagaValorR vavaid = do
     runDB $ delete vavaid
+    sendResponse (object [pack "resp" .= pack "DELETED"])
+
+deleteDeleteHistoricoVagaValorR :: HistoricoVagaValorId -> Handler ()
+deleteDeleteHistoricoVagaValorR hvvid = do
+    runDB $ delete hvvid
     sendResponse (object [pack "resp" .= pack "DELETED"])
