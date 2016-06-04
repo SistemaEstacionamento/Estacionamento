@@ -483,9 +483,6 @@ getContratoR = defaultLayout $ do
   	#formulario {
   		padding: 2% 2% 2% 2%;
   	}
-  	#t1 th {
-  		
-  	}
   	
 |] >> toWidget [julius|
      
@@ -699,6 +696,88 @@ getContratoR = defaultLayout $ do
 		
 |]
 
+
+
+--AVULSO
+
+getAvulsoR :: Handler Html
+getAvulsoR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Registro Avulso"
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  [whamlet|
+
+<h1>Cadastrar Registro Avulso
+<div .container>  
+    <div id="formulario" .col-md-12 .col-lg-12>
+        <form .form-horizontal role="form">
+            <div .form-group>
+                <label .control-label .col-md-2 for="placa">Placa: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="placa">
+                    
+            <div .form-group>
+                <label .control-label .col-md-2 for="entrada">Entrada: 
+                <div .col-md-5>
+                    <input .form-control type="time" id="entrada">
+                    
+            <div .form-group>
+                <label .control-label .col-md-2 for="saida">Saída: 
+                <div .col-md-5>
+                    <input .form-control type="time" id="saida">
+                    
+            <div .form-group>
+                <label .control-label .col-md-2 for="valor">Valor: 
+                <div .col-md-5>
+                    <input .form-control type="number" id="valor">
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="vagaid">Vaga: 
+                <div .col-md-5>
+                    <select .form-control id="vagaid"></select>
+            
+            <div .form-group>
+                <label .control-label .col-md-2 for="convenioid">Convênio: 
+                <div .col-md-5>
+                    <select .form-control id="convenioid"></select>
+            
+            <br>
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+
+    <div id="tabela" .col-md-12 .col-lg-12>
+        <h3>Registros Cadastrados
+        <table id="t1" .text-center>
+            <thead>
+                <tr>
+                    <th>ID
+                    <th>Placa
+                    <th>Entrada
+                    <th>Saída
+                    <th>Valor
+                    <th>Vaga
+                    <th>Convênio
+            <tbody id="tb">
+  
+|] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  	}
+  	
+|]
 
   
   
@@ -1862,6 +1941,11 @@ deleteContratoDeleteR :: ContratoId -> Handler ()
 deleteContratoDeleteR cid = do
     runDB $ delete cid
     sendResponse (object [pack "resp" .= pack "DELETED"])
+
+deleteAvulsoDeleteR :: ContratoId -> Handler ()
+deleteAvulsoDeleteR aid = do
+    runDB $ delete aid
+    sendResponse (object [pack "resp" .= pack "DELETED"])    
     
 deleteTipoVeiDeleteR :: TipoVeiculoId -> Handler ()
 deleteTipoVeiDeleteR tvid = do
