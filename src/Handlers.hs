@@ -2088,7 +2088,7 @@ getVagaValorR = defaultLayout $ do
            	$("#funcionario").html(opt);
         });
     }
-    function getFuncionario(id){
+    function getFuncionario(id,j){
         var opt = "";
    		$.ajax({
 			contentType: "application/json",
@@ -2098,7 +2098,7 @@ getVagaValorR = defaultLayout $ do
        		for(var i = 0; i<e.data.length; i++){
        		    if(id == e.data[i].id){
        		    	opt=e.data[i].nome;
-       		    	$("#nmFuncionario"+id).html(opt);
+       		    	$("#nmFuncionario"+j).html(opt);
        		    }
            	}
         });
@@ -2136,8 +2136,8 @@ getVagaValorR = defaultLayout $ do
        	    	itens+="<td><span id='valornoturno'>"
            		itens+=e.data[i].valornoturno.toFixed(2);
            		itens+="</span></td>"
-            	itens+="<td><span id='nmFuncionario"+e.data[i].funcionarioid+"'>"
-           		itens+=getFuncionario(e.data[i].funcionarioid);
+            	itens+="<td><span id='nmFuncionario"+i+"'>"
+           		itens+=getFuncionario(e.data[i].funcionarioid,i);
              	itens+="</span></td>"
              	itens+="<td><span id='idFuncionario'>"
            		itens+=e.data[i].funcionarioid;
