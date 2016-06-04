@@ -698,6 +698,268 @@ getContratoR = defaultLayout $ do
 
 
 
+--CONVENIADO
+
+getConveniadoR :: Handler Html
+getConveniadoR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Convênio"
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  [whamlet|
+<h1>Cadastrar Convênio
+<div .container>  
+    <div id="formulario" .col-md-12 .col-lg-12>
+        
+        <button id="btn-nv" .btn .btn-default >Novo</button>
+        <button id="btn-alt" .btn .btn-default>Alterar</button>
+        <br><br>
+        
+        <form .form-horizontal role="form">
+        
+            <div .form-group>
+                <label .control-label .col-md-2 for="nome">Nome: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="nome" required placeholder="Nome do Convênio" title="Digite o nome do convênio">
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="desconto">Desconto: 
+                <div .col-md-5 .input-group>
+                    <input .form-control type="number" id="desconto" required title="Digite o percentual de desconto. Exemplo: 15,50">
+                    <span .input-group-addon>%
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="eventoid">Evento: 
+                <div .col-md-5>
+                    <select .form-control id="eventoid" title="Selecione o Evento (opcional)"></select>
+                        
+            <br>
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+
+    <div id="tabela" .col-md-12 .col-lg-12>
+        <table id="t1" .text-center>
+            <thead>
+                <tr>
+                    <th>ID
+                    <th>Convênio
+                    <th>Desconto
+                    <th>Evento
+            <tbody id="tb">
+  
+|] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  	}
+  	
+|] >> toWidget [julius|
+     
+    	$(listar());
+    	$(listarEventos());
+		var modeledt = {};
+		
+		function confirmar(){
+			
+            $.ajax({
+                 contentType: "application/json",
+                 url: "@{ConveniadoR}",
+                 type: "POST",
+                 data: JSON.stringify({"nome":$("#nome").val(), 
+                                       "percentualDesconto":parseFloat($("#desconto").val()),
+                                       "eventoid":$("#eventoid").val() }),
+                 success: function(){
+                	
+					limpaCampos();	
+					listar();
+                 },
+                 error: function(){
+                 	alert("ERRO!");
+                 }
+            });
+        	ajuste();
+        	$('tbody tr').css('background-color','#fff');   
+		}
+
+		function confedit(){
+    		modeledt.nome = $("#nome").val();
+    		modeledt.percentualDesconto = parseFloat($("#desconto").val());
+    		modeledt.eventoid = $("#eventoid").val();
+        		$.ajax({
+            		type: "PUT",
+            		dataType: "json",
+            		cache: false,
+		            contentType:"application/json",    
+        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/alterarconveniado/'+modeledt.id,
+            		data: JSON.stringify(modeledt),  
+        		}).done(function(e){
+           			limpaCampos();	
+       				$("#tb").html("");
+       				listar();
+        		});
+        		ajusteEdit();
+		}
+		
+		function limpaCampos(){
+			$('input, select').val("");
+		}
+		
+		
+		function novo(){
+    		$('tbody tr').off("click");
+    		limpaCampos();
+    		$('#btn-alt, #btn-nv').removeAttr("onclick");
+    		$("input, select").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confirmar()");
+    		$('#btn-canc').attr("onclick","cancelar()");
+    		$('#btn-canc, #btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-alt').attr("disabled",'disabled');
+		}
+		
+
+		function cancelar(){
+    		selecao();
+    		$('tbody tr').css('background-color','#fff');   
+    		ajuste();
+		}
+
+		function cancelarEdit(){
+    		selecao();
+    		$("input, select").val("").attr("disabled", 'disabled');
+    		ajusteEdit();
+		}
+	
+		function alterar(){
+    		$('tbody tr').off("click");
+    		$('#btn-nv').removeAttr("onclick");
+    		$('#btn-nv').attr("disabled",'disabled');
+    		$("input, select").removeAttr("disabled",'disabled');
+    		$('#btn-conc').attr("onclick","confedit()");
+    		$('#btn-canc').attr("onclick","cancelarEdit()");
+    		$('#btn-conc, #btn-canc').removeAttr("disabled",'disabled');
+		}
+
+		function listar(){
+			ajuste();
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaConveniadoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<tr><td>";
+                		itens+="<span id='codigo'>"
+                		itens+=e.data[i].id;
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	    	itens+="<span id='nome'>"
+                		itens+=e.data[i].nome;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='desconto'>"
+                		itens+=e.data[i].percentualDesconto;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='evento'>"
+                		if (e.data[i].eventoid == null){
+                			itens+= "Nenhum";
+                		} else {
+                			itens+=e.data[i].eventoid;
+                		}
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+			            itens+="</td></tr>";
+                	}
+                	$("#tb").html(itens);
+                	selecao();
+			});
+		}
+
+		function excluir(x){
+     		if(confirm("Confirma a exclusão do convênio "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nome"]').html()+"?")){
+        		$.ajax({
+        			type: 'DELETE',
+        			dataType: "json",
+        			cache: false,
+        			contentType:"application/json",    
+        			url: 'https://estacionamento-bruno-alcamin.c9users.io/deleteconveniado/'+x,
+        		});
+        		$("#tb, #t1 tbody").html("");
+        		listar();
+    		}
+		}
+
+		function selecao(){
+    		$('tbody tr').css('cursor','pointer');
+        	$('tbody tr').click(function(){
+            	$('#btn-alt').removeAttr("disabled",'disabled');
+            	$('#btn-alt').attr("onclick","alterar()");
+            	$('tbody tr').css('background-color','#fff');
+            	$('tbody tr').removeAttr('select','select');
+            	$(this).css('background-color','#76affd');
+            	$(this).attr('select','select');
+            	
+            	$("#nome").val($(this).find('span[id="nome"]').html());
+            	$("#desconto").val($(this).find('span[id="desconto"]').html());
+            	$("#eventoid").val($(this).find('span[id="eventoid"]').html());
+            	
+            	modeledt = {"id":$(this).find('span[id="codigo"]').html(),"nome":$(this).find('span[id="nome"]').html(),
+            		        "percentualDesconto":$(this).find('span[id="desconto"]').html() ,"eventoid":$(this).find('span[id="eventoid"]').html() };
+    		});
+		}
+		
+		function ajuste(){
+		    $('tbody tr').on("click");
+		    limpaCampos();
+		    $('#btn-nv').attr("onclick","novo()");
+		    $('input, select').attr("disabled",'disabled');
+		    $('#btn-alt, #btn-conc, #btn-canc').removeAttr("onclick");
+		    $('#btn-alt, #btn-conc, #btn-canc').attr("disabled",'disabled');
+		}
+
+		function ajusteEdit(){
+		    $('tbody tr').on("click");
+		    $('#btn-nv').attr("onclick","novo()");
+		    $('#btn-nv').removeAttr("disabled",'disabled');
+		    $('input, select').attr("disabled",'disabled');
+		    $('#btn-conc, #btn-canc').removeAttr("onclick");
+		    $('#btn-conc, #btn-canc').attr("disabled",'disabled');
+		}
+		
+		function listarEventos(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaEventoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<option value="+e.data[i].id+">";
+                		itens+=e.data[i].nome;
+                		itens+="</option>";
+                	}
+                	$("#eventoid").append(itens);
+			});
+		}
+		
+|]
+
+  
+
+
 --AVULSO
 
 getAvulsoR :: Handler Html
@@ -1926,6 +2188,10 @@ getListaConveniadoR = do
     allconvs <- runDB $ selectList [] [Asc ConveniadoId]
     sendResponse (object [pack "data" .= fmap toJSON allconvs])
 
+getListaEventoR :: Handler ()
+getListaEventoR = do
+    alleventos <- runDB $ selectList [] [Asc EventoId]
+    sendResponse (object [pack "data" .= fmap toJSON alleventos])
 
 getListaTpVeiculoR :: Handler ()
 getListaTpVeiculoR = do
@@ -2041,6 +2307,12 @@ putContratoUpdateR cid = do
     runDB $ update cid [ContratoValor =. contratoValor ct, ContratoContratoinc =. contratoContratoinc ct, ContratoContratofim =. contratoContratofim ct, ContratoQuantidadeparcela =. contratoQuantidadeparcela ct, ContratoQuantidadevagas =. contratoQuantidadevagas ct, ContratoClienteid =. contratoClienteid ct]
     sendResponse (object [pack "resp" .= pack "UPDATED"])
     
+putUpdateConveniadoR :: ConveniadoId -> Handler ()
+putUpdateConveniadoR convid = do
+    convs <- requireJsonBody :: Handler Conveniado
+    runDB $ update convid [ConveniadoNome =. conveniadoNome convs, ConveniadoPercentualDesconto =. conveniadoPercentualDesconto convs, ConveniadoEventoid =. conveniadoEventoid convs]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])    
+    
 putTipoVeiUpdateR :: TipoVeiculoId -> Handler ()
 putTipoVeiUpdateR  tvid = do
     tpv <- requireJsonBody :: Handler TipoVeiculo 
@@ -2087,7 +2359,12 @@ deleteContratoDeleteR cid = do
 deleteDeleteAvulsoR :: AvulsoId -> Handler ()
 deleteDeleteAvulsoR aid = do
     runDB $ delete aid
-    sendResponse (object [pack "resp" .= pack "DELETED"])    
+    sendResponse (object [pack "resp" .= pack "DELETED"])  
+    
+deleteDeleteConveniadoR :: ConveniadoId -> Handler ()
+deleteDeleteConveniadoR convid = do
+    runDB $ delete convid
+    sendResponse (object [pack "resp" .= pack "DELETED"])      
     
 deleteTipoVeiDeleteR :: TipoVeiculoId -> Handler ()
 deleteTipoVeiDeleteR tvid = do

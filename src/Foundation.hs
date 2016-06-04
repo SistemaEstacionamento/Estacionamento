@@ -87,7 +87,7 @@ ContratoVaga json
 Conveniado json
     nome Text
     percentualDesconto Double
-    eventoid EventoId
+    eventoid EventoId Maybe
     deriving Show
     
 Avulso json
