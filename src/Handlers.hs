@@ -957,6 +957,263 @@ getConveniadoR = defaultLayout $ do
 		
 |]
 
+
+
+--EVENTO
+
+getEventoR :: Handler Html
+getEventoR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Evento"
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  [whamlet|
+<h1>Cadastrar Evento
+<div .container>  
+    <div id="formulario" .col-md-12 .col-lg-12>
+        
+        <button id="btn-nv" .btn .btn-default >Novo</button>
+        <button id="btn-alt" .btn .btn-default>Alterar</button>
+        <br><br>
+        
+        <form .form-horizontal role="form">
+        
+            <div .form-group>
+                <label .control-label .col-md-2 for="descricao">Descrição: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="descricao" required placeholder="Descrição do Evento" title="Digite a descrição do evento">
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="desconto">Desconto: 
+                <div .col-md-5 .input-group>
+                    <input .form-control type="number" id="desconto" required title="Digite o percentual de desconto. Exemplo: 15,50">
+                    <span .input-group-addon>%
+                        
+            <div .form-group>
+                <label .control-label .col-md-2 for="clienteid">Cliente: 
+                <div .col-md-5>
+                    <select .form-control id="clienteid" title="Selecione o Cliente" required ></select>
+                        
+            <br>
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+
+    <div id="tabela" .col-md-12 .col-lg-12>
+        <table id="t1" .text-center>
+            <thead>
+                <tr>
+                    <th>ID
+                    <th>Nome
+                    <th>Descrição
+                    <th>Desconto
+                    <th>Cliente
+            <tbody id="tb">
+  
+|] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  	}
+  	
+|] >> toWidget [julius|
+     
+    	$(listar());
+    	$(listarContratos());
+		var modeledt = {};
+		
+		function confirmar(){
+			
+            $.ajax({
+                 contentType: "application/json",
+                 url: "@{EventoR}",
+                 type: "POST",
+                 data: JSON.stringify({"descricao":$("#descricao").val(), 
+                                       "percentualDesconto":parseInt($("#desconto").val()),
+                                       "clienteid":parseInt($("#clienteid").val()) }),
+                 success: function(){
+                	
+					limpaCampos();	
+					listar();
+                 },
+                 error: function(){
+                 	alert("ERRO!");
+                 }
+            });
+        	ajuste();
+        	$('tbody tr').css('background-color','#fff');   
+		}
+
+		function confedit(){
+    		modeledt.descricao = $("#descricao").val();
+    		modeledt.percentualDesconto = parseInt($("#desconto").val());
+    		modeledt.clienteid = parseInt($("#clienteid").val());
+        		$.ajax({
+            		type: "PUT",
+            		dataType: "json",
+            		cache: false,
+		            contentType:"application/json",    
+        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/alteraevento/'+modeledt.id,
+            		data: JSON.stringify(modeledt),  
+        		}).done(function(e){
+           			limpaCampos();	
+       				$("#tb").html("");
+       				listar();
+        		});
+        		ajusteEdit();
+		}
+		
+		function limpaCampos(){
+			$('input, select').val("");
+		}
+		
+		
+		function novo(){
+    		$('tbody tr').off("click");
+    		limpaCampos();
+    		$('#btn-alt, #btn-nv').removeAttr("onclick");
+    		$("input, select").removeAttr("disabled","disabled");
+    		$('#btn-conc').attr("onclick","confirmar()");
+    		$('#btn-canc').attr("onclick","cancelar()");
+    		$('#btn-canc, #btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-alt').attr("disabled",'disabled');
+		}
+		
+
+		function cancelar(){
+    		selecao();
+    		$('tbody tr').css('background-color','#fff');   
+    		ajuste();
+		}
+
+		function cancelarEdit(){
+    		selecao();
+    		$("input, select").val("").attr("disabled", 'disabled');
+    		ajusteEdit();
+		}
+	
+		function alterar(){
+    		$('tbody tr').off("click");
+    		$('#btn-nv').removeAttr("onclick");
+    		$('#btn-nv').attr("disabled",'disabled');
+    		$("input, select").removeAttr("disabled",'disabled');
+    		$('#btn-conc').attr("onclick","confedit()");
+    		$('#btn-canc').attr("onclick","cancelarEdit()");
+    		$('#btn-conc, #btn-canc').removeAttr("disabled",'disabled');
+		}
+
+		function listar(){
+			ajuste();
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaEventoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<tr><td>";
+                		itens+="<span id='codigo'>"
+                		itens+=e.data[i].id;
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	    	itens+="<span id='descricao'>"
+                		itens+=e.data[i].descricao;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='desconto'>"
+                		itens+=e.data[i].percentualDesconto;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='clienteid'>"
+                		itens+=e.data[i].clienteid;
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+			            itens+="</td></tr>";
+                	}
+                	$("#tb").html(itens);
+                	selecao();
+			});
+		}
+
+		function excluir(x){
+     		if(confirm("Confirma a exclusão do evento "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nome"]').html()+"?")){
+        		$.ajax({
+        			type: 'DELETE',
+        			dataType: "json",
+        			cache: false,
+        			contentType:"application/json",    
+        			url: 'https://estacionamento-bruno-alcamin.c9users.io/deletaevento/'+x,
+        		});
+        		$("#tb, #t1 tbody").html("");
+        		listar();
+    		}
+		}
+
+		function selecao(){
+    		$('tbody tr').css('cursor','pointer');
+        	$('tbody tr').click(function(){
+            	$('#btn-alt').removeAttr("disabled",'disabled');
+            	$('#btn-alt').attr("onclick","alterar()");
+            	$('tbody tr').css('background-color','#fff');
+            	$('tbody tr').removeAttr('select','select');
+            	$(this).css('background-color','#76affd');
+            	$(this).attr('select','select');
+            	
+            	$("#descricao").val($(this).find('span[id="descricao"]').html());
+            	$("#desconto").val($(this).find('span[id="desconto"]').html());
+            	$("#clienteid").val($(this).find('span[id="clienteid"]').html());
+            	
+            	modeledt = {"id":$(this).find('span[id="codigo"]').html(), "descricao":$(this).find('span[id="descricao"]').html(),
+            		        "percentualDesconto":parseInt($(this).find('span[id="desconto"]').html()) ,"clienteid":parseInt($(this).find('span[id="clienteid"]').html()) };
+    		});
+		}
+		
+		function ajuste(){
+		    $('tbody tr').on("click");
+		    limpaCampos();
+		    $('#btn-nv').attr("onclick","novo()");
+		    $('input, select').attr("disabled",'disabled');
+		    $('#btn-alt, #btn-conc, #btn-canc').removeAttr("onclick");
+		    $('#btn-alt, #btn-conc, #btn-canc').attr("disabled",'disabled');
+		}
+
+		function ajusteEdit(){
+		    $('tbody tr').on("click");
+		    $('#btn-nv').attr("onclick","novo()");
+		    $('#btn-nv').removeAttr("disabled",'disabled');
+		    $('input, select').attr("disabled",'disabled');
+		    $('#btn-conc, #btn-canc').removeAttr("onclick");
+		    $('#btn-conc, #btn-canc').attr("disabled",'disabled');
+		}
+		
+		function listarContratos(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaContratoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<option value="+e.data[i].clienteid+">";
+                		itens+=e.data[i].clienteid;
+                		itens+="</option>";
+                	}
+                	$("#clienteid").append(itens);
+			});
+		}
+		
+|]
   
 
 
@@ -2313,6 +2570,12 @@ putUpdateConveniadoR convid = do
     runDB $ update convid [ConveniadoNome =. conveniadoNome convs, ConveniadoPercentualDesconto =. conveniadoPercentualDesconto convs, ConveniadoEventoid =. conveniadoEventoid convs]
     sendResponse (object [pack "resp" .= pack "UPDATED"])    
     
+putUpdateEventoR :: EventoId -> Handler ()
+putUpdateEventoR evid = do
+    evs <- requireJsonBody :: Handler Evento
+    runDB $ update evid [EventoDescricao =. eventoDescricao evs, EventoPercentualDesconto =. eventoPercentualDesconto evs, EventoClienteid =. eventoClienteid evs]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])        
+    
 putTipoVeiUpdateR :: TipoVeiculoId -> Handler ()
 putTipoVeiUpdateR  tvid = do
     tpv <- requireJsonBody :: Handler TipoVeiculo 
@@ -2364,6 +2627,11 @@ deleteDeleteAvulsoR aid = do
 deleteDeleteConveniadoR :: ConveniadoId -> Handler ()
 deleteDeleteConveniadoR convid = do
     runDB $ delete convid
+    sendResponse (object [pack "resp" .= pack "DELETED"])
+    
+deleteDeleteEventoR :: EventoId -> Handler ()
+deleteDeleteEventoR evid = do
+    runDB $ delete evid
     sendResponse (object [pack "resp" .= pack "DELETED"])      
     
 deleteTipoVeiDeleteR :: TipoVeiculoId -> Handler ()

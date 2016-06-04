@@ -28,7 +28,9 @@ pRoutes = [parseRoutes|
 	/alteravagavalor/#VagaValorId UpdateVagaValorR PUT
 	/deletevagavalor/#VagaValorId DeleteVagaValorR DELETE
 	/listavagavalor ListaVagaValorR GET
-	/cadastroevento EventoR POST
+	/cadastroevento EventoR POST GET
+	/alteraevento/#EventoId UpdateEventoR PUT
+	/deletaevento/#EventoId DeleteEventoR DELETE
 	/listaevento ListaEventoR GET
 	/cadastroconveniado ConveniadoR POST GET
 	/alterarconveniado/#ConveniadoId UpdateConveniadoR PUT
