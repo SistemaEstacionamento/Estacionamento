@@ -719,12 +719,12 @@ getAvulsoR = defaultLayout $ do
             <div .form-group>
                 <label .control-label .col-md-2 for="entrada">Entrada: 
                 <div .col-md-5>
-                    <input .form-control type="time" id="entrada">
+                    <input .form-control type="datetime-local" id="entrada">
                     
             <div .form-group>
                 <label .control-label .col-md-2 for="saida">Saída: 
                 <div .col-md-5>
-                    <input .form-control type="time" id="saida">
+                    <input .form-control type="datetime-local" id="saida">
                     
             <div .form-group>
                 <label .control-label .col-md-2 for="valor">Valor: 
@@ -739,7 +739,7 @@ getAvulsoR = defaultLayout $ do
             <div .form-group>
                 <label .control-label .col-md-2 for="convenioid">Convênio: 
                 <div .col-md-5>
-                    <select .form-control id="convenioid"></select>
+                    <select .form-control id="convenioid">
             
             <br>
         <div .form-group  .col-md-12 .col-lg-12>    
@@ -777,7 +777,138 @@ getAvulsoR = defaultLayout $ do
   		padding: 2% 2% 2% 2%;
   	}
   	
+|] >> toWidget [julius|
+     
+    	$(listar());
+    	$(listarVagas());
+    	$(listarConvenios());
+    	$('#btn-conc').attr("onclick","confirmar()");
+    	$('#btn-canc').attr("onclick","limpaCampos()");
+		
+		function confirmar(){
+			
+            $.ajax({
+                 contentType: "application/json",
+                 url: "@{AvulsoR}",
+                 type: "POST",
+                 data: JSON.stringify({"placa":$("#placa").val(), 
+                                       "entrada":$("#entrada").val(),
+                                       "saida":$("#saida").val(),
+                                       "valor":parseFloat($("#valor").val()),
+                                       "vagaid":parseInt($("#vagaid").val()),
+                                       "convenioid":parseInt($("#convenioid").val())}),
+                 success: function(){
+                	
+					limpaCampos();	
+					listar();
+                 },
+                 error: function(){
+                 	alert("ERRO!");
+                 }
+            });
+		}
+		
+		function limpaCampos(){
+			$('input, select').val("");
+		}
+
+		function listar(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaAvulsoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<tr><td>";
+                		itens+="<span id='codigo'>"
+                		itens+=e.data[i].id;
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	    	itens+="<span id='placa'>"
+                		itens+=e.data[i].placa;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='entrada'>"
+                		itens+=e.data[i].entrada;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='saida'>"
+                		itens+=e.data[i].saida;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='valor'>"
+                		itens+=e.data[i].valor;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='vagaid'>"
+                		itens+=e.data[i].vagaid;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='convenioid'>"
+                		if (e.data[i].convenioid == null){
+                			itens+= "Nenhum";
+                		} else {
+                			itens+=e.data[i].convenioid;
+                		}
+                		itens+="</span>"
+                		itens+="</td><td>";
+            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+			            itens+="</td></tr>";
+                	}
+                	$("#tb").html(itens);
+			});
+		}
+
+		function excluir(x){
+     		if(confirm("Confirma a exclusão do registro "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="codigo"]').html()+"?")){
+        		$.ajax({
+        			type: 'DELETE',
+        			dataType: "json",
+        			cache: false,
+        			contentType:"application/json",    
+        			url: 'https://estacionamento-bruno-alcamin.c9users.io/deleteavulso/'+x,
+        		});
+        		$("#tb, #t1 tbody").html("");
+        		listar();
+    		}
+		}
+		
+		function listarVagas(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaVagaR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<option value="+e.data[i].id+"> VAGA ID #";
+                		itens+=e.data[i].id;
+                		itens+="</option>";
+                	}
+                	$("#vagaid").append(itens);
+			});
+		}
+		
+		function listarConvenios(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaConveniadoR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<option value="+e.data[i].id+">";
+                		itens+=e.data[i].nome;
+                		itens+="</option>";
+                	}
+                	$("#convenioid").append(itens);
+			});
+		}
+		
 |]
+
+
 
   
   
@@ -1785,6 +1916,17 @@ getListaContratoR = do
     allContratos <- runDB $ selectList [] [Asc ContratoId]
     sendResponse (object [pack "data" .= fmap toJSON allContratos])
 
+getListaAvulsoR :: Handler ()
+getListaAvulsoR = do
+    allAvulsos <- runDB $ selectList [] [Asc AvulsoId]
+    sendResponse (object [pack "data" .= fmap toJSON allAvulsos])
+
+getListaConveniadoR :: Handler ()
+getListaConveniadoR = do
+    allconvs <- runDB $ selectList [] [Asc ConveniadoId]
+    sendResponse (object [pack "data" .= fmap toJSON allconvs])
+
+
 getListaTpVeiculoR :: Handler ()
 getListaTpVeiculoR = do
     allVec <- runDB $ selectList [] [Asc TipoVeiculoNome]
@@ -1942,8 +2084,8 @@ deleteContratoDeleteR cid = do
     runDB $ delete cid
     sendResponse (object [pack "resp" .= pack "DELETED"])
 
-deleteAvulsoDeleteR :: ContratoId -> Handler ()
-deleteAvulsoDeleteR aid = do
+deleteDeleteAvulsoR :: AvulsoId -> Handler ()
+deleteDeleteAvulsoR aid = do
     runDB $ delete aid
     sendResponse (object [pack "resp" .= pack "DELETED"])    
     

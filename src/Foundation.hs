@@ -92,8 +92,8 @@ Conveniado json
     
 Avulso json
     placa Text
-    entrada Text sqltype=date
-    saida Text sqltype=date
+    entrada Text sqltype = datetime
+    saida Text sqltype = datetime
     valor Double
     vagaid VagaId
     conveniadoid ConveniadoId Maybe
