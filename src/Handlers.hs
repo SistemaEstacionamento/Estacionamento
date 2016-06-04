@@ -455,15 +455,15 @@ getContratoR = defaultLayout $ do
             <button id="btn-conc" .btn .btn-success>Confirmar</button>
 
     <div id="tabela" .col-md-12 .col-lg-12>
-        <table id="t1">
+        <table id="t1" .text-center>
             <thead>
                 <tr>
                     <th>ID
                     <th>Valor
                     <th>Início
                     <th>Fim
-                    <th>Quantidade de Parcelas
-                    <th>Quantidade de Vagas
+                    <th>Parcelas
+                    <th>Qt.Vagas
                     <th>Cliente
             <tbody id="tb">
   
@@ -482,40 +482,55 @@ getContratoR = defaultLayout $ do
   	
   	#formulario {
   		padding: 2% 2% 2% 2%;
-  		--background-color: #ddd;
   	}
+  	#t1 th {
+  		
+  	}
+  	
 |] >> toWidget [julius|
      
-     $(listar());
+    	$(listar());
+    	$(listarClientes());
 		var modeledt = {};
+		
 		function confirmar(){
+			
             $.ajax({
                  contentType: "application/json",
                  url: "@{ContratoR}",
                  type: "POST",
-                 data: JSON.stringify({"valor":parseFloat($("#nome").val()), 
-                                       "contratoinc":$("inic").val().toUTCString(),
-                                       "contratofim":$("fim").val().toUTCString(),
-                                       "quantidadeparcela":parseInt($("qtparcelas").val()),
-                                       "quantidadevagas":parseInt($("qtvagas").val()),
-                                       "clienteid":parseInt($("clienteid").val())}),
+                 data: JSON.stringify({"valor":parseFloat($("#valor").val()), 
+                                       "contratoinc":$("#inic").val(),
+                                       "contratofim":$("#fim").val(),
+                                       "quantidadeparcela":parseInt($("#qtparcelas").val()),
+                                       "quantidadevagas":parseInt($("#qtvagas").val()),
+                                       "clienteid":parseInt($("#clienteid").val())}),
                  success: function(){
+                	
 					limpaCampos();	
 					listar();
+                 },
+                 error: function(){
+                 	alert("ERRO!");
                  }
             });
         	ajuste();
         	$('tbody tr').css('background-color','#fff');   
 		}
 
-	/*	function confedit(){
-    		modeledt.nome = $("#nome").val();
+		function confedit(){
+    		modeledt.valor = parseFloat($("#valor").val());
+    		modeledt.contratoinc = $("#inic").val();
+    		modeledt.contratofim = $("#fim").val(); //.toUTCString()
+    		modeledt.quantidadeparcela = parseInt($("#qtparcelas").val());
+    		modeledt.quantidadevagas = parseInt($("#qtvagas").val());
+    		modeledt.clienteid = parseInt($("#clienteid").val());
         		$.ajax({
             		type: "PUT",
             		dataType: "json",
             		cache: false,
 		            contentType:"application/json",    
-        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculoupdate/'+modeledt.id,
+        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/contratoupdate/'+modeledt.id,
             		data: JSON.stringify(modeledt),  
         		}).done(function(e){
            			limpaCampos();	
@@ -526,20 +541,18 @@ getContratoR = defaultLayout $ do
 		}
 		
 		function limpaCampos(){
-			$("#nome").val("");
+			$('input, select').val("");
 		}
 		
 		
 		function novo(){
     		$('tbody tr').off("click");
     		limpaCampos();
-    		$('#btn-alt').removeAttr("onclick");
-    		$('#btn-nv').removeAttr("onclick");
-    		$("#nome").removeAttr("disabled","disabled");
+    		$('#btn-alt, #btn-nv').removeAttr("onclick");
+    		$("input, select").removeAttr("disabled","disabled");
     		$('#btn-conc').attr("onclick","confirmar()");
     		$('#btn-canc').attr("onclick","cancelar()");
-    		$('#btn-canc').removeAttr("disabled",'disabled');
-    		$('#btn-conc').removeAttr("disabled",'disabled');
+    		$('#btn-canc, #btn-conc').removeAttr("disabled",'disabled');
     		$('#btn-alt').attr("disabled",'disabled');
 		}
 		
@@ -552,7 +565,7 @@ getContratoR = defaultLayout $ do
 
 		function cancelarEdit(){
     		selecao();
-    		$("#nome").val($('tr[select="select"]').find('span[id="nm"]').html());
+    		$("input, select").val("").attr("disabled", 'disabled');
     		ajusteEdit();
 		}
 	
@@ -560,11 +573,10 @@ getContratoR = defaultLayout $ do
     		$('tbody tr').off("click");
     		$('#btn-nv').removeAttr("onclick");
     		$('#btn-nv').attr("disabled",'disabled');
-    		$("#nome").removeAttr("disabled","disabled");
+    		$("input, select").removeAttr("disabled",'disabled');
     		$('#btn-conc').attr("onclick","confedit()");
     		$('#btn-canc').attr("onclick","cancelarEdit()");
-    		$('#btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-canc').removeAttr("disabled",'disabled');
+    		$('#btn-conc, #btn-canc').removeAttr("disabled",'disabled');
 		}
 
 		function listar(){
@@ -572,19 +584,39 @@ getContratoR = defaultLayout $ do
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
-                url: "@{ListaTpVeiculoR}",
+                url: "@{ListaContratoR}",
                 type: "GET",
     		}).done(function(e){
             		for(var i = 0; i<e.data.length; i++){
                 		itens+="<tr><td>";
-                		itens+="<span id='cd'>"
+                		itens+="<span id='codigo'>"
                 		itens+=e.data[i].id;
                 		itens+="</span>"
                 		itens+="</td><td>";
-            	    	itens+="<span id='nm'>"
-                		itens+=e.data[i].nome;
+            	    	itens+="<span id='valor'>"
+                		itens+=e.data[i].valor;
                 		itens+="</span>"
-            	      	itens+="</td><td>";
+                		itens+="</td><td>";
+                		itens+="<span id='inic'>"
+                		itens+=e.data[i].contratoinc;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='fim'>"
+                		itens+=e.data[i].contratofim;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='qtparcelas'>"
+                		itens+=e.data[i].quantidadeparcela;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='qtvagas'>"
+                		itens+=e.data[i].quantidadevagas;
+                		itens+="</span>"
+                		itens+="</td><td>";
+                		itens+="<span id='clienteid'>"
+                		itens+=e.data[i].clienteid;
+                		itens+="</span>"
+                		itens+="</td><td>";
             	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
 			            itens+="</td></tr>";
                 	}
@@ -594,16 +626,15 @@ getContratoR = defaultLayout $ do
 		}
 
 		function excluir(x){
-     		if(confirm("Confirma a exclusão do Tipo de veiculo "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
+     		if(confirm("Confirma a exclusão do contrato "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="codigo"]').html()+"?")){
         		$.ajax({
         			type: 'DELETE',
         			dataType: "json",
         			cache: false,
         			contentType:"application/json",    
-        			url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculodelete/'+x,
+        			url: 'https://estacionamento-bruno-alcamin.c9users.io/contratodelete/'+x,
         		});
-        		$("#tb").html("");
-        		$("#t1 tbody").html("");
+        		$("#tb, #t1 tbody").html("");
         		listar();
     		}
 		}
@@ -617,8 +648,18 @@ getContratoR = defaultLayout $ do
             	$('tbody tr').removeAttr('select','select');
             	$(this).css('background-color','#76affd');
             	$(this).attr('select','select');
-            	$("#nome").val($(this).find('span[id="nm"]').html());
-            	modeledt = {"id":$(this).find('span[id="cd"]').html(),"nome":$(this).find('span[id="nm"]').html()};
+            	
+            	$("#valor").val($(this).find('span[id="valor"]').html());
+            	$("#inic").val($(this).find('span[id="inic"]').html());
+            	$("#fim").val($(this).find('span[id="fim"]').html());
+            	$("#qtparcelas").val($(this).find('span[id="qtparcelas"]').html());
+            	$("#qtvagas").val($(this).find('span[id="qtvagas"]').html());
+            	$("#clienteid").val($(this).find('span[id="clienteid"]').html());
+            	
+            	modeledt = {"id":$(this).find('span[id="codigo"]').html(),"valor":$(this).find('span[id="valor"]').html(),
+            		        "contratoinc":$(this).find('span[id="inic"]').html() ,"contratofim":$(this).find('span[id="fim"]').html(),
+            		        "quantidadeparcela":$(this).find('span[id="qtparcelas"]').html() , "quantidadevagas":$(this).find('span[id="qtvagas"]').html(),
+            		        "clienteid":$(this).find('span[id="clienteid"]').html() };
     		});
 		}
 		
@@ -626,26 +667,37 @@ getContratoR = defaultLayout $ do
 		    $('tbody tr').on("click");
 		    limpaCampos();
 		    $('#btn-nv').attr("onclick","novo()");
-		    $("#nome").attr("disabled","disabled");
-		    $('#btn-alt').removeAttr("onclick");
-		    $('#btn-alt').attr("disabled",'disabled');
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
+		    $('input, select').attr("disabled",'disabled');
+		    $('#btn-alt, #btn-conc, #btn-canc').removeAttr("onclick");
+		    $('#btn-alt, #btn-conc, #btn-canc').attr("disabled",'disabled');
 		}
 
 		function ajusteEdit(){
 		    $('tbody tr').on("click");
 		    $('#btn-nv').attr("onclick","novo()");
 		    $('#btn-nv').removeAttr("disabled",'disabled');
-		    $("#nome").attr("disabled","disabled");
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
-		} */
-	|]
+		    $('input, select').attr("disabled",'disabled');
+		    $('#btn-conc, #btn-canc').removeAttr("onclick");
+		    $('#btn-conc, #btn-canc').attr("disabled",'disabled');
+		}
+		
+		function listarClientes(){
+    		var itens = "";
+			$.ajax({
+				contentType: "application/json",
+                url: "@{ListaR}",
+                type: "GET",
+    		}).done(function(e){
+            		for(var i = 0; i<e.data.length; i++){
+                		itens+="<option value="+e.data[i].id+">";
+                		itens+=e.data[i].nome;
+                		itens+="</option>";
+                	}
+                	$("#clienteid").append(itens);
+			});
+		}
+		
+|]
 
 
   
@@ -1649,6 +1701,11 @@ getListaR = do
     allClientes <- runDB $ selectList [] [Asc ClientNome]
     sendResponse (object [pack "data" .= fmap toJSON allClientes])
 
+getListaContratoR :: Handler ()
+getListaContratoR = do
+    allContratos <- runDB $ selectList [] [Asc ContratoId]
+    sendResponse (object [pack "data" .= fmap toJSON allContratos])
+
 getListaTpVeiculoR :: Handler ()
 getListaTpVeiculoR = do
     allVec <- runDB $ selectList [] [Asc TipoVeiculoNome]
@@ -1757,6 +1814,11 @@ putUpdateR pid = do
     runDB $ update pid [ClientNome =. clientNome cli, ClientFlcliente =. clientFlcliente cli,ClientTelefone =. clientTelefone cli,ClientRg =. clientRg cli,ClientSexo =. clientSexo cli, ClientCpf =. clientCpf cli, ClientLogradouro =. clientLogradouro cli, ClientCidade =. clientCidade cli, ClientEstado =. clientEstado cli, ClientBairro =. clientBairro cli, ClientCep =. clientCep cli, ClientCnpj =. clientCnpj cli, ClientRazaosocial =. clientRazaosocial cli ] 
     sendResponse (object [pack "resp" .= pack "UPDATED"])
     
+putContratoUpdateR :: ContratoId -> Handler ()
+putContratoUpdateR cid = do
+    ct <- requireJsonBody :: Handler Contrato
+    runDB $ update cid [ContratoValor =. contratoValor ct, ContratoContratoinc =. contratoContratoinc ct, ContratoContratofim =. contratoContratofim ct, ContratoQuantidadeparcela =. contratoQuantidadeparcela ct, ContratoQuantidadevagas =. contratoQuantidadevagas ct, ContratoClienteid =. contratoClienteid ct]
+    sendResponse (object [pack "resp" .= pack "UPDATED"])
     
 putTipoVeiUpdateR :: TipoVeiculoId -> Handler ()
 putTipoVeiUpdateR  tvid = do
@@ -1794,6 +1856,11 @@ putUpdateVagaR pid = do
 deleteDeleteR :: ClientId -> Handler ()
 deleteDeleteR pid = do
     runDB $ delete pid
+    sendResponse (object [pack "resp" .= pack "DELETED"])
+
+deleteContratoDeleteR :: ContratoId -> Handler ()
+deleteContratoDeleteR cid = do
+    runDB $ delete cid
     sendResponse (object [pack "resp" .= pack "DELETED"])
     
 deleteTipoVeiDeleteR :: TipoVeiculoId -> Handler ()
