@@ -1901,24 +1901,44 @@ getVeiculoR = defaultLayout $ do
 
 getFuncionarioR :: Handler Html
 getFuncionarioR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Funcionario"
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
   [whamlet|
-    <button id="btnNovo">Novo
-    <button id="btnAlterar">Alterar
-    <form>
-    Nome: <input type="text" name="nome">
-    Senha: <input type="password" name="senha">
-    Ativo: <select id="FuncionarioAtivo"><option value="true">Sim</option> <option value="false">Não</option></select>
-    <button id="btnCancelar">cancelar
-    <button id="btnConfirmar">confirmar
-    <table id="table1">
-        <thead>
-            <tr>
-                <th>ID
-                <th>Nome
-                <th>Senha
-                <th>Ativo
-        <tbody id="tbody1">
+    <h1>Cadastrar Funcionario
+    <div .container>  
+        <div id="formulario" .col-md-12 .col-lg-12>
+            <button id="btnNovo" .btn .btn-default >Novo
+            <button id="btnAlterar" .btn .btn-default>Alterar
+            <br><br>
+            <form .form-horizontal>
+                <div .form-group>
+                    <label .control-label for="nome">Nome: 
+                    <div .controls>
+                        <input .form-control type="text" id="nome" name="nome">
+                <div .form-group>
+                    <label .control-label for="inic">Senha: 
+                    <div .controls>
+                        <input .form-control type="password" id="senha" name="senha">
+                <div .form-group>
+                    <label .control-label for="FuncionarioAtivo">Ativo: 
+                    <div .controls>
+                        <select .form-control id="FuncionarioAtivo">
+                            <option value="true">Sim
+                            <option value="false">Não
+                <br>
+            <div .form-group  .col-md-12 .col-lg-12>    
+                <button id="btnCancelar" .btn .btn-danger>Cancelar
+                <button id="btnConfirmar" .btn .btn-success>Confirmar
+        <div id="tabela" .col-md-12 .col-lg-12>
+            <table id="table1" .text-center>
+                <thead>
+                    <tr>
+                        <th>ID
+                        <th>Nome
+                        <th>Senha
+                        <th>Ativo
+                <tbody id="tbody1">
   |]
   toWidget [julius|
     $(listar());
@@ -1930,7 +1950,7 @@ getFuncionarioR = defaultLayout $ do
             type: "POST",
             data: JSON.stringify({"nome":$("input[name='nome']").val(),"senha":$("input[name='senha']").val(),"ativo":$("#FuncionarioAtivo").val()}),
             success: function(){
-				$("input[name='nome'], input[name='senha']").val("");
+				$("input[name='nome'],input[name='senha']").val("");
 				$("#FuncionarioAtivo").val("true");
        			listar();
             }
@@ -1967,9 +1987,10 @@ getFuncionarioR = defaultLayout $ do
     }
     function novo(){
     	$("tbody tr").off("click");
+    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
     	limpaCampos();
     	$("#btnAlterar, #btnNovo").removeAttr("onclick");
-    	$("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
+    	$("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
     	$("#btnConfirmar").attr("onclick","confirmar()");
     	$("#btnCancelar").attr("onclick","cancelar()");
     	$("#btnAlterar").attr("disabled","disabled");
@@ -1989,7 +2010,7 @@ getFuncionarioR = defaultLayout $ do
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: 'https://estacionamento-bruno-alcamin.c9users.io/alterafuncionario/'+modeledt.id,
+    	    url: 'https://haskell-web-gustavoferreira.c9users.io/alterafuncionario/'+modeledt.id,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();
@@ -2026,11 +2047,10 @@ getFuncionarioR = defaultLayout $ do
     function ajuste(){
 	    $("tbody tr").on("click");
 	    limpaCampos();
-	    $("#btnNovo").attr("onclick","novo()");
+	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
 	    $("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1").attr("disabled","disabled");
 	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
 	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-	    $("input[name='nome']").css("border-color","#fff");
     }
     function ajusteEdit(){
 	    $("tbody tr").on("click");
@@ -2038,52 +2058,84 @@ getFuncionarioR = defaultLayout $ do
 	    $("#btnNovo").removeAttr("disabled","disabled");
 	    $("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
 	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
-	    $("input[name='nome']").css("border-color","#fff");
 	}
     function limpaCampos(){
 		$("input[name='nome'], input[name='senha']").val("");
 		$("#FuncionarioAtivo").val("true");
 	}
+  |] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  		--background-color: #ddd;
+  	}
   |]
 
 getVagaValorR :: Handler Html
 getVagaValorR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Valor de Vaga"
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
   [whamlet|
-    <h1>Alterar valor vaga diurno e noturno
-    <p id="alteracao">
-    <button id="btnNovo">Novo
-    <button id="btnAlterar">Alterar
-    <form>
-    Valor diurno: <input type="number" name="diurno" step="0.01">
-    Valor noturno: <input type="number" name="noturno" step="0.01">
-    Funcionario: <select id="funcionario"></select>
-    <button id="btnCancelar">cancelar
-    <button id="btnConfirmar">confirmar
-    <table id="table1">
-        <caption>Valor atual</caption>
-            <thead>
-                <tr>
-                    <th>ID
-                    <th>Valor diurno
-                    <th>Valor noturno
-                    <th>Alterado por
-                    <th>Id Funcionario
-            <tbody id="tbody1">
+    <h1>Cadastro e Alteração de valor de vaga
+    <div .container>  
+        <div id="formulario" .col-md-12 .col-lg-12>
+            <p id="alteracao">
+            <button id="btnNovo" .btn .btn-default >Novo
+            <button id="btnAlterar" .btn .btn-default>Alterar
+            <br><br>
+            <form .form-horizontal>
+                <div .form-group>
+                    <label .control-label for="vlDia">Valor diurno: 
+                    <div .controls>
+                        <input .form-control type="number" id="vlDia" name="diurno" step="0.01">
+                <div .form-group>
+                    <label .control-label for="vlNoite">Valor noturno: 
+                    <div .controls>
+                        <input .form-control type="number" id="vlNoite" name="noturno" step="0.01">
+                <div .form-group>
+                    <label .control-label for="funcionario">Funcionário: 
+                    <div .controls>
+                        <select .form-control id="funcionario">
+                <br>
+            <div .form-group  .col-md-12 .col-lg-12>    
+                <button id="btnCancelar" .btn .btn-danger>Cancelar
+                <button id="btnConfirmar" .btn .btn-success>Confirmar
+        <div id="tabela" .col-md-12 .col-lg-12>
+            <table id="table1" .text-center>
+                <thead>
+                    <tr>
+                        <th>ID
+                        <th>Valor diurno
+                        <th>Valor noturno
+                        <th>Alterado por
+                        <th>Id Funcionario
+                <tbody id="tbody1">
   |]
   toWidget [julius|
     $(listar());
     $(optFuncionario());
     var modeledt = {};
     function optFuncionario(){
-        var opt = "";
+        var opt = "<option value=''>Selecione um funcionário";
    		$.ajax({
 			contentType: "application/json",
             url: "@{ListaFuncionarioR}",
             type: "GET",
     	}).done(function(e){
        		for(var i = 0; i<e.data.length; i++){
-           		opt+="<option value='"+e.data[i].id+"'>"+e.data[i].nome+"</option>";
+           		opt+="<option value='"+e.data[i].id+"'>"+e.data[i].nome;
            	}
            	$("#funcionario").html(opt);
         });
@@ -2150,6 +2202,7 @@ getVagaValorR = defaultLayout $ do
     }
     function novo(){
     	$("tbody tr").off("click");
+    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
     	limpaCampos();
     	$("#btnAlterar, #btnNovo").removeAttr("onclick");
     	$("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
@@ -2177,7 +2230,7 @@ getVagaValorR = defaultLayout $ do
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
+    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();
@@ -2190,7 +2243,8 @@ getVagaValorR = defaultLayout $ do
             type: "POST",
             data: JSON.stringify(modeledt),
             success: function(){
-				$("#alteracao").html("Histórico de alteração de valor atualizado com sucesso!");
+				$("#alteracao").html("Histórico de alteração atualizado com sucesso!");
+				$("#alteracao").css("font-size","1em");
             }
         });
        	ajusteEdit();
@@ -2199,12 +2253,13 @@ getVagaValorR = defaultLayout $ do
     	selecao();
     	$("input[name='diurno']").val($('tr[select="select"]').find('span[id="valordiurno"]').html());
 		$("input[name='noturno']").val($('tr[select="select"]').find('span[id="valornoturno"]').html());
-		$("#funcionario").val($('tr[select="select"]').find('span[id="nmFuncionario"]').html());
+		$("#funcionario").val($('tr[select="select"]').find('span[id="idFuncionario"]').html());
     	ajusteEdit();
 	}
 	function cancelar(){
     	selecao();
-    	$("tbody tr").css("background-color","#fff");   
+    	$("tbody tr").css("background-color","#fff");
+    	$("#funcionario").val("0");
     	ajuste();
 	}
 	function selecao(){
@@ -2229,11 +2284,10 @@ getVagaValorR = defaultLayout $ do
     function ajuste(){
 	    $("tbody tr").on("click");
 	    limpaCampos();
-	    $("#btnNovo").attr("onclick","novo()");
+	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
 	    $("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1").attr("disabled","disabled");
 	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
 	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-	    $("input[name='diurno']").css("border-color","#fff");
     }
     function ajusteEdit(){
 	    $("tbody tr").on("click");
@@ -2241,37 +2295,79 @@ getVagaValorR = defaultLayout $ do
 	    $("#btnNovo").removeAttr("disabled","disabled");
 	    $("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
 	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
-	    $("input[name='diurno']").css("border-color","#fff");
 	}
     function limpaCampos(){
-		$("input[name='diurno'], input[name='noturno']").val("");
-		$("#funcionario").val("1");
+		$("input[name='diurno'], input[name='noturno'], #funcionario").val("");
 	}
+  |] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  		--background-color: #ddd;
+  	}
   |]
 
 getVagaR :: Handler Html
 getVagaR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Cadastrar Vaga"
   addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
   [whamlet|
     <h1>Cadastro de vagas
-    <button id="btnNovo">Novo
-    <button id="btnAlterar">Alterar
-    <form>
-    Vaga: <select id="vaga"></select>
-    Diurno: <select id="optDiurno"><option value="livre">LIVRE</option><option value="ocupadoMensal">OCUPADO MENSAL</option><option value="ocupadoAvulso">OCUPADO AVULSO</option></select>
-    Noturno: <select id="optNoturno"><option value="livre">LIVRE</option><option value="ocupadoMensal">OCUPADO MENSAL</option><option value="ocupadoAvulso">OCUPADO AVULSO</option></select>
-    Id vaga valor: <select id="vagaValor"></select>
-    <button id="btnCancelar">cancelar
-    <button id="btnConfirmar">confirmar
-    <table id="table1">
-        <caption>Vagas disponíveis</caption>
-            <thead>
-                <tr>
-                    <th>Id/Vaga
-                    <th>Diurno
-                    <th>Noturno
-                    <th>Id vaga valor
-            <tbody id="tbody1">
+    <div .container>  
+        <div id="formulario" .col-md-12 .col-lg-12>
+            <button id="btnNovo" .btn .btn-default >Novo
+            <button id="btnAlterar" .btn .btn-default>Alterar
+            <br><br>
+            <form .form-horizontal>
+                <div .form-group>
+                    <label .control-label for="vaga">Vaga: 
+                    <div .controls>
+                        <select .form-control id="vaga">
+                <div .form-group>
+                    <label .control-label for="optDiurno">Diurno: 
+                    <div .controls>
+                        <select .form-control id="optDiurno">
+                            <option value="">Selecione
+                            <option value="livre">Livre
+                            <option value="ocupadoMensal">Ocupado Mensal
+                            <option value="ocupadoAvulso">Ocupado Avulso
+                <div .form-group>
+                    <label .control-label for="optNoturno">Noturno: 
+                    <div .controls>
+                        <select .form-control id="optNoturno">
+                            <option value="">Selecione
+                            <option value="livre">Livre
+                            <option value="ocupadoMensal">Ocupado Mensal
+                            <option value="ocupadoAvulso">Ocupado Avulso
+                <div .form-group>
+                    <label .control-label for="vagaValor">Id vaga valor: 
+                    <div .controls>
+                        <select .form-control id="vagaValor">
+                <br>
+            <div .form-group  .col-md-12 .col-lg-12>    
+                <button id="btnCancelar" .btn .btn-danger>Cancelar
+                <button id="btnConfirmar" .btn .btn-success>Confirmar
+        <div id="tabela" .col-md-12 .col-lg-12>
+            <table id="table1" .text-center>
+                <thead>
+                    <tr>
+                        <th>Id/Vaga
+                        <th>Diurno
+                        <th>Noturno
+                        <th>Id vaga valor
+                <tbody id="tbody1">
   |]
   toWidget [julius|
     $(listar());
@@ -2279,27 +2375,27 @@ getVagaR = defaultLayout $ do
     $(optVaga());
     var modeledt = {};
     function optVagaValor(){
-        var opt = "<option value='0'></option>";
+        var opt = "<option value=''>Selecione";
    		$.ajax({
 			contentType: "application/json",
             url: "@{ListaVagaValorR}",
             type: "GET",
     	}).done(function(e){
        		for(var i = 0; i<e.data.length; i++){
-           		opt+="<option value='"+e.data[i].id+"'>"+e.data[i].id+"</option>";
+           		opt+="<option value='"+e.data[i].id+"'>"+e.data[i].id;
            	}
            	$("#vagaValor").html(opt);
         });
     }
     function optVaga(){
-        var opt = "<option value='0'></option>";
+        var opt = "<option value=''>Código para novas vagas gerado automáticamente";
    		$.ajax({
 			contentType: "application/json",
             url: "@{ListaVagaR}",
             type: "GET",
     	}).done(function(e){
        		for(var i = 0; i<e.data.length; i++){
-       		    opt+="<option value='"+e.data[i].id+"'>"+e.data[i].id+"</option>";
+       		    opt+="<option value='"+e.data[i].id+"'>"+e.data[i].id;
            	}
            	$("#vaga").html(opt);
         });
@@ -2347,6 +2443,7 @@ getVagaR = defaultLayout $ do
     }
     function novo(){
     	$("tbody tr").off("click");
+    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
     	limpaCampos();
     	$("#btnAlterar, #btnNovo").removeAttr("onclick");
     	$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
@@ -2356,7 +2453,7 @@ getVagaR = defaultLayout $ do
 	}
 	function alterar(){
     	$("tbody tr").off("click");
-    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
+    	$("#btnNovo, #btnAlterar").removeAttr("onclick").attr("disabled","disabled");
 		$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btnConfirmar, #btnCancelar").removeAttr("disabled","disabled");
     	$("#btnConfirmar").attr("onclick","confedit()");
     	$("#btnCancelar").attr("onclick","cancelarEdit()");
@@ -2370,7 +2467,7 @@ getVagaR = defaultLayout $ do
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravaga/"+modeledt.id,
+    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravaga/"+modeledt.id,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();
@@ -2381,6 +2478,7 @@ getVagaR = defaultLayout $ do
 	}
 	function cancelarEdit(){
     	selecao();
+    	$("#vaga").val($('tr[select="select"]').find('span[id="idVaga"]').html());
     	$("#optDiurno").val($('tr[select="select"]').find('span[id="diurno"]').html());
 		$("#optNoturno").val($('tr[select="select"]').find('span[id="noturno"]').html());
 		$("#vagaValor").val($('tr[select="select"]').find('span[id="idVagaValor"]').html());
@@ -2408,21 +2506,37 @@ getVagaR = defaultLayout $ do
     function ajuste(){
 	    $("tbody tr").on("click");
 	    limpaCampos();
-	    $("#btnNovo").attr("onclick","novo()");
+	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
 	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1").attr("disabled","disabled");
 	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
 	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
     }
     function ajusteEdit(){
 	    $("tbody tr").on("click");
-	    $("#btnNovo").attr("onclick","novo()");
-	    $("#btnNovo").removeAttr("disabled","disabled");
+	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
 	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
 	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
 	}
     function limpaCampos(){
 		$("#vaga, #optDiurno, #optNoturno, #vagaValor").val("");
 	}
+  |] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  		--background-color: #ddd;
+  	}
   |]
 
 getListaR :: Handler ()
