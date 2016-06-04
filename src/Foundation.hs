@@ -96,7 +96,7 @@ Avulso json
     saida Text sqltype=date
     valor Double
     vagaid VagaId
-    conveniadoid ConveniadoId
+    conveniadoid ConveniadoId Maybe
     deriving Show
     
 Funcionario json
