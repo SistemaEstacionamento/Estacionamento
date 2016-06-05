@@ -45,12 +45,11 @@ Parcela json
     clienteid ContratoId
     deriving Show
     
-Evento json
+Event json
     descricao Text
-    percentualDesconto Int
-    clienteid ContratoId
+    percentualDesconto Double
+    contratoid ContratoId
     deriving Show
-    
 
 TipoVeiculo json
     nome Text
@@ -87,7 +86,7 @@ ContratoVaga json
 Conveniado json
     nome Text
     percentualDesconto Double
-    eventoid EventoId Maybe
+    eventoid EventId Maybe
     deriving Show
     
 Avulso json

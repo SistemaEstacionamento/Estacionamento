@@ -4,6 +4,7 @@ module Import where
 import Yesod  
  
 pRoutes = [parseRoutes|
+    /home HomeR GET
 	/cadastrocliente ClientR POST GET
 	/update/#ClientId UpdateR PUT
 	/delete/#ClientId DeleteR DELETE
@@ -29,8 +30,8 @@ pRoutes = [parseRoutes|
 	/deletevagavalor/#VagaValorId DeleteVagaValorR DELETE
 	/listavagavalor ListaVagaValorR GET
 	/cadastroevento EventoR POST GET
-	/alteraevento/#EventoId UpdateEventoR PUT
-	/deletaevento/#EventoId DeleteEventoR DELETE
+	/alteraevento/#EventId UpdateEventoR PUT
+	/deletaevento/#EventId DeleteEventoR DELETE
 	/listaevento ListaEventoR GET
 	/cadastroconveniado ConveniadoR POST GET
 	/alterarconveniado/#ConveniadoId UpdateConveniadoR PUT

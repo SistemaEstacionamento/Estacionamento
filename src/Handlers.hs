@@ -14,14 +14,41 @@ import Database.Persist.Postgresql
 
 mkYesodDispatch "Sitio" pRoutes
 
+
+-- HOME
+getHomeR :: Handler Html
+getHomeR = defaultLayout $ do
+    setTitle "Sistema Estacionamento | Página Inicial"
+    addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+    addScriptRemote "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"
+    addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    
+
+--CLIENTE
 getClientR :: Handler Html
 getClientR = defaultLayout $ do
+
   setTitle "Sistema Estacionamento | Cadastrar Cliente"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
   addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addScriptRemote "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"
+  
+  toWidgetHead [hamlet|
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+    |] >> toWidget [lucius|
+        html {
+    	    overflow-x: hidden;
+        }
+    |]
+    
   [whamlet|
-<h1>Cadastrar Cliente
-<div .container>  
+
+<!-- ^{navMenu} -->
+
+<h2>Cadastrar Cliente
+<div .container>
     <div id="formulario" .col-md-12 .col-lg-12>
         
         <button id="btn-nv" .btn .btn-default >Novo</button>
@@ -107,8 +134,8 @@ getClientR = defaultLayout $ do
                     <th>Nome
                     <th>Telefone
             <tbody id="tb">
-  |] 
-  toWidget [julius|
+
+|] >> toWidget [julius|
   
   		$($(document).ready(function(){
   			$(".juridico").hide();
@@ -380,7 +407,9 @@ getClientR = defaultLayout $ do
 		    
 		    $('input[name="nome"]').css("border-color","#fff");
 		}
+		
   |] >> toWidget [lucius|
+  
   	h1{
   		margin-left: 5%;
   		font-weight: bold;
@@ -989,9 +1018,9 @@ getEventoR = defaultLayout $ do
                     <span .input-group-addon>%
                         
             <div .form-group>
-                <label .control-label .col-md-2 for="clienteid">Cliente: 
+                <label .control-label .col-md-2 for="contratoid">Contrato:
                 <div .col-md-5>
-                    <select .form-control id="clienteid" title="Selecione o Cliente" required ></select>
+                    <select .form-control id="contratoid" title="Selecione o número do contrato" required ></select>
                         
             <br>
         <div .form-group  .col-md-12 .col-lg-12>    
@@ -1006,7 +1035,7 @@ getEventoR = defaultLayout $ do
                     <th>Nome
                     <th>Descrição
                     <th>Desconto
-                    <th>Cliente
+                    <th>Contrato
             <tbody id="tb">
   
 |] >> toWidget [lucius|
@@ -1040,7 +1069,7 @@ getEventoR = defaultLayout $ do
                  type: "POST",
                  data: JSON.stringify({"descricao":$("#descricao").val(), 
                                        "percentualDesconto":parseInt($("#desconto").val()),
-                                       "clienteid":parseInt($("#clienteid").val()) }),
+                                       "contratoid":parseInt($("#contratoid").val()) }),
                  success: function(){
                 	
 					limpaCampos();	
@@ -1057,7 +1086,7 @@ getEventoR = defaultLayout $ do
 		function confedit(){
     		modeledt.descricao = $("#descricao").val();
     		modeledt.percentualDesconto = parseInt($("#desconto").val());
-    		modeledt.clienteid = parseInt($("#clienteid").val());
+    		modeledt.contratoid = parseInt($("#contratoid").val());
         		$.ajax({
             		type: "PUT",
             		dataType: "json",
@@ -1134,8 +1163,8 @@ getEventoR = defaultLayout $ do
                 		itens+=e.data[i].percentualDesconto;
                 		itens+="</span>"
                 		itens+="</td><td>";
-                		itens+="<span id='clienteid'>"
-                		itens+=e.data[i].clienteid;
+                		itens+="<span id='contratoid'>"
+                		itens+=e.data[i].contratoid;
                 		itens+="</span>"
                 		itens+="</td><td>";
             	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
@@ -1172,10 +1201,10 @@ getEventoR = defaultLayout $ do
             	
             	$("#descricao").val($(this).find('span[id="descricao"]').html());
             	$("#desconto").val($(this).find('span[id="desconto"]').html());
-            	$("#clienteid").val($(this).find('span[id="clienteid"]').html());
+            	$("#contratoid").val($(this).find('span[id="contratoid"]').html());
             	
             	modeledt = {"id":$(this).find('span[id="codigo"]').html(), "descricao":$(this).find('span[id="descricao"]').html(),
-            		        "percentualDesconto":parseInt($(this).find('span[id="desconto"]').html()) ,"clienteid":parseInt($(this).find('span[id="clienteid"]').html()) };
+            		        "percentualDesconto":parseInt($(this).find('span[id="desconto"]').html()) ,"contratoid":parseInt($(this).find('span[id="contratoid"]').html()) };
     		});
 		}
 		
@@ -1205,11 +1234,11 @@ getEventoR = defaultLayout $ do
                 type: "GET",
     		}).done(function(e){
             		for(var i = 0; i<e.data.length; i++){
-                		itens+="<option value="+e.data[i].clienteid+">";
-                		itens+=e.data[i].clienteid;
+                		itens+="<option value="+e.data[i].id+">";
+                		itens+=e.data[i].id;
                 		itens+="</option>";
                 	}
-                	$("#clienteid").append(itens);
+                	$("#contratoid").append(itens);
 			});
 		}
 		
@@ -2561,7 +2590,7 @@ getListaConveniadoR = do
 
 getListaEventoR :: Handler ()
 getListaEventoR = do
-    alleventos <- runDB $ selectList [] [Asc EventoId]
+    alleventos <- runDB $ selectList [] [Asc EventId]
     sendResponse (object [pack "data" .= fmap toJSON alleventos])
 
 getListaTpVeiculoR :: Handler ()
@@ -2635,7 +2664,7 @@ postVagaValorR = do
     
 postEventoR :: Handler ()
 postEventoR = do
-    evento <- requireJsonBody :: Handler Evento
+    evento <- requireJsonBody :: Handler Event
     runDB $ insert evento
     sendResponse (object [pack "resp" .= pack "CREATED"])
     
@@ -2684,10 +2713,10 @@ putUpdateConveniadoR convid = do
     runDB $ update convid [ConveniadoNome =. conveniadoNome convs, ConveniadoPercentualDesconto =. conveniadoPercentualDesconto convs, ConveniadoEventoid =. conveniadoEventoid convs]
     sendResponse (object [pack "resp" .= pack "UPDATED"])    
     
-putUpdateEventoR :: EventoId -> Handler ()
+putUpdateEventoR :: EventId -> Handler ()
 putUpdateEventoR evid = do
-    evs <- requireJsonBody :: Handler Evento
-    runDB $ update evid [EventoDescricao =. eventoDescricao evs, EventoPercentualDesconto =. eventoPercentualDesconto evs, EventoClienteid =. eventoClienteid evs]
+    evs <- requireJsonBody :: Handler Event
+    runDB $ update evid [EventDescricao =. eventDescricao evs, EventPercentualDesconto =. eventPercentualDesconto evs, EventContratoid =. eventContratoid evs]
     sendResponse (object [pack "resp" .= pack "UPDATED"])        
     
 putTipoVeiUpdateR :: TipoVeiculoId -> Handler ()
@@ -2743,7 +2772,7 @@ deleteDeleteConveniadoR convid = do
     runDB $ delete convid
     sendResponse (object [pack "resp" .= pack "DELETED"])
     
-deleteDeleteEventoR :: EventoId -> Handler ()
+deleteDeleteEventoR :: EventId -> Handler ()
 deleteDeleteEventoR evid = do
     runDB $ delete evid
     sendResponse (object [pack "resp" .= pack "DELETED"])      
