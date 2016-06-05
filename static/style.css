@@ -1,0 +1,57 @@
+
+html { 
+	overflow-x: hidden;
+    margin:0;
+    padding:0;
+}
+
+h1{
+   color: #fff;
+   margin-left: 5%;
+   font-weight: bold;
+}
+  	
+h1:hover {
+    opacity: 0.7 !important;
+  	text-decoration: none !important;
+}
+  	
+nav .nav-link,
+    footer {
+    color: #fff;
+}
+  	
+.container {
+    margin: 2% auto;
+    padding: 1% 1% 1% 1%;
+}
+
+/*=======================================NAVBAR==============================================*/
+
+nav {
+	margin: 0 0 0 0;
+    background-color: #337ab7;;
+    color: #ffffff !important;
+}
+nav ul {
+   	list-style: none;
+ 	padding-left: 5px;
+}
+nav ul li {
+    margin: 2px 0; 
+}
+a .nav-item {
+  	margin-top: 20px;
+}
+
+/*=======================================FOOTER==============================================*/
+
+footer, p{
+   	width: 100%;
+   	margin-bottom: 0;
+   	padding-bottom: 1%;
+   	padding-top: 1%;
+    background-color: #337ab7;;
+    color: #fff;
+    text-align: center;
+}

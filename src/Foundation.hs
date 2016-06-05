@@ -8,8 +8,14 @@ import Yesod
 import Data.Text
 import Database.Persist.Postgresql
     ( ConnectionPool, SqlBackend, runSqlPool, runMigration )
+    
 
-data Sitio = Sitio { connPool :: ConnectionPool }
+import Yesod.Static
+
+
+data Sitio = Sitio { getStatic :: Static,
+                     connPool :: ConnectionPool
+                    }
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Client json
@@ -124,6 +130,7 @@ instance YesodPersist Sitio where
        master <- getYesod
        let pool = connPool master
        runSqlPool f pool
+       
 
 instance Yesod Sitio where
 

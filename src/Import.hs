@@ -1,9 +1,14 @@
 {-# LANGUAGE TemplateHaskell, QuasiQuotes #-}
 module Import where
 
-import Yesod  
- 
+import Yesod
+import Yesod.Static
+
+staticFiles "static"
+
 pRoutes = [parseRoutes|
+
+    /static StaticR Static getStatic
     /home HomeR GET
 	/cadastrocliente ClientR POST GET
 	/update/#ClientId UpdateR PUT
