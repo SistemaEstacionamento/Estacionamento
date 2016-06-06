@@ -37,7 +37,7 @@ pRoutes = [parseRoutes|
 	/cadastroevento EventoR POST GET
 	/alteraevento/#EventId UpdateEventoR PUT
 	/deletaevento/#EventId DeleteEventoR DELETE
-	/listaevento ListaEventoR GET
+	/listaevento ListaEventR GET
 	/cadastroconveniado ConveniadoR POST GET
 	/alterarconveniado/#ConveniadoId UpdateConveniadoR PUT
 	/deleteconveniado/#ConveniadoId DeleteConveniadoR DELETE

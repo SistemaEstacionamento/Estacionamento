@@ -1,12 +1,14 @@
 
-html { 
+html,
+body { 
 	overflow-x: hidden;
     margin:0;
     padding:0;
+    height: 100%;
 }
 
 h1{
-   color: #fff;
+   color: #ffffff;
    margin-left: 5%;
    font-weight: bold;
 }
@@ -17,7 +19,7 @@ h1:hover {
 }
   	
 nav .nav-link,
-    footer {
+footer {
     color: #fff;
 }
   	
@@ -40,8 +42,10 @@ nav ul {
 nav ul li {
     margin: 2px 0; 
 }
-a .nav-item {
+
+.dropdown-toggle {
   	margin-top: 20px;
+  	color: #ffffff;
 }
 
 /*=======================================FOOTER==============================================*/
@@ -54,4 +58,9 @@ footer, p{
     background-color: #337ab7;;
     color: #fff;
     text-align: center;
+}
+
+footer {
+	position: relative;
+	bottom: 0;
 }

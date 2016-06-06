@@ -26,39 +26,41 @@ navMenu = do
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       <link href=@{StaticR style_css} rel="stylesheet">
+    |] >> toWidget [lucius|
+        .dropdown-toggle {
+  	        margin-top: 20px !important;
+  	        color: #ffffff !important;
+        }
     |]
     
     [whamlet|
-    
     <nav .navbar .nav-inline>
-        <div .col-md-10 .col-lg-10>
-            <a href=@{HomeR}><h1>Sistemas BGM | Estacionamento</h1>
-        <div .col-md-2 .col-lg-2>    
+        <div .col-md-9 .col-lg-9>
+            <a href=@{HomeR} title="Voltar á página inicial"><h1>Sistemas BGM | Estacionamento</h1>
+        <div .col-md-3 .col-lg-3>
             <ul .nav>
-                    <li .nav-item .dropdown>
-                        <a .nav-item .nav-link .dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MENU
-                        <div .dropdown-menu>
-                            <ul>
-                                <li><a .dropdown-item href=@{AvulsoR}>Cadastrar Registro Avulso</a>
-                                <li><a .dropdown-item href=@{ClientR}>Cadastrar/Alterar Cliente</a>
-                                <li><a .dropdown-item href=@{ContratoR}>Cadastrar/Alterar Contrato</a>
-                                <li><a .dropdown-item href=@{ConveniadoR}>Cadastrar/Alterar Convênio</a>
-                                <li><a .dropdown-item href=@{EventoR}>Cadastrar/Alterar Evento</a>
-                                <li><a .dropdown-item href=@{VeiculoR}>Cadastrar/Alterar Veículo</a>
-                                <li><a .dropdown-item href=@{TipoVeiculoR}>Cadastrar/Alterar Tipo de Veículo</a>
-                                <li><a .dropdown-item href=@{VagaR}>Cadastrar/Alterar Vaga</a>
-                                <li><a .dropdown-item href=@{VagaValorR}>Cadastrar/Alterar Valor da Vaga</a>
-                                <li><a .dropdown-item href=@{FuncionarioR}>Cadastrar/Alterar Funcionário</a>
-                            
+                <li role="presentation" .dropdown>
+                    <a .dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MENU
+                        <ul .dropdown-menu>
+                            <li><a href=@{AvulsoR}>Cadastrar Registro Avulso
+                            <li><a href=@{ClientR}>Cadastrar/Alterar Cliente
+                            <li><a href=@{ContratoR}>Cadastrar/Alterar Contrato
+                            <li><a href=@{ConveniadoR}>Cadastrar/Alterar Convênio
+                            <li><a href=@{EventoR}>Cadastrar/Alterar Evento
+                            <li><a href=@{VeiculoR}>Cadastrar/Alterar Veículo
+                            <li><a href=@{TipoVeiculoR}>Cadastrar/Alterar Tipo de Veículo
+                            <li><a href=@{VagaR}>Cadastrar/Alterar Vaga
+                            <li><a href=@{VagaValorR}>Cadastrar/Alterar Valor da Vaga
+                            <li><a href=@{HistoricoVagaValorR}>Histórico de Valores das Vagas
+                             <li><a href=@{FuncionarioR}>Cadastrar/Alterar Funcionário</a>
 |]
 
 
 -- FOOTER
 footer = [whamlet|
     <footer>
-        <p>Sistemas BGM | Desenvolvido por Bruno Alcamin, Gustavo Ferreira e Melissa Moreira - 2016
-    
-    <script type="text/javascript" src=@{StaticR scripts_js}></script>    
+        <p>Sistemas BGM | Desenvolvido por Bruno Alcamin, Gustavo Ferreira e Melissa Moreira (2016)
+    <script src=@{StaticR scripts_js}>    
 |] 
 
 
@@ -67,24 +69,48 @@ footer = [whamlet|
 getHomeR :: Handler Html
 getHomeR = defaultLayout $ do
     setTitle "Sistema Estacionamento | Página Inicial"
-    addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-    addScriptRemote "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"
-    addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-    
+    toWidgetHead [hamlet| 
+      
+      <link href=@{StaticR style_css} rel="stylesheet">
+      
+   |] >> toWidget [lucius|
+       
+       h1{ color: #ffffff !important; }
+       h2{ color: #337AB7 !important; font-weight: bold; margin-top:5px; }
+       h3{ color: #aaaaaa !important; }
+       
+   |] >> [whamlet|
+   
+    ^{navMenu}
+    <div .jumbotron>
+        <div .container>
+            <h3>Sistemas BGM
+            <h2> Bem-vindo ao Sistema do Estacionamento
+            <div .list-group>
+                <div .list-group-item href="#" .list-group-item .active>O que deseja fazer?
+                <a .list-group-item href=@{AvulsoR}>Cadastrar Registro Avulso
+                <a .list-group-item href=@{ClientR}>Cadastrar/Alterar Cliente
+                <a .list-group-item href=@{ContratoR}>Cadastrar/Alterar Contrato
+                <a .list-group-item href=@{ConveniadoR}>Cadastrar/Alterar Convênio
+                <a .list-group-item href=@{EventoR}>Cadastrar/Alterar Evento
+                <a .list-group-item href=@{VeiculoR}>Cadastrar/Alterar Veículo
+                <a .list-group-item href=@{TipoVeiculoR}>Cadastrar/Alterar Tipo de Veículo
+                <a .list-group-item href=@{VagaR}>Cadastrar/Alterar Vaga
+                <a .list-group-item href=@{VagaValorR}>Cadastrar/Alterar Valor da Vaga
+                <a .list-group-item href=@{HistoricoVagaValorR}>Histórico de Valores das Vagas
+                <a .list-group-item href=@{FuncionarioR}>Cadastrar/Alterar Funcionário
+                            
+    ^{footer}
+   |]
 
 --CLIENTE
 getClientR :: Handler Html
 getClientR = defaultLayout $ do
   setTitle "Sistema Estacionamento | Cadastrar Cliente"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addScriptRemote "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"
-  
   toWidgetHead [hamlet| 
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
       <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
    |]
     
   [whamlet|
@@ -184,7 +210,7 @@ getClientR = defaultLayout $ do
 
 ^{footer}
 
-|] >> toWidget [julius|
+ |] >> toWidget [julius|
   
   		$(listar());
 		var modeledt = {};
@@ -281,16 +307,11 @@ getClientR = defaultLayout $ do
 getContratoR :: Handler Html
 getContratoR = defaultLayout $ do
   setTitle "Sistema Estacionamento | Cadastrar Contrato"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addScriptRemote "https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"
-  
   toWidgetHead [hamlet| 
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
       <link href=@{StaticR style_css} rel="stylesheet">
-    |]
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
   
   [whamlet|
   
@@ -343,7 +364,7 @@ getContratoR = defaultLayout $ do
             <button id="btn-conc" .btn .btn-success>Confirmar</button>
     
     <div .col-md-8 .col-lg-8>
-        <h3>Clientes Cadastrados
+        <h3>Contratos Cadastrados
         <table id="t1" .table .table-hover>
             <thead .thead-inverse>
                 <tr>
@@ -360,11 +381,11 @@ getContratoR = defaultLayout $ do
   
 |]  >> toWidget [julius|
      
-    	$(listar());
+    	$(listarContrato());
     	$(listarClientes());
 		var modeledt = {};
 		
-		function confirmar(){
+		function confirmarContrato(){
 			
             $.ajax({
                  contentType: "application/json",
@@ -378,8 +399,8 @@ getContratoR = defaultLayout $ do
                                        "clienteid":parseInt($("#clienteid").val())}),
                  success: function(){
                 	
-					limpaCampos();	
-					listar();
+					limpaCamposContrato();	
+					listarContrato();
                  },
                  error: function(){
                  	alert("ERRO!");
@@ -389,69 +410,8 @@ getContratoR = defaultLayout $ do
         	$('tbody tr').css('background-color','#fff');   
 		}
 
-		function confedit(){
-    		modeledt.valor = parseFloat($("#valor").val());
-    		modeledt.contratoinc = $("#inic").val();
-    		modeledt.contratofim = $("#fim").val(); //.toUTCString()
-    		modeledt.quantidadeparcela = parseInt($("#qtparcelas").val());
-    		modeledt.quantidadevagas = parseInt($("#qtvagas").val());
-    		modeledt.clienteid = parseInt($("#clienteid").val());
-        		$.ajax({
-            		type: "PUT",
-            		dataType: "json",
-            		cache: false,
-		            contentType:"application/json",    
-        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/contratoupdate/'+modeledt.id,
-            		data: JSON.stringify(modeledt),  
-        		}).done(function(e){
-           			limpaCampos();	
-       				$("#tb").html("");
-       				listar();
-        		});
-        		ajusteEdit();
-		}
-		
-		function limpaCampos(){
-			$('input, select').val("");
-		}
-		
-		
-		function novo(){
-    		$('tbody tr').off("click");
-    		limpaCampos();
-    		$('#btn-alt, #btn-nv').removeAttr("onclick");
-    		$("input, select").removeAttr("disabled","disabled");
-    		$('#btn-conc').attr("onclick","confirmar()");
-    		$('#btn-canc').attr("onclick","cancelar()");
-    		$('#btn-canc, #btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-alt').attr("disabled",'disabled');
-		}
-		
-
-		function cancelar(){
-    		selecao();
-    		$('tbody tr').css('background-color','#fff');   
-    		ajuste();
-		}
-
-		function cancelarEdit(){
-    		selecao();
-    		$("input, select").val("").attr("disabled", 'disabled');
-    		ajusteEdit();
-		}
-	
-		function alterar(){
-    		$('tbody tr').off("click");
-    		$('#btn-nv').removeAttr("onclick");
-    		$('#btn-nv').attr("disabled",'disabled');
-    		$("input, select").removeAttr("disabled",'disabled');
-    		$('#btn-conc').attr("onclick","confedit()");
-    		$('#btn-canc').attr("onclick","cancelarEdit()");
-    		$('#btn-conc, #btn-canc').removeAttr("disabled",'disabled');
-		}
-
-		function listar(){
-			ajuste();
+		function listarContrato(){
+			ajusteContrato();
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
@@ -488,70 +448,14 @@ getContratoR = defaultLayout $ do
                 		itens+=e.data[i].clienteid;
                 		itens+="</span>"
                 		itens+="</td><td>";
-            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+            	      	itens+="<button class='btn btn-danger' onclick='excluirContrato("+e.data[i].id+")'>Excluir</button>";
 			            itens+="</td></tr>";
                 	}
                 	$("#tb").html(itens);
-                	selecao();
+                	selecaoContrato();
 			});
 		}
 
-		function excluir(x){
-     		if(confirm("Confirma a exclusão do contrato "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="codigo"]').html()+"?")){
-        		$.ajax({
-        			type: 'DELETE',
-        			dataType: "json",
-        			cache: false,
-        			contentType:"application/json",    
-        			url: 'https://estacionamento-bruno-alcamin.c9users.io/contratodelete/'+x,
-        		});
-        		$("#tb, #t1 tbody").html("");
-        		listar();
-    		}
-		}
-
-		function selecao(){
-    		$('tbody tr').css('cursor','pointer');
-        	$('tbody tr').click(function(){
-            	$('#btn-alt').removeAttr("disabled",'disabled');
-            	$('#btn-alt').attr("onclick","alterar()");
-            	$('tbody tr').css('background-color','#fff');
-            	$('tbody tr').removeAttr('select','select');
-            	$(this).css('background-color','#76affd');
-            	$(this).attr('select','select');
-            	
-            	$("#valor").val($(this).find('span[id="valor"]').html());
-            	$("#inic").val($(this).find('span[id="inic"]').html());
-            	$("#fim").val($(this).find('span[id="fim"]').html());
-            	$("#qtparcelas").val($(this).find('span[id="qtparcelas"]').html());
-            	$("#qtvagas").val($(this).find('span[id="qtvagas"]').html());
-            	$("#clienteid").val($(this).find('span[id="clienteid"]').html());
-            	
-            	modeledt = {"id":$(this).find('span[id="codigo"]').html(),"valor":$(this).find('span[id="valor"]').html(),
-            		        "contratoinc":$(this).find('span[id="inic"]').html() ,"contratofim":$(this).find('span[id="fim"]').html(),
-            		        "quantidadeparcela":$(this).find('span[id="qtparcelas"]').html() , "quantidadevagas":$(this).find('span[id="qtvagas"]').html(),
-            		        "clienteid":$(this).find('span[id="clienteid"]').html() };
-    		});
-		}
-		
-		function ajuste(){
-		    $('tbody tr').on("click");
-		    limpaCampos();
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('input, select').attr("disabled",'disabled');
-		    $('#btn-alt, #btn-conc, #btn-canc').removeAttr("onclick");
-		    $('#btn-alt, #btn-conc, #btn-canc').attr("disabled",'disabled');
-		}
-
-		function ajusteEdit(){
-		    $('tbody tr').on("click");
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('#btn-nv').removeAttr("disabled",'disabled');
-		    $('input, select').attr("disabled",'disabled');
-		    $('#btn-conc, #btn-canc').removeAttr("onclick");
-		    $('#btn-conc, #btn-canc').attr("disabled",'disabled');
-		}
-		
 		function listarClientes(){
     		var itens = "";
 			$.ajax({
@@ -577,19 +481,25 @@ getContratoR = defaultLayout $ do
 getConveniadoR :: Handler Html
 getConveniadoR = defaultLayout $ do
   setTitle "Sistema Estacionamento | Cadastrar Convênio"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-<h1>Cadastrar Convênio
-<div .container>  
+
+^{navMenu}
+
+<div .container>
     <div id="formulario" .col-md-12 .col-lg-12>
-        
-        <button id="btn-nv" .btn .btn-default >Novo</button>
-        <button id="btn-alt" .btn .btn-default>Alterar</button>
+        <h2>Cadastrar Convênio</h2>
+        <br>
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo</button>
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar</button>
         <br><br>
-        
+            
         <form .form-horizontal role="form">
-        
             <div .form-group>
                 <label .control-label .col-md-2 for="nome">Nome: 
                 <div .col-md-5>
@@ -598,7 +508,7 @@ getConveniadoR = defaultLayout $ do
             <div .form-group>
                 <label .control-label .col-md-2 for="desconto">Desconto: 
                 <div .col-md-5 .input-group>
-                    <input .form-control type="number" id="desconto" required title="Digite o percentual de desconto. Exemplo: 15,50">
+                    <input .col-md-3  .col-lg-3 .form-control type="number" id="desconto" required title="Digite o percentual de desconto. Exemplo: 15,50">
                     <span .input-group-addon>%
                         
             <div .form-group>
@@ -606,45 +516,30 @@ getConveniadoR = defaultLayout $ do
                 <div .col-md-5>
                     <select .form-control id="eventoid" title="Selecione o Evento (opcional)"></select>
                         
-            <br>
+                <br>
         <div .form-group  .col-md-12 .col-lg-12>    
-            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
             <button id="btn-conc" .btn .btn-success>Confirmar</button>
-
-    <div id="tabela" .col-md-12 .col-lg-12>
-        <table id="t1" .text-center>
-            <thead>
+    
+    <div .col-md-8 .col-lg-8>
+        <h3>Convênios Cadastrados
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
                 <tr>
                     <th>ID
                     <th>Convênio
                     <th>Desconto
                     <th>Evento
             <tbody id="tb">
+^{footer}
   
-|] >> toWidget [lucius|
-  	h1{
-  		margin-left: 5%;
-  		font-weight: bold;
-  	}
-  	
-  	.container,
-  	#formulario, 
-  	#tabela {
-  		margin: 2% auto;
-  		padding: 1% 1% 1% 1%;
-  	}
-  	
-  	#formulario {
-  		padding: 2% 2% 2% 2%;
-  	}
-  	
 |] >> toWidget [julius|
      
-    	$(listar());
+    	$(listarConveniado());
     	$(listarEventos());
 		var modeledt = {};
 		
-		function confirmar(){
+		function confirmarConveniado(){
 			
             $.ajax({
                  contentType: "application/json",
@@ -655,77 +550,19 @@ getConveniadoR = defaultLayout $ do
                                        "eventoid":$("#eventoid").val() }),
                  success: function(){
                 	
-					limpaCampos();	
-					listar();
+					limpaCamposConveniado();	
+					listarConveniado();
                  },
                  error: function(){
                  	alert("ERRO!");
                  }
             });
-        	ajuste();
+        	ajusteConveniado();
         	$('tbody tr').css('background-color','#fff');   
 		}
-
-		function confedit(){
-    		modeledt.nome = $("#nome").val();
-    		modeledt.percentualDesconto = parseFloat($("#desconto").val());
-    		modeledt.eventoid = $("#eventoid").val();
-        		$.ajax({
-            		type: "PUT",
-            		dataType: "json",
-            		cache: false,
-		            contentType:"application/json",    
-        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/alterarconveniado/'+modeledt.id,
-            		data: JSON.stringify(modeledt),  
-        		}).done(function(e){
-           			limpaCampos();	
-       				$("#tb").html("");
-       				listar();
-        		});
-        		ajusteEdit();
-		}
 		
-		function limpaCampos(){
-			$('input, select').val("");
-		}
-		
-		
-		function novo(){
-    		$('tbody tr').off("click");
-    		limpaCampos();
-    		$('#btn-alt, #btn-nv').removeAttr("onclick");
-    		$("input, select").removeAttr("disabled","disabled");
-    		$('#btn-conc').attr("onclick","confirmar()");
-    		$('#btn-canc').attr("onclick","cancelar()");
-    		$('#btn-canc, #btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-alt').attr("disabled",'disabled');
-		}
-		
-
-		function cancelar(){
-    		selecao();
-    		$('tbody tr').css('background-color','#fff');   
-    		ajuste();
-		}
-
-		function cancelarEdit(){
-    		selecao();
-    		$("input, select").val("").attr("disabled", 'disabled');
-    		ajusteEdit();
-		}
-	
-		function alterar(){
-    		$('tbody tr').off("click");
-    		$('#btn-nv').removeAttr("onclick");
-    		$('#btn-nv').attr("disabled",'disabled');
-    		$("input, select").removeAttr("disabled",'disabled');
-    		$('#btn-conc').attr("onclick","confedit()");
-    		$('#btn-canc').attr("onclick","cancelarEdit()");
-    		$('#btn-conc, #btn-canc').removeAttr("disabled",'disabled');
-		}
-
-		function listar(){
-			ajuste();
+		function listarConveniado(){
+			ajusteConveniado();
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
@@ -754,81 +591,29 @@ getConveniadoR = defaultLayout $ do
                 		}
                 		itens+="</span>"
                 		itens+="</td><td>";
-            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+            	      	itens+="<button class='btn btn-danger' onclick='excluirConveniado("+e.data[i].id+")'>Excluir</button>";
 			            itens+="</td></tr>";
                 	}
                 	$("#tb").html(itens);
-                	selecao();
+                	selecaoConveniado();
 			});
-		}
-
-		function excluir(x){
-     		if(confirm("Confirma a exclusão do convênio "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nome"]').html()+"?")){
-        		$.ajax({
-        			type: 'DELETE',
-        			dataType: "json",
-        			cache: false,
-        			contentType:"application/json",    
-        			url: 'https://estacionamento-bruno-alcamin.c9users.io/deleteconveniado/'+x,
-        		});
-        		$("#tb, #t1 tbody").html("");
-        		listar();
-    		}
-		}
-
-		function selecao(){
-    		$('tbody tr').css('cursor','pointer');
-        	$('tbody tr').click(function(){
-            	$('#btn-alt').removeAttr("disabled",'disabled');
-            	$('#btn-alt').attr("onclick","alterar()");
-            	$('tbody tr').css('background-color','#fff');
-            	$('tbody tr').removeAttr('select','select');
-            	$(this).css('background-color','#76affd');
-            	$(this).attr('select','select');
-            	
-            	$("#nome").val($(this).find('span[id="nome"]').html());
-            	$("#desconto").val($(this).find('span[id="desconto"]').html());
-            	$("#eventoid").val($(this).find('span[id="eventoid"]').html());
-            	
-            	modeledt = {"id":$(this).find('span[id="codigo"]').html(),"nome":$(this).find('span[id="nome"]').html(),
-            		        "percentualDesconto":$(this).find('span[id="desconto"]').html() ,"eventoid":$(this).find('span[id="eventoid"]').html() };
-    		});
-		}
-		
-		function ajuste(){
-		    $('tbody tr').on("click");
-		    limpaCampos();
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('input, select').attr("disabled",'disabled');
-		    $('#btn-alt, #btn-conc, #btn-canc').removeAttr("onclick");
-		    $('#btn-alt, #btn-conc, #btn-canc').attr("disabled",'disabled');
-		}
-
-		function ajusteEdit(){
-		    $('tbody tr').on("click");
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('#btn-nv').removeAttr("disabled",'disabled');
-		    $('input, select').attr("disabled",'disabled');
-		    $('#btn-conc, #btn-canc').removeAttr("onclick");
-		    $('#btn-conc, #btn-canc').attr("disabled",'disabled');
 		}
 		
 		function listarEventos(){
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
-                url: "@{ListaEventoR}",
+                url: "@{ListaEventR} ",
                 type: "GET",
     		}).done(function(e){
             		for(var i = 0; i<e.data.length; i++){
                 		itens+="<option value="+e.data[i].id+">";
-                		itens+=e.data[i].nome;
+                		itens+=e.data[i].descricao;
                 		itens+="</option>";
                 	}
                 	$("#eventoid").append(itens);
 			});
 		}
-		
 |]
 
 
@@ -838,19 +623,26 @@ getConveniadoR = defaultLayout $ do
 getEventoR :: Handler Html
 getEventoR = defaultLayout $ do
   setTitle "Sistema Estacionamento | Cadastrar Evento"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-<h1>Cadastrar Evento
-<div .container>  
+
+^{navMenu}
+
+<div .container>
     <div id="formulario" .col-md-12 .col-lg-12>
-        
-        <button id="btn-nv" .btn .btn-default >Novo</button>
-        <button id="btn-alt" .btn .btn-default>Alterar</button>
+        <h2>Cadastrar Evento</h2>
+        <br>
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo</button>
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar</button>
         <br><br>
-        
+            
         <form .form-horizontal role="form">
-        
+
             <div .form-group>
                 <label .control-label .col-md-2 for="descricao">Descrição: 
                 <div .col-md-5>
@@ -867,14 +659,15 @@ getEventoR = defaultLayout $ do
                 <div .col-md-5>
                     <select .form-control id="contratoid" title="Selecione o número do contrato" required ></select>
                         
-            <br>
+                <br>
         <div .form-group  .col-md-12 .col-lg-12>    
-            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
             <button id="btn-conc" .btn .btn-success>Confirmar</button>
-
-    <div id="tabela" .col-md-12 .col-lg-12>
-        <table id="t1" .text-center>
-            <thead>
+    
+    <div .col-md-8 .col-lg-8>
+        <h3>Eventos Cadastrados
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
                 <tr>
                     <th>ID
                     <th>Nome
@@ -882,31 +675,15 @@ getEventoR = defaultLayout $ do
                     <th>Desconto
                     <th>Contrato
             <tbody id="tb">
+^{footer}
   
-|] >> toWidget [lucius|
-  	h1{
-  		margin-left: 5%;
-  		font-weight: bold;
-  	}
-  	
-  	.container,
-  	#formulario, 
-  	#tabela {
-  		margin: 2% auto;
-  		padding: 1% 1% 1% 1%;
-  	}
-  	
-  	#formulario {
-  		padding: 2% 2% 2% 2%;
-  	}
-  	
 |] >> toWidget [julius|
      
-    	$(listar());
+    	$(listarEvento());
     	$(listarContratos());
 		var modeledt = {};
 		
-		function confirmar(){
+		function confirmarEvento(){
 			
             $.ajax({
                  contentType: "application/json",
@@ -917,81 +694,23 @@ getEventoR = defaultLayout $ do
                                        "contratoid":parseInt($("#contratoid").val()) }),
                  success: function(){
                 	
-					limpaCampos();	
-					listar();
+					limpaCamposEvento();	
+					listarEvento();
                  },
                  error: function(){
                  	alert("ERRO!");
                  }
             });
-        	ajuste();
+        	ajusteEvento();
         	$('tbody tr').css('background-color','#fff');   
 		}
-
-		function confedit(){
-    		modeledt.descricao = $("#descricao").val();
-    		modeledt.percentualDesconto = parseInt($("#desconto").val());
-    		modeledt.contratoid = parseInt($("#contratoid").val());
-        		$.ajax({
-            		type: "PUT",
-            		dataType: "json",
-            		cache: false,
-		            contentType:"application/json",    
-        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/alteraevento/'+modeledt.id,
-            		data: JSON.stringify(modeledt),  
-        		}).done(function(e){
-           			limpaCampos();	
-       				$("#tb").html("");
-       				listar();
-        		});
-        		ajusteEdit();
-		}
 		
-		function limpaCampos(){
-			$('input, select').val("");
-		}
-		
-		
-		function novo(){
-    		$('tbody tr').off("click");
-    		limpaCampos();
-    		$('#btn-alt, #btn-nv').removeAttr("onclick");
-    		$("input, select").removeAttr("disabled","disabled");
-    		$('#btn-conc').attr("onclick","confirmar()");
-    		$('#btn-canc').attr("onclick","cancelar()");
-    		$('#btn-canc, #btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-alt').attr("disabled",'disabled');
-		}
-		
-
-		function cancelar(){
-    		selecao();
-    		$('tbody tr').css('background-color','#fff');   
-    		ajuste();
-		}
-
-		function cancelarEdit(){
-    		selecao();
-    		$("input, select").val("").attr("disabled", 'disabled');
-    		ajusteEdit();
-		}
-	
-		function alterar(){
-    		$('tbody tr').off("click");
-    		$('#btn-nv').removeAttr("onclick");
-    		$('#btn-nv').attr("disabled",'disabled');
-    		$("input, select").removeAttr("disabled",'disabled');
-    		$('#btn-conc').attr("onclick","confedit()");
-    		$('#btn-canc').attr("onclick","cancelarEdit()");
-    		$('#btn-conc, #btn-canc').removeAttr("disabled",'disabled');
-		}
-
-		function listar(){
-			ajuste();
+		function listarEvento(){
+			ajusteEvento();
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
-                url: "@{ListaEventoR}",
+                url: "@{ListaEventR} ",
                 type: "GET",
     		}).done(function(e){
             		for(var i = 0; i<e.data.length; i++){
@@ -1012,63 +731,12 @@ getEventoR = defaultLayout $ do
                 		itens+=e.data[i].contratoid;
                 		itens+="</span>"
                 		itens+="</td><td>";
-            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+            	      	itens+="<button class='btn btn-danger' onclick='excluirEvento("+e.data[i].id+")'>Excluir</button>";
 			            itens+="</td></tr>";
                 	}
                 	$("#tb").html(itens);
-                	selecao();
+                	selecaoEvento();
 			});
-		}
-
-		function excluir(x){
-     		if(confirm("Confirma a exclusão do evento "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nome"]').html()+"?")){
-        		$.ajax({
-        			type: 'DELETE',
-        			dataType: "json",
-        			cache: false,
-        			contentType:"application/json",    
-        			url: 'https://estacionamento-bruno-alcamin.c9users.io/deletaevento/'+x,
-        		});
-        		$("#tb, #t1 tbody").html("");
-        		listar();
-    		}
-		}
-
-		function selecao(){
-    		$('tbody tr').css('cursor','pointer');
-        	$('tbody tr').click(function(){
-            	$('#btn-alt').removeAttr("disabled",'disabled');
-            	$('#btn-alt').attr("onclick","alterar()");
-            	$('tbody tr').css('background-color','#fff');
-            	$('tbody tr').removeAttr('select','select');
-            	$(this).css('background-color','#76affd');
-            	$(this).attr('select','select');
-            	
-            	$("#descricao").val($(this).find('span[id="descricao"]').html());
-            	$("#desconto").val($(this).find('span[id="desconto"]').html());
-            	$("#contratoid").val($(this).find('span[id="contratoid"]').html());
-            	
-            	modeledt = {"id":$(this).find('span[id="codigo"]').html(), "descricao":$(this).find('span[id="descricao"]').html(),
-            		        "percentualDesconto":parseInt($(this).find('span[id="desconto"]').html()) ,"contratoid":parseInt($(this).find('span[id="contratoid"]').html()) };
-    		});
-		}
-		
-		function ajuste(){
-		    $('tbody tr').on("click");
-		    limpaCampos();
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('input, select').attr("disabled",'disabled');
-		    $('#btn-alt, #btn-conc, #btn-canc').removeAttr("onclick");
-		    $('#btn-alt, #btn-conc, #btn-canc').attr("disabled",'disabled');
-		}
-
-		function ajusteEdit(){
-		    $('tbody tr').on("click");
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('#btn-nv').removeAttr("disabled",'disabled');
-		    $('input, select').attr("disabled",'disabled');
-		    $('#btn-conc, #btn-canc').removeAttr("onclick");
-		    $('#btn-conc, #btn-canc').attr("disabled",'disabled');
 		}
 		
 		function listarContratos(){
@@ -1096,53 +764,70 @@ getEventoR = defaultLayout $ do
 getAvulsoR :: Handler Html
 getAvulsoR = defaultLayout $ do
   setTitle "Sistema Estacionamento | Cadastrar Registro Avulso"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
 
-<h1>Cadastrar Registro Avulso
-<div .container>  
+^{navMenu}
+
+<div .container>
     <div id="formulario" .col-md-12 .col-lg-12>
+        <h2>Cadastrar Registro Avulso</h2>
+        <br>
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo</button>
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar</button>
+        <br><br>
+            
         <form .form-horizontal role="form">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="descricao">Descrição: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="descricao" required placeholder="Descrição do Evento" title="Digite a descrição do evento">
+
             <div .form-group>
                 <label .control-label .col-md-2 for="placa">Placa: 
                 <div .col-md-5>
-                    <input .form-control type="text" id="placa">
+                    <input .form-control type="text" id="placa" required placeholder="Placa do Veículo" title="Digite a placa do veículo">
                     
             <div .form-group>
                 <label .control-label .col-md-2 for="entrada">Entrada: 
                 <div .col-md-5>
-                    <input .form-control type="datetime-local" id="entrada">
+                    <input .form-control type="datetime-local" id="entrada" required title="Digite o horário de entrada do veículo">
                     
             <div .form-group>
                 <label .control-label .col-md-2 for="saida">Saída: 
                 <div .col-md-5>
-                    <input .form-control type="datetime-local" id="saida">
+                    <input .form-control type="datetime-local" id="saida" required title="Digite o horário de saída do veículo">
                     
             <div .form-group>
                 <label .control-label .col-md-2 for="valor">Valor: 
                 <div .col-md-5>
-                    <input .form-control type="number" id="valor">
+                    <input .form-control type="number" id="valor" required placeholder="Valor do registro" title="Digite o valor do registro">
                         
             <div .form-group>
                 <label .control-label .col-md-2 for="vagaid">Vaga: 
                 <div .col-md-5>
-                    <select .form-control id="vagaid"></select>
+                    <select .form-control id="vagaid" required title="Selecione a vaga"></select>
             
             <div .form-group>
                 <label .control-label .col-md-2 for="convenioid">Convênio: 
                 <div .col-md-5>
-                    <select .form-control id="convenioid">
+                    <select .form-control id="convenioid" title="Selecione o convênio, se houver">
             
-            <br>
+                <br>
         <div .form-group  .col-md-12 .col-lg-12>    
-            <button id="btn-canc" .btn .btn-danger>Cancelar</button>
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
             <button id="btn-conc" .btn .btn-success>Confirmar</button>
-
-    <div id="tabela" .col-md-12 .col-lg-12>
+    
+    <div .col-md-8 .col-lg-8>
         <h3>Registros Cadastrados
-        <table id="t1" .text-center>
-            <thead>
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
                 <tr>
                     <th>ID
                     <th>Placa
@@ -1152,33 +837,17 @@ getAvulsoR = defaultLayout $ do
                     <th>Vaga
                     <th>Convênio
             <tbody id="tb">
-  
-|] >> toWidget [lucius|
-  	h1{
-  		margin-left: 5%;
-  		font-weight: bold;
-  	}
-  	
-  	.container,
-  	#formulario, 
-  	#tabela {
-  		margin: 2% auto;
-  		padding: 1% 1% 1% 1%;
-  	}
-  	
-  	#formulario {
-  		padding: 2% 2% 2% 2%;
-  	}
-  	
+^{footer}
+
 |] >> toWidget [julius|
      
-    	$(listar());
+    	$(listarAvulso());
     	$(listarVagas());
     	$(listarConvenios());
-    	$('#btn-conc').attr("onclick","confirmar()");
-    	$('#btn-canc').attr("onclick","limpaCampos()");
+    	$('#btn-conc').attr("onclick","confirmarAvulso()");
+    	$('#btn-canc').attr("onclick","limpaCamposAvulso()");
 		
-		function confirmar(){
+		function confirmarAvulso(){
 			
             $.ajax({
                  contentType: "application/json",
@@ -1192,20 +861,16 @@ getAvulsoR = defaultLayout $ do
                                        "convenioid":parseInt($("#convenioid").val())}),
                  success: function(){
                 	
-					limpaCampos();	
-					listar();
+					limpaCamposAvulso();	
+					listarAvulso();
                  },
                  error: function(){
                  	alert("ERRO!");
                  }
             });
 		}
-		
-		function limpaCampos(){
-			$('input, select').val("");
-		}
 
-		function listar(){
+		function listarAvulso(){
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
@@ -1246,25 +911,11 @@ getAvulsoR = defaultLayout $ do
                 		}
                 		itens+="</span>"
                 		itens+="</td><td>";
-            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+            	      	itens+="<button class='btn btn-danger' onclick='excluirAvulso("+e.data[i].id+")'>Excluir</button>";
 			            itens+="</td></tr>";
                 	}
                 	$("#tb").html(itens);
 			});
-		}
-
-		function excluir(x){
-     		if(confirm("Confirma a exclusão do registro "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="codigo"]').html()+"?")){
-        		$.ajax({
-        			type: 'DELETE',
-        			dataType: "json",
-        			cache: false,
-        			contentType:"application/json",    
-        			url: 'https://estacionamento-bruno-alcamin.c9users.io/deleteavulso/'+x,
-        		});
-        		$("#tb, #t1 tbody").html("");
-        		listar();
-    		}
 		}
 		
 		function listarVagas(){
@@ -1301,107 +952,71 @@ getAvulsoR = defaultLayout $ do
 		
 |]
 
-
-
-  
-  
+--TIPO DE VEÍCULO
 getTipoVeiculoR :: Handler Html
 getTipoVeiculoR = defaultLayout $ do
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  setTitle "Sistema Estacionamento | Cadastrar Tipo de Veículo"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-    <form>
-<button id="btn-nv">Novo</button>
-<button id="btn-alt">Alterar</button>
-    Nome: <input type="text" id="nome">
-    <button id="btn-canc">cancelar</button>
-    <button id="btn-conc">confirmar</button>
-    <table id="t1">
-        <thead>
-            <tr>
-            <th>ID
-            <th>Nome
-        <tbody id="tb">
-  |] 
-  toWidget [julius|
+
+^{navMenu}
+
+<div .container>
+    <div id="formulario" .col-md-12 .col-lg-12>
+        <h2>Cadastrar Tipo de Veículo</h2>
+        <br>
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo</button>
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar</button>
+        <br><br>
+            
+        <form .form-horizontal role="form">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="nome">Nome: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="nome" required placeholder="Digite o nome do veículo" title="Digite o nome do veículo">
+                <br>
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+    
+    <div .col-md-8 .col-lg-8>
+        <h3>Tipos de Veículos Cadastrados
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
+                <tr>
+                    <th>ID
+                    <th>Nome
+            <tbody id="tb">
+^{footer}        
+
+|] >> toWidget [julius|
      
-     $(listar());
+     $(listarTipoVeiculo());
 		var modeledt = {};
-		function confirmar(){
+		
+		function confirmarTipoVeiculo(){
             $.ajax({
                  contentType: "application/json",
                  url: "@{TipoVeiculoR}",
                  type: "POST",
                  data: JSON.stringify({"nome":$("#nome").val()}),
                  success: function(){
-					limpaCampos();	
-					listar();
+					limpaCamposTipoVeiculo();	
+					listarTipoVeiculo();
                  }
             });
-        	ajuste();
+        	ajusteTipoVeiculo();
         	$('tbody tr').css('background-color','#fff');   
 		}
 
-		function confedit(){
-    		modeledt.nome = $("#nome").val();
-        		$.ajax({
-            		type: "PUT",
-            		dataType: "json",
-            		cache: false,
-		            contentType:"application/json",    
-        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculoupdate/'+modeledt.id,
-            		data: JSON.stringify(modeledt),  
-        		}).done(function(e){
-           			limpaCampos();	
-       				$("#tb").html("");
-       				listar();
-        		});
-        		ajusteEdit();
-		}
-		
-		function limpaCampos(){
-			$("#nome").val("");
-		}
-		
-		
-		function novo(){
-    		$('tbody tr').off("click");
-    		limpaCampos();
-    		$('#btn-alt').removeAttr("onclick");
-    		$('#btn-nv').removeAttr("onclick");
-    		$("#nome").removeAttr("disabled","disabled");
-    		$('#btn-conc').attr("onclick","confirmar()");
-    		$('#btn-canc').attr("onclick","cancelar()");
-    		$('#btn-canc').removeAttr("disabled",'disabled');
-    		$('#btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-alt').attr("disabled",'disabled');
-		}
-		
-
-		function cancelar(){
-    		selecao();
-    		$('tbody tr').css('background-color','#fff');   
-    		ajuste();
-		}
-
-		function cancelarEdit(){
-    		selecao();
-    		$("#nome").val($('tr[select="select"]').find('span[id="nm"]').html());
-    		ajusteEdit();
-		}
-	
-		function alterar(){
-    		$('tbody tr').off("click");
-    		$('#btn-nv').removeAttr("onclick");
-    		$('#btn-nv').attr("disabled",'disabled');
-    		$("#nome").removeAttr("disabled","disabled");
-    		$('#btn-conc').attr("onclick","confedit()");
-    		$('#btn-canc').attr("onclick","cancelarEdit()");
-    		$('#btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-canc').removeAttr("disabled",'disabled');
-		}
-
-		function listar(){
-			ajuste();
+		function listarTipoVeiculo(){
+			ajusteTipoVeiculo();
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
@@ -1418,208 +1033,120 @@ getTipoVeiculoR = defaultLayout $ do
                 		itens+=e.data[i].nome;
                 		itens+="</span>"
             	      	itens+="</td><td>";
-            	      	itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+            	      	itens+="<button class='btn btn-danger' onclick='excluirTipoVeiculo("+e.data[i].id+")'>Excluir</button>";
 			            itens+="</td></tr>";
                 	}
                 	$("#tb").html(itens);
-                	selecao();
+                	selecaoTipoVeiculo();
 			});
 		}
 
-		function excluir(x){
-     		if(confirm("Confirma a exclusão do Tipo de veiculo "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="nm"]').html()+"?")){
-        		$.ajax({
-        			type: 'DELETE',
-        			dataType: "json",
-        			cache: false,
-        			contentType:"application/json",    
-        			url: 'https://estacionamento-bruno-alcamin.c9users.io/tipoveiculodelete/'+x,
-        		});
-        		$("#tb").html("");
-        		$("#t1 tbody").html("");
-        		listar();
-    		}
-		}
-
-		function selecao(){
-    		$('tbody tr').css('cursor','pointer');
-        	$('tbody tr').click(function(){
-            	$('#btn-alt').removeAttr("disabled",'disabled');
-            	$('#btn-alt').attr("onclick","alterar()");
-            	$('tbody tr').css('background-color','#fff');
-            	$('tbody tr').removeAttr('select','select');
-            	$(this).css('background-color','#76affd');
-            	$(this).attr('select','select');
-            	$("#nome").val($(this).find('span[id="nm"]').html());
-            	modeledt = {"id":$(this).find('span[id="cd"]').html(),"nome":$(this).find('span[id="nm"]').html()};
-    		});
-		}
-		
-		function ajuste(){
-		    $('tbody tr').on("click");
-		    limpaCampos();
-		    $('#btn-nv').attr("onclick","novo()");
-		    $("#nome").attr("disabled","disabled");
-		    $('#btn-alt').removeAttr("onclick");
-		    $('#btn-alt').attr("disabled",'disabled');
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
-		}
-
-		function ajusteEdit(){
-		    $('tbody tr').on("click");
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('#btn-nv').removeAttr("disabled",'disabled');
-		    $("#nome").attr("disabled","disabled");
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
-		}
 	|]
 
+--VEÍCULO
 getVeiculoR :: Handler Html
 getVeiculoR = defaultLayout $ do
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  setTitle "Sistema Estacionamento | Cadastrar Veículo"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-<button id="btn-nv">Novo</button>
-<button id="btn-alt">Alterar</button>
-    <form>
-    Clientes: <select id="clienteid"></select>
-    Placa: <input type="text" id="placa">
-    Descricao: <input type="text" id="descricao">
-    Marca: <input type="text" id="marca">
-    Ano: <input type="text" id="ano">
-    Cor: <input type="text" id="cor">
-    Tipos de Veiculo: <select id="tipoveiculoid"></select>
-    <button id="btn-canc">cancelar</button>
-    <button id="btn-conc">confirmar</button>
-    <table id="t1">
-        <thead>
-            <tr>
-            <th>ID
-            <th>Placa
-            <th>Cliente
-            <th>Marca
-            <th>Ano
-            <th>Cor
-            <th>Descricao
-            <th>Tipo de Veiculo
-        <tbody id="tb">
-  |]     
-  toWidget [julius|
+
+^{navMenu}
+
+<div .container>
+    <div id="formulario" .col-md-12 .col-lg-12>
+        <h2>Cadastrar Veículo</h2>
+        <br>
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo</button>
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar</button>
+        <br><br>
+            
+        <form .form-horizontal role="form">
+        
+            <div .form-group>
+                <label .control-label .col-md-2 for="clienteid">Cliente: 
+                <div .col-md-5>
+                    <select .form-control id="clienteid" title="Selecione o cliente">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="placa">Placa: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="placa" required placeholder="Digite a placa do veículo" title="Digite a placa do veículo">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="descricao">Descrição: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="descricao" required placeholder="Digite a descrição do veículo" title="Digite a descrição do veículo">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="marca">Marca: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="marca" required placeholder="Digite a marca do veículo" title="Digite a marca do veículo">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="ano">Ano: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="ano" required placeholder="Digite o ano do veículo" title="Digite o ano do veículo">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="cor">Cor: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="cor" required placeholder="Digite a cor do veículo" title="Digite a cor do veículo">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="tipoveiculoid">Tipo de veículo: 
+                <div .col-md-5>
+                    <select .form-control id="tipoveiculoid" title="Selecione o tipo de veículo">
+
+                <br>
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+    
+    <div .col-md-8 .col-lg-8>
+        <h3>Veículos Cadastrados
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
+                <tr>
+                <th>ID
+                <th>Placa
+                <th>Cliente
+                <th>Marca
+                <th>Ano
+                <th>Cor
+                <th>Descricao
+                <th>Tipo de Veiculo
+            <tbody id="tb">
+^{footer}            
+
+|] >> toWidget [julius|
+
   		$(listarClientes());
      	$(listarTiposveiculos());
-  		$(listar());
+  		$(listarVeiculo());
 		var modeledt = {};
-		function confirmar(){
+		
+		function confirmarVeiculo(){
             $.ajax({
                  contentType: "application/json",
                  url: "@{VeiculoR}",
                  type: "POST",
                  data: JSON.stringify({"clienteid":parseInt($("#clienteid").val()),"placa":$("#placa").val(),"descricao":$("#descricao").val(),"marca":$("#marca").val(),"ano":$("#ano").val(),"cor":$("#cor").val(),"tipoveiculoid":parseInt($("#tipoveiculoid").val())}),
                  success: function(){
-					limpaCampos();
-					listar();
+					limpaCamposVeiculo();
+					listarVeiculo();
                  }
             })
-        	ajuste();
+        	ajusteVeiculo();
         	$('tbody tr').css('background-color','#fff');   
 		}
 
-		function confedit(){
-    		modeledt.placa = $("#placa").val();
-    		modeledt.clienteid = parseInt($("#clienteid").val());
-    		modeledt.descricao = $("#descricao").val();
-    		modeledt.marca = $("#marca").val();
-    		modeledt.ano = $("#ano").val();
-    		modeledt.cor = $("#cor").val();	
-    		modeledt.tipoveiculoid = parseInt($("#tipoveiculoid").val());	
-        		$.ajax({
-            		type: "PUT",
-            		dataType: "json",
-            		cache: false,
-		            contentType:"application/json",    
-        		    url: 'https://estacionamento-bruno-alcamin.c9users.io/veiculoupdate/'+modeledt.id,
-            		data: JSON.stringify(modeledt),  
-        		}).done(function(e){
-           			limpaCampos();	
-       				$("#tb").html("");
-       				listar();
-        		});
-        		ajusteEdit();
-		}
-		
-		function limpaCampos(){
-			$("#placa").val("");
-			$("#clienteid").val("1");
-			$("#descricao").val("");
-			$("#marca").val("");
-			$("#ano").val("");
-			$("#cor").val("");
-			$("#tipoveiculoid").val("1");
-		}
-		
-		
-		function novo(){
-    		$('tbody tr').off("click");
-    		limpaCampos();
-    		$('#btn-alt').removeAttr("onclick");
-    		$('#btn-nv').removeAttr("onclick");
-    		$("#placa").removeAttr("disabled","disabled");
-			$("#clienteid").removeAttr("disabled","disabled");
-			$("#descricao").removeAttr("disabled","disabled");
-			$("#marca").removeAttr("disabled","disabled");
-			$("#ano").removeAttr("disabled","disabled");
-			$("#cor").removeAttr("disabled","disabled");
-			$("#tipoveiculoid").removeAttr("disabled","disabled");
-    		$('#btn-conc').attr("onclick","confirmar()");
-    		$('#btn-canc').attr("onclick","cancelar()");
-    		$('#btn-canc').removeAttr("disabled",'disabled');
-    		$('#btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-alt').attr("disabled",'disabled');
-		}
-		
-		function cancelar(){
-    		selecao();
-    		$('tbody tr').css('background-color','#fff');   
-    		ajuste();
-		}
-
-		function cancelarEdit(){
-    		selecao();
-    		$("#placa").val($('tr[select="select"]').find('span[id="pl"]').html());
-			$("#clienteid").val($('tr[select="select"]').find('span[id="cdcli"]').html());
-			$("#descricao").val($('tr[select="select"]').find('span[id="dsc"]').html());
-			$("#marca").val($('tr[select="select"]').find('span[id="mc"]').html());
-			$("#ano").val($('tr[select="select"]').find('span[id="aa"]').html());
-			$("#cor").val($('tr[select="select"]').find('span[id="cr"]').html());
-			$("#tipoveiculoid").val($('tr[select="select"]').find('span[id="cdtv"]').html());
-    		ajusteEdit();
-		}
-	
-		function alterar(){
-    		$('tbody tr').off("click");
-    		$('#btn-nv').removeAttr("onclick");
-    		$('#btn-nv').attr("disabled",'disabled');
-    		$("#placa").removeAttr("disabled","disabled");
-			$("#clienteid").removeAttr("disabled","disabled");
-			$("#descricao").removeAttr("disabled","disabled");
-			$("#marca").removeAttr("disabled","disabled");
-			$("#ano").removeAttr("disabled","disabled");
-			$("#cor").removeAttr("disabled","disabled");
-			$("#tipoveiculoid").removeAttr("disabled","disabled");
-    		$('#btn-conc').attr("onclick","confedit()");
-    		$('#btn-canc').attr("onclick","cancelarEdit()");
-    		$('#btn-conc').removeAttr("disabled",'disabled');
-    		$('#btn-canc').removeAttr("disabled",'disabled');
-    		$("#cnpj").attr("disabled","disabled");
-		}
-
-		function listar(){
-    		ajuste();
+		function listarVeiculo(){
+    		ajusteVeiculo();
     		var itens = "";
    			$.ajax({
 				contentType: "application/json",
@@ -1660,83 +1187,12 @@ getVeiculoR = defaultLayout $ do
                 		itens+=e.data[i].tipoveiculoid;
     	            	itens+="</span>"
 	                	itens+="</td><td>";
-			            itens+="<button onclick='excluir("+e.data[i].id+")'>Excluir</button>";
+			            itens+="<button class='btn btn-danger' onclick='excluirVeiculo("+e.data[i].id+")'>Excluir</button>";
 			            itens+="</td></tr>";
                 	}
                 	$("#tb").html(itens);
-				    selecao();
+				    selecaoVeiculo();
     		});
-		}
-
-		function excluir(x){
-     		if(confirm("Confirma a exclusão do Veiculo com a placa "+$('button[onclick="excluir('+x+')"').parent().parent().find('span[id="pl"]').html()+"?")){
-        		$.ajax({
-        			type: 'DELETE',
-        			dataType: "json",
-        			cache: false,
-        			contentType:"application/json",    
-        			url: 'https://estacionamento-bruno-alcamin.c9users.io/veiculodelete/'+x,
-        		});
-        		$("#tb").html("");
-        		$("#t1 tbody").html("");
-        		listar();
-    		}
-		}
-
-		function selecao(){
-    		$('tbody tr').css('cursor','pointer');
-        	$('tbody tr').click(function(){
-            	$('#btn-alt').removeAttr("disabled",'disabled');
-            	$('#btn-alt').attr("onclick","alterar()");
-            	$('tbody tr').css('background-color','#fff');
-            	$('tbody tr').removeAttr('select','select');
-            	$(this).css('background-color','#76affd');
-            	$(this).attr('select','select');
-            	$("#placa").val($(this).find('span[id="pl"]').html());
-            	$("#clienteid").val($(this).find('span[id="cdcli"]').html());
-				$("#descricao").val($(this).find('span[id="dsc"]').html());
-				$("#marca").val($(this).find('span[id="mc"]').html());
-				$("#ano").val($(this).find('span[id="aa"]').html());
-				$("#cor").val($(this).find('span[id="cr"]').html());
-				$("#tipoveiculoid").val($(this).find('span[id="cdtv"]').html());
-            	modeledt = {"id":$(this).find('span[id="cd"]').html(),"placa":$(this).find('span[id="pl"]').html(),"clienteid":$(this).find('span[id="cdcli"]').html(),"descricao":$(this).find('span[id="dsc"]').html(),"marca":$(this).find('span[id="mc"]').html(),"ano":$(this).find('span[id="aa"]').html(),"cor":$(this).find('span[id="cr"]').html(),"tipoveiculoid":$(this).find('span[id="cdtv"]').html()};
-    		});
-		}
-		
-		function ajuste(){
-		    $('tbody tr').on("click");
-		    limpaCampos();
-		    $('#btn-nv').attr("onclick","novo()");
-		    $("#placa").attr("disabled","disabled");
-			$("#clienteid").attr("disabled","disabled");
-			$("#descricao").attr("disabled","disabled");
-			$("#marca").attr("disabled","disabled");
-			$("#ano").attr("disabled","disabled");
-			$("#cor").attr("disabled","disabled");
-			$("#tipoveiculoid").attr("disabled","disabled");
-		    $('#btn-alt').removeAttr("onclick");
-		    $('#btn-alt').attr("disabled",'disabled');
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
-		}
-
-		function ajusteEdit(){
-		    $('tbody tr').on("click");
-		    $('#btn-nv').attr("onclick","novo()");
-		    $('#btn-nv').removeAttr("disabled",'disabled');
-			$("#placa").attr("disabled","disabled");
-			$("#clienteid").attr("disabled","disabled");
-			$("#descricao").attr("disabled","disabled");
-			$("#marca").attr("disabled","disabled");
-			$("#ano").attr("disabled","disabled");
-			$("#cor").attr("disabled","disabled");
-			$("#tipoveiculoid").attr("disabled","disabled");
-		    $('#btn-conc').removeAttr("onclick");
-		    $('#btn-canc').removeAttr("onclick");
-		    $('#btn-conc').attr("disabled",'disabled');
-		    $('#btn-canc').attr("disabled",'disabled');
 		}
         
     	function listarClientes(){
@@ -1771,68 +1227,89 @@ getVeiculoR = defaultLayout $ do
 			});
 		}
      
-  |]
+|]
 
+--FUNCIONÁRIO
 getFuncionarioR :: Handler Html
 getFuncionarioR = defaultLayout $ do
-  setTitle "Sistema Estacionamento | Cadastrar Funcionario"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  setTitle "Sistema Estacionamento | Cadastrar Funcionário"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-    <h1>Cadastrar Funcionario
-    <div .container>  
-        <div id="formulario" .col-md-12 .col-lg-12>
-            <button id="btnNovo" .btn .btn-default >Novo
-            <button id="btnAlterar" .btn .btn-default>Alterar
-            <br><br>
-            <form .form-horizontal>
-                <div .form-group>
-                    <label .control-label for="nome">Nome: 
-                    <div .controls>
-                        <input .form-control type="text" id="nome" name="nome">
-                <div .form-group>
-                    <label .control-label for="inic">Senha: 
-                    <div .controls>
-                        <input .form-control type="password" id="senha" name="senha">
-                <div .form-group>
-                    <label .control-label for="FuncionarioAtivo">Ativo: 
-                    <div .controls>
-                        <select .form-control id="FuncionarioAtivo">
-                            <option value="true">Sim
-                            <option value="false">Não
+
+^{navMenu}
+
+<div .container>
+    <div id="formulario" .col-md-12 .col-lg-12>
+        <h2>Cadastrar Funcionário</h2>
+        <br>
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo</button>
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar</button>
+        <br><br>
+            
+        <form .form-horizontal role="form">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="nome">Nome: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="nome" required placeholder="Digite o nome do funcionário" title="Digite o nome do funcionário">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="password">Senha: 
+                <div .col-md-5>
+                    <input .form-control type="password" id="senha" required placeholder="Digite a senha" title="Digite a senha">
+
+        
+            <div .form-group>
+                <label .control-label .col-md-2 for="FuncionarioAtivo">Ativo: 
+                <div .col-md-5>
+                    <select .form-control id="FuncionarioAtivo" title="Selecione o cliente">
+                        <option value="true">Sim
+                        <option value="false">Não
+
                 <br>
-            <div .form-group  .col-md-12 .col-lg-12>    
-                <button id="btnCancelar" .btn .btn-danger>Cancelar
-                <button id="btnConfirmar" .btn .btn-success>Confirmar
-        <div id="tabela" .col-md-12 .col-lg-12>
-            <table id="table1" .text-center>
-                <thead>
-                    <tr>
-                        <th>ID
-                        <th>Nome
-                        <th>Senha
-                        <th>Ativo
-                <tbody id="tbody1">
-  |]
-  toWidget [julius|
-    $(listar());
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+    
+    <div .col-md-8 .col-lg-8>
+        <h3>Funcionários Cadastrados
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
+                <tr>
+                    <th>ID
+                    <th>Nome
+                    <th>Senha
+                    <th>Ativo
+            <tbody id="tbody1">
+^{footer}
+
+|] >> toWidget [julius|
+
+    $(listarFuncionario());
     var modeledt = {};
-    function confirmar(){
+    
+    function confirmarFuncionario(){
         $.ajax({
             contentType: "application/json",
             url: "@{FuncionarioR}",
             type: "POST",
-            data: JSON.stringify({"nome":$("input[name='nome']").val(),"senha":$("input[name='senha']").val(),"ativo":$("#FuncionarioAtivo").val()}),
+            data: JSON.stringify({"nome":$("#nome").val(),"senha":$("#senha").val(),"ativo":$("#FuncionarioAtivo").val()}),
             success: function(){
-				$("input[name='nome'],input[name='senha']").val("");
+				$("input").val("");
 				$("#FuncionarioAtivo").val("true");
-       			listar();
+       			listarFuncionario();
             }
         });
     	$("tbody tr").css("background-color","#fff");   
 	}
-    function listar(){
-    	ajuste();
+	
+    function listarFuncionario(){
+    	ajusteFuncionario();
     	var itens = "";
    		$.ajax({
 			contentType: "application/json",
@@ -1856,152 +1333,88 @@ getFuncionarioR = defaultLayout $ do
 	           	itens+="</tr>";
            	}
 		    $("#tbody1").html(itens);
-		    selecao();
+		    selecaoFuncionario();
         });
     }
-    function novo(){
-    	$("tbody tr").off("click");
-    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
-    	limpaCampos();
-    	$("#btnAlterar, #btnNovo").removeAttr("onclick");
-    	$("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
-    	$("#btnConfirmar").attr("onclick","confirmar()");
-    	$("#btnCancelar").attr("onclick","cancelar()");
-    	$("#btnAlterar").attr("disabled","disabled");
-	}
-	function alterar(){
-    		$("tbody tr").off("click");
-    		$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
-			$("input[name='senha'], #FuncionarioAtivo, #tbody1, #btnConfirmar, #btnCancelar").removeAttr("disabled","disabled");
-    		$("#btnConfirmar").attr("onclick","confedit()");
-    		$("#btnCancelar").attr("onclick","cancelarEdit()");
-	}
-	function confedit(){
-    	modeledt.senha = $("input[name='senha']").val();
-    	modeledt.ativo = $("#FuncionarioAtivo").val();
-    	$.ajax({
-       		type: "PUT",
-       		dataType: "json",
-       		cache: false,
-	        contentType:"application/json",    
-    	    url: 'https://haskell-web-gustavoferreira.c9users.io/alterafuncionario/'+modeledt.id,
-      		data: JSON.stringify(modeledt),  
-    	}).done(function(e){
-    		limpaCampos();
-    		$("#tbody1").html("");
-    		listar();
-       	});
-       	ajusteEdit();
-	}
-	function cancelarEdit(){
-    	selecao();
-    	$("input[name='nome']").val($('tr[select="select"]').find('span[id="nomeFuncionario"]').html());
-		$("input[name='senha']").val($('tr[select="select"]').find('span[id="senhaFuncionario"]').html());
-		$("#FuncionarioAtivo").val($('tr[select="select"]').find('span[id="atFuncionario"]').html());
-    	ajusteEdit();
-	}
-	function cancelar(){
-    	selecao();
-    	$("tbody tr").css("background-color","#fff");   
-    	ajuste();
-	}
-	function selecao(){
-    	$("tbody tr").css("cursor","pointer");
-       	$("tbody tr").click(function(){
-         	$("#btnAlterar").removeAttr("disabled","disabled").attr("onclick","alterar()");
-           	$("tbody tr").css("background-color","#fff").removeAttr("select","select");
-           	$(this).css("background-color","#76affd");
-           	$(this).attr("select","select");
-           	$("input[name='nome']").val($(this).find('span[id="nomeFuncionario"]').html());
-           	$("input[name='senha']").val($(this).find('span[id="senhaFuncionario"]').html());
-			$("#FuncionarioAtivo").val($(this).find('span[id="atFuncionario"]').html());
-           	modeledt = {"id":$(this).find('span[id="idFuncionario"]').html(),"nome":$(this).find('span[id="nomeFuncionario"]').html(),"senha":$(this).find('span[id="senhaFuncionario"]').html(),"ativo":$(this).find('span[id="atFuncionario"]').html()};
-    	});
-	}
-    function ajuste(){
-	    $("tbody tr").on("click");
-	    limpaCampos();
-	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
-	    $("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1").attr("disabled","disabled");
-	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
-	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-    }
-    function ajusteEdit(){
-	    $("tbody tr").on("click");
-	    $("#btnNovo").attr("onclick","novo()");
-	    $("#btnNovo").removeAttr("disabled","disabled");
-	    $("input[name='nome'], input[name='senha'], #FuncionarioAtivo, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
-	}
-    function limpaCampos(){
-		$("input[name='nome'], input[name='senha']").val("");
-		$("#FuncionarioAtivo").val("true");
-	}
-  |] >> toWidget [lucius|
-  	h1{
-  		margin-left: 5%;
-  		font-weight: bold;
-  	}
-  	
-  	.container,
-  	#formulario, 
-  	#tabela {
-  		margin: 2% auto;
-  		padding: 1% 1% 1% 1%;
-  	}
-  	
-  	#formulario {
-  		padding: 2% 2% 2% 2%;
-  		--background-color: #ddd;
-  	}
-  |]
 
+|]
+
+--VAGA VALOR
 getVagaValorR :: Handler Html
 getVagaValorR = defaultLayout $ do
   setTitle "Sistema Estacionamento | Cadastrar Valor de Vaga"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-    <h1>Cadastro e Alteração de valor de vaga
-    <div .container>  
-        <div id="formulario" .col-md-12 .col-lg-12>
-            <p id="alteracao">
-            <button id="btnNovo" .btn .btn-default >Novo
-            <button id="btnAlterar" .btn .btn-default>Alterar
-            <a href=@{HistoricoVagaValorR} id="listaHistorico" .btn .btn-default>Histórico de valor de vaga
-            <br><br>
-            <form .form-horizontal>
-                <div .form-group>
-                    <label .control-label for="vlDia">Valor diurno: 
-                    <div .controls>
-                        <input .form-control type="number" id="vlDia" name="diurno" step="0.01">
-                <div .form-group>
-                    <label .control-label for="vlNoite">Valor noturno: 
-                    <div .controls>
-                        <input .form-control type="number" id="vlNoite" name="noturno" step="0.01">
-                <div .form-group>
-                    <label .control-label for="funcionario">Funcionário: 
-                    <div .controls>
-                        <select .form-control id="funcionario">
+
+^{navMenu}
+
+<div .container>
+    <div id="formulario" .col-md-12 .col-lg-12>
+        <h2>Cadastrar Valor de Vaga</h2>
+        <br>
+        <div id="alteracao" .col-md-offset-2 .col-lg-offset-2 >
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar
+        <a href=@{HistoricoVagaValorR} id="listaHistorico" .btn .btn-default>Histórico de valor das vagas
+        <br><br>
+            
+        <form .form-horizontal role="form">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="nome">Nome: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="nome" required placeholder="Digite o nome do funcionário" title="Digite o nome do funcionário">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="senha">Senha: 
+                <div .col-md-5>
+                    <input .form-control type="password" id="senha" required placeholder="Digite a senha" title="Digite a senha">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="vlDia">Valor diurno: 
+                <div .col-md-5>
+                    <input .form-control type="number" id="vlDia" name="diurno" step="0.01" required>
+            
+            <div .form-group>
+                <label .control-label .col-md-2 for="vlNoite">Valor noturno: 
+                <div .col-md-5>
+                    <input .form-control type="number" id="vlNoite" name="noturno" step="0.01" required>
+            
+            <div .form-group>
+                <label .control-label .col-md-2 for="funcionario">Funcionário: 
+                <div .col-md-5>
+                    <select .form-control id="funcionario" required>
+
                 <br>
-            <div .form-group  .col-md-12 .col-lg-12>    
-                <button id="btnCancelar" .btn .btn-danger>Cancelar
-                <button id="btnConfirmar" .btn .btn-success>Confirmar
-        <div id="tabela" .col-md-12 .col-lg-12>
-            <table id="table1" .text-center>
-                <thead>
-                    <tr>
-                        <th>ID
-                        <th>Valor diurno
-                        <th>Valor noturno
-                        <th>Alterado por
-                        <th>Id Funcionario
-                <tbody id="tbody1">
-  |]
-  toWidget [julius|
-    $(listar());
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+    
+    <div .col-md-8 .col-lg-8>
+        <h3>Valores de Vagas Cadastrados
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
+                <tr>
+                    <th>ID
+                    <th>Valor diurno
+                    <th>Valor noturno
+                    <th>Alterado por
+                    <th>Id Funcionario
+            <tbody id="tbody1">
+^{footer}
+
+|] >> toWidget [julius|
+
+    $(listarVagaValor());
     $(optFuncionario());
+    
     var modeledt = {};
+    
     function optFuncionario(){
         var opt = "<option value=''>Selecione um funcionário";
    		$.ajax({
@@ -2015,6 +1428,7 @@ getVagaValorR = defaultLayout $ do
            	$("#funcionario").html(opt);
         });
     }
+    
     function getFuncionario(id,j){
         var opt = "";
    		$.ajax({
@@ -2030,7 +1444,8 @@ getVagaValorR = defaultLayout $ do
            	}
         });
     }
-    function confirmar(){
+    
+    function confirmarVagaValor(){
         $.ajax({
             contentType: "application/json",
             url: "@{VagaValorR}",
@@ -2039,13 +1454,14 @@ getVagaValorR = defaultLayout $ do
             success: function(){
 				$("input[name='diurno'],input[name='noturno']").val("");
 				$("#funcionario").val("1");
-       			listar();
+       			listarVagaValor();
             }
         });
     	$("tbody tr").css("background-color","#fff");   
 	}
-    function listar(){
-    	ajuste();
+	
+    function listarVagaValor(){
+    	ajusteVagaValor();
     	var itens = "";
    		$.ajax({
 			contentType: "application/json",
@@ -2072,27 +1488,11 @@ getVagaValorR = defaultLayout $ do
 	           	itens+="</tr>";
            	}
 		    $("#tbody1").html(itens);
-		    selecao();
+		    selecaoVagaValor();
         });
     }
-    function novo(){
-    	$("tbody tr").off("click");
-    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
-    	limpaCampos();
-    	$("#btnAlterar, #btnNovo").removeAttr("onclick");
-    	$("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
-    	$("#btnConfirmar").attr("onclick","confirmar()");
-    	$("#btnCancelar").attr("onclick","cancelar()");
-    	$("#btnAlterar").attr("disabled","disabled");
-	}
-	function alterar(){
-    	$("tbody tr").off("click");
-    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
-		$("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnConfirmar, #btnCancelar").removeAttr("disabled","disabled");
-    	$("#btnConfirmar").attr("onclick","confedit()");
-    	$("#btnCancelar").attr("onclick","cancelarEdit()");
-	}
-	function confedit(){
+	
+	function confeditVagaValor(){
 	    modeledt.valordiurno = parseFloat($("input[name='diurno']").val());
     	modeledt.valornoturno = parseFloat($("input[name='noturno']").val());
     	modeledt.funcionarioid = parseInt($("#funcionario").val());
@@ -2105,12 +1505,12 @@ getVagaValorR = defaultLayout $ do
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
+    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();
     		$("#tbody1").html("");
-    		listar();
+    		listarVagaValor();
        	});
         $.ajax({
             contentType: "application/json",
@@ -2122,133 +1522,93 @@ getVagaValorR = defaultLayout $ do
 				$("#alteracao").css("font-size","1em");
             }
         });
-       	ajusteEdit();
+       	ajusteEditVagaValor();
 	}
-	function cancelarEdit(){
-    	selecao();
-    	$("input[name='diurno']").val($('tr[select="select"]').find('span[id="valordiurno"]').html());
-		$("input[name='noturno']").val($('tr[select="select"]').find('span[id="valornoturno"]').html());
-		$("#funcionario").val($('tr[select="select"]').find('span[id="idFuncionario"]').html());
-    	ajusteEdit();
-	}
-	function cancelar(){
-    	selecao();
-    	$("tbody tr").css("background-color","#fff");
-    	$("#funcionario").val("0");
-    	ajuste();
-	}
-	function selecao(){
-    	$("tbody tr").css("cursor","pointer");
-       	$("tbody tr").click(function(){
-         	$("#btnAlterar").removeAttr("disabled","disabled").attr("onclick","alterar()");
-           	$("tbody tr").css("background-color","#fff").removeAttr("select","select");
-           	$(this).css("background-color","#76affd");
-           	$(this).attr("select","select");
-           	$("input[name='diurno']").val($(this).find('span[id="valordiurno"]').html());
-           	$("input[name='noturno']").val($(this).find('span[id="valornoturno"]').html());
-			$("#funcionario").val($(this).find('span[id="idFuncionario"]').html());
-           	modeledt = {"vagavalorid":parseInt($(this).find('span[id="idVagaValor"]').html()),
-           				"vldiurnoantigo":parseFloat($(this).find('span[id="valordiurno"]').html()),
-           				"vlnoturnoantigo":parseFloat($(this).find('span[id="valornoturno"]').html()),
-           				"vldiurnonovo":$(this).find('span[id="valordiurno"]').html(),
-           				"vlnoturnonovo":$(this).find('span[id="valornoturno"]').html(),
-           				"dataalteracao":null,
-           				"funcionarioid":parseInt($(this).find('span[id="idFuncionario"]').html())};
-    	});
-	}
-    function ajuste(){
-	    $("tbody tr").on("click");
-	    limpaCampos();
-	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
-	    $("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1").attr("disabled","disabled");
-	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
-	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-    }
-    function ajusteEdit(){
-	    $("tbody tr").on("click");
-	    $("#btnNovo").attr("onclick","novo()");
-	    $("#btnNovo").removeAttr("disabled","disabled");
-	    $("input[name='diurno'], input[name='noturno'], #funcionario, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
-	}
-    function limpaCampos(){
-		$("input[name='diurno'], input[name='noturno'], #funcionario").val("");
-	}
-  |] >> toWidget [lucius|
-  	h1{
-  		margin-left: 5%;
-  		font-weight: bold;
-  	}
-  	
-  	.container,
-  	#formulario, 
-  	#tabela {
-  		margin: 2% auto;
-  		padding: 1% 1% 1% 1%;
-  	}
-  	
-  	#formulario {
-  		padding: 2% 2% 2% 2%;
-  		--background-color: #ddd;
-  	}
-  |]
 
+|]
+
+-- VAGA
 getVagaR :: Handler Html
 getVagaR = defaultLayout $ do
   setTitle "Sistema Estacionamento | Cadastrar Vaga"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-    <h1>Cadastro de vagas
-    <div .container>  
-        <div id="formulario" .col-md-12 .col-lg-12>
-            <button id="btnNovo" .btn .btn-default >Novo
-            <button id="btnAlterar" .btn .btn-default>Alterar
-            <br><br>
-            <form .form-horizontal>
-                <div .form-group>
-                    <label .control-label for="vaga">Vaga: 
-                    <div .controls>
-                        <select .form-control id="vaga">
-                <div .form-group>
-                    <label .control-label for="optDiurno">Diurno: 
-                    <div .controls>
-                        <select .form-control id="optDiurno">
-                            <option value="">Selecione
-                            <option value="livre">Livre
-                            <option value="ocupadoMensal">Ocupado Mensal
-                            <option value="ocupadoAvulso">Ocupado Avulso
-                <div .form-group>
-                    <label .control-label for="optNoturno">Noturno: 
-                    <div .controls>
-                        <select .form-control id="optNoturno">
-                            <option value="">Selecione
-                            <option value="livre">Livre
-                            <option value="ocupadoMensal">Ocupado Mensal
-                            <option value="ocupadoAvulso">Ocupado Avulso
-                <div .form-group>
-                    <label .control-label for="vagaValor">Id vaga valor: 
-                    <div .controls>
-                        <select .form-control id="vagaValor">
+
+^{navMenu}
+
+<div .container>
+    <div id="formulario" .col-md-12 .col-lg-12>
+        <h2>Cadastrar Vaga</h2>
+        <br>
+        <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo
+        <button id="btn-alt" .btn .btn-primary-outline>Alterar
+        <a href=@{HistoricoVagaValorR} id="listaHistorico" .btn .btn-default>Histórico de valor das vagas
+        <br><br>
+            
+        <form .form-horizontal role="form">
+
+            <div .form-group>
+                <label .control-label .col-md-2 for="nome">Nome: 
+                <div .col-md-5>
+                    <input .form-control type="text" id="nome" required placeholder="Digite o nome do funcionário" title="Digite o nome do funcionário">
+
+            <div .form-group>
+                <label .control-label for="vaga">Vaga: 
+                <div .col-md-5>
+                    <select .form-control id="vaga" required>
+                
+            <div .form-group>
+                <label .control-label for="optDiurno">Diurno: 
+                <div .col-md-5>
+                    <select .form-control id="optDiurno">
+                        <option value="">Selecione
+                        <option value="livre">Livre
+                        <option value="ocupadoMensal">Ocupado Mensal
+                        <option value="ocupadoAvulso">Ocupado Avulso
+            
+            <div .form-group>
+                <label .control-label for="optNoturno">Noturno: 
+                <div .col-md-5>
+                    <select .form-control id="optNoturno">
+                        <option value="">Selecione
+                        <option value="livre">Livre
+                        <option value="ocupadoMensal">Ocupado Mensal
+                        <option value="ocupadoAvulso">Ocupado Avulso
+            
+            <div .form-group>
+                <label .control-label for="vagaValor">Id vaga valor: 
+                <div .col-md-5>
+                    <select .form-control id="vagaValor">
+
                 <br>
-            <div .form-group  .col-md-12 .col-lg-12>    
-                <button id="btnCancelar" .btn .btn-danger>Cancelar
-                <button id="btnConfirmar" .btn .btn-success>Confirmar
-        <div id="tabela" .col-md-12 .col-lg-12>
-            <table id="table1" .text-center>
-                <thead>
-                    <tr>
-                        <th>Id/Vaga
-                        <th>Diurno
-                        <th>Noturno
-                        <th>Id vaga valor
-                <tbody id="tbody1">
-  |]
-  toWidget [julius|
-    $(listar());
+        <div .form-group  .col-md-12 .col-lg-12>    
+            <button id="btn-canc" .btn .btn-danger .col-md-offset-2 .col-lg-offset-2 >Cancelar</button>
+            <button id="btn-conc" .btn .btn-success>Confirmar</button>
+    
+    <div .col-md-8 .col-lg-8>
+        <h3>Vagas Cadastradas
+        <table id="t1" .table .table-hover>
+            <thead .thead-inverse>
+                <tr>
+                    <th>Id/Vaga
+                    <th>Diurno
+                    <th>Noturno
+                    <th>Id vaga valor
+            <tbody id="tbody1">
+^{footer}
+
+|] >> toWidget [julius|
+
+    $(listarVaga());
     $(optVagaValor());
     $(optVaga());
     var modeledt = {};
+    
     function optVagaValor(){
         var opt = "<option value=''>Selecione";
    		$.ajax({
@@ -2262,8 +1622,9 @@ getVagaR = defaultLayout $ do
            	$("#vagaValor").html(opt);
         });
     }
+    
     function optVaga(){
-        var opt = "<option value=''>Código para novas vagas gerado automáticamente";
+        var opt = "<option value=''>Código para novas vagas gerado automaticamente";
    		$.ajax({
 			contentType: "application/json",
             url: "@{ListaVagaR}",
@@ -2275,7 +1636,8 @@ getVagaR = defaultLayout $ do
            	$("#vaga").html(opt);
         });
     }
-    function confirmar(){
+    
+    function confirmarVaga(){
         $.ajax({
             contentType: "application/json",
             url: "@{VagaR}",
@@ -2283,13 +1645,14 @@ getVagaR = defaultLayout $ do
             data: JSON.stringify({"diurno":$("#optDiurno").val(),"noturno":$("#optNoturno").val(),"vagavalorid":parseInt($("#vagaValor").val())}),
             success: function(){
 				$("#vaga, #optDiurno, #optNoturno, #vagaValor").val("");
-       			listar();
+       			listarVaga();
             }
         });
     	$("tbody tr").css("background-color","#fff");   
 	}
-    function listar(){
-    	ajuste();
+	
+    function listarVaga(){
+    	ajusteVaga();
     	var itens = "";
    		$.ajax({
 			contentType: "application/json",
@@ -2313,121 +1676,36 @@ getVagaR = defaultLayout $ do
 	           	itens+="</tr>";
            	}
 		    $("#tbody1").html(itens);
-		    selecao();
+		    selecaoVaga();
         });
     }
-    function novo(){
-    	$("tbody tr").off("click");
-    	$("#btnNovo").removeAttr("onclick").attr("disabled","disabled");
-    	limpaCampos();
-    	$("#btnAlterar, #btnNovo").removeAttr("onclick");
-    	$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btnCancelar, #btnConfirmar").removeAttr("disabled","disabled");
-    	$("#btnConfirmar").attr("onclick","confirmar()");
-    	$("#btnCancelar").attr("onclick","cancelar()");
-    	$("#btnAlterar").attr("disabled","disabled");
-	}
-	function alterar(){
-    	$("tbody tr").off("click");
-    	$("#btnNovo, #btnAlterar").removeAttr("onclick").attr("disabled","disabled");
-		$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btnConfirmar, #btnCancelar").removeAttr("disabled","disabled");
-    	$("#btnConfirmar").attr("onclick","confedit()");
-    	$("#btnCancelar").attr("onclick","cancelarEdit()");
-	}
-	function confedit(){
-	    modeledt.diurno = $("#optDiurno").val();
-    	modeledt.noturno = $("#optNoturno").val();
-    	modeledt.vagavalorid = parseInt($("#vagaValor").val());
-    	$.ajax({
-       		type: "PUT",
-       		dataType: "json",
-       		cache: false,
-	        contentType:"application/json",    
-    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravaga/"+modeledt.id,
-      		data: JSON.stringify(modeledt),  
-    	}).done(function(e){
-    		limpaCampos();
-    		$("#tbody1").html("");
-    		listar();
-       	});
-       	ajusteEdit();
-	}
-	function cancelarEdit(){
-    	selecao();
-    	$("#vaga").val($('tr[select="select"]').find('span[id="idVaga"]').html());
-    	$("#optDiurno").val($('tr[select="select"]').find('span[id="diurno"]').html());
-		$("#optNoturno").val($('tr[select="select"]').find('span[id="noturno"]').html());
-		$("#vagaValor").val($('tr[select="select"]').find('span[id="idVagaValor"]').html());
-    	ajusteEdit();
-	}
-	function cancelar(){
-    	selecao();
-    	$("tbody tr").css("background-color","#fff");   
-    	ajuste();
-	}
-	function selecao(){
-    	$("tbody tr").css("cursor","pointer");
-       	$("tbody tr").click(function(){
-         	$("#btnAlterar").removeAttr("disabled","disabled").attr("onclick","alterar()");
-           	$("tbody tr").css("background-color","#fff").removeAttr("select","select");
-           	$(this).css("background-color","#76affd");
-           	$(this).attr("select","select");
-           	$("#vaga").val($(this).find('span[id="idVaga"]').html());
-           	$("#optDiurno").val($(this).find('span[id="diurno"]').html());
-           	$("#optNoturno").val($(this).find('span[id="noturno"]').html());
-			$("#vagaValor").val($(this).find('span[id="idVagaValor"]').html());
-           	modeledt = {"id":$(this).find('span[id="idVaga"]').html(),"diurno":$(this).find('span[id="diurno"]').html(),"noturno":$(this).find('span[id="noturno"]').html(),"idVagaValor":$(this).find('span[id="idVagaValor"]').html()};
-    	});
-	}
-    function ajuste(){
-	    $("tbody tr").on("click");
-	    limpaCampos();
-	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
-	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1").attr("disabled","disabled");
-	    $("#btnAlterar, #btnConfirmar, #btnCancelar").removeAttr("onclick");
-	    $("#btnAlterar, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-    }
-    function ajusteEdit(){
-	    $("tbody tr").on("click");
-	    $("#btnNovo").attr("onclick","novo()").removeAttr("disabled","disabled");
-	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1, #btnConfirmar, #btnCancelar").attr("disabled","disabled");
-	    $("#btnConfirmar, #btnCancelar").removeAttr("onclick");
-	}
-    function limpaCampos(){
-		$("#vaga, #optDiurno, #optNoturno, #vagaValor").val("");
-	}
-  |] >> toWidget [lucius|
-  	h1{
-  		margin-left: 5%;
-  		font-weight: bold;
-  	}
-  	
-  	.container,
-  	#formulario, 
-  	#tabela {
-  		margin: 2% auto;
-  		padding: 1% 1% 1% 1%;
-  	}
-  	
-  	#formulario {
-  		padding: 2% 2% 2% 2%;
-  		--background-color: #ddd;
-  	}
-  |]
 
+|]
+
+--HISTÓRICO VAGA VALOR
 getHistoricoVagaValorR :: Handler Html
 getHistoricoVagaValorR = defaultLayout $ do
-  setTitle "Sistema Estacionamento | Lista historico valor de vaga"
-  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
-  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  setTitle "Sistema Estacionamento | Histórico de valores das vagas"
+  toWidgetHead [hamlet| 
+      <link href=@{StaticR style_css} rel="stylesheet">
+   |] >> toWidget [lucius|
+       h1{ color: #ffffff !important; } 
+   |]
+    
   [whamlet|
-    <h1>Lista historico valor de vaga
-    <div .container>  
-        <div id="formulario" .col-md-12 .col-lg-12>
-            <a href=@{VagaValorR} id="voltar" .btn .btn-default >Voltar para Cadastro e Alteração de valor de vaga
+
+^{navMenu}
+
+<div .container>
+    <div id="formulario" .col-md-12 .col-lg-12>
+        
+        <h2>Histórico de valores das vagas</h2>
+        <a href=@{VagaValorR} id="voltar" .btn .btn-default >Voltar para Cadastro e Alteração de valor de vaga
+        <br>
 
         <div id="tabela" .col-md-12 .col-lg-12>
-            <table id="table1" .text-center>
-                <thead>
+            <table id="t1" .table .table-hover>
+                <thead .thead-inverse>
                     <tr>
                         <th>ID
                         <th>Data alteração
@@ -2437,10 +1715,13 @@ getHistoricoVagaValorR = defaultLayout $ do
                         <th>Valor noturno novo
                         <th>funcionario id
                 <tbody id="tbody1">
-  |]
-  toWidget [julius|
-    $(listar());
-    function listar(){
+^{footer}                
+
+|] >> toWidget [julius|
+
+    $(listarHistorico());
+    
+    function listarHistorico(){
     	var itens = "";
    		$.ajax({
 			contentType: "application/json",
@@ -2476,24 +1757,12 @@ getHistoricoVagaValorR = defaultLayout $ do
 		    $("#tbody1").html(itens);
         });
     }
-  |] >> toWidget [lucius|
-  	h1{
-  		margin-left: 5%;
-  		font-weight: bold;
-  	}
-  	
-  	.container,
-  	#formulario, 
-  	#tabela {
-  		margin: 2% auto;
-  		padding: 1% 1% 1% 1%;
-  	}
-  	
-  	#formulario {
-  		padding: 2% 2% 2% 2%;
-  		--background-color: #ddd;
-  	}
-  |]
+|]
+
+
+--------------------------------------------------------
+--              METHODS GET LISTAR
+--------------------------------------------------------
 
 getListaR :: Handler ()
 getListaR = do
@@ -2515,8 +1784,8 @@ getListaConveniadoR = do
     allconvs <- runDB $ selectList [] [Asc ConveniadoId]
     sendResponse (object [pack "data" .= fmap toJSON allconvs])
 
-getListaEventoR :: Handler ()
-getListaEventoR = do
+getListaEventR :: Handler ()
+getListaEventR = do
     alleventos <- runDB $ selectList [] [Asc EventId]
     sendResponse (object [pack "data" .= fmap toJSON alleventos])
 
