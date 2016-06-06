@@ -1968,6 +1968,7 @@ getVagaValorR = defaultLayout $ do
             <p id="alteracao">
             <button id="btnNovo" .btn .btn-default >Novo
             <button id="btnAlterar" .btn .btn-default>Alterar
+            <a href=@{HistoricoVagaValorR} id="listaHistorico" .btn .btn-default>Histórico de valor de vaga
             <br><br>
             <form .form-horizontal>
                 <div .form-group>
@@ -2413,6 +2414,87 @@ getVagaR = defaultLayout $ do
   	}
   |]
 
+getHistoricoVagaValorR :: Handler Html
+getHistoricoVagaValorR = defaultLayout $ do
+  setTitle "Sistema Estacionamento | Lista historico valor de vaga"
+  addScriptRemote "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+  addStylesheetRemote "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+  [whamlet|
+    <h1>Lista historico valor de vaga
+    <div .container>  
+        <div id="formulario" .col-md-12 .col-lg-12>
+            <a href=@{VagaValorR} id="voltar" .btn .btn-default >Voltar para Cadastro e Alteração de valor de vaga
+
+        <div id="tabela" .col-md-12 .col-lg-12>
+            <table id="table1" .text-center>
+                <thead>
+                    <tr>
+                        <th>ID
+                        <th>Data alteração
+                        <th>Valor diurno antigo
+                        <th>Valor diurno novo
+                        <th>Valor noturno antigo
+                        <th>Valor noturno novo
+                        <th>funcionario id
+                <tbody id="tbody1">
+  |]
+  toWidget [julius|
+    $(listar());
+    function listar(){
+    	var itens = "";
+   		$.ajax({
+			contentType: "application/json",
+            url: "@{ListaHistoricoVagaValorR}",
+            type: "GET",
+    	}).done(function(e){
+       		for(var i = 0; i<e.data.length; i++){
+           		itens+="<tr>";
+           		itens+="<td><span>"
+           		itens+=e.data[i].id;
+           		itens+="</span></td>"
+       	    	itens+="<td><span>"
+           		itens+=e.data[i].dataalteracao;
+           		itens+="</span></td>"
+       	    	itens+="<td><span>"
+           		itens+=e.data[i].vldiurnoantigo;
+           		itens+="</span></td>"
+            	itens+="<td><span>"
+           		itens+=e.data[i].vldiurnonovo;
+             	itens+="</span></td>"
+             	itens+="</span></td>"
+       	    	itens+="<td><span>"
+           		itens+=e.data[i].vlnoturnoantigo;
+           		itens+="</span></td>"
+       	    	itens+="<td><span>"
+           		itens+=e.data[i].vlnoturnonovo;
+           		itens+="</span></td>"
+            	itens+="<td><span>"
+           		itens+=e.data[i].funcionarioid;
+             	itens+="</span></td>"
+	           	itens+="</tr>";
+           	}
+		    $("#tbody1").html(itens);
+        });
+    }
+  |] >> toWidget [lucius|
+  	h1{
+  		margin-left: 5%;
+  		font-weight: bold;
+  	}
+  	
+  	.container,
+  	#formulario, 
+  	#tabela {
+  		margin: 2% auto;
+  		padding: 1% 1% 1% 1%;
+  	}
+  	
+  	#formulario {
+  		padding: 2% 2% 2% 2%;
+  		--background-color: #ddd;
+  	}
+  |]
+
 getListaR :: Handler ()
 getListaR = do
     allClientes <- runDB $ selectList [] [Asc ClientNome]
@@ -2463,8 +2545,8 @@ getListaVagaR = do
     allVaga <- runDB $ selectList [] [Asc VagaId]
     sendResponse (object [pack "data" .= fmap toJSON allVaga])
 
-getHistoricoVagaValorR :: Handler ()
-getHistoricoVagaValorR = do
+getListaHistoricoVagaValorR :: Handler ()
+getListaHistoricoVagaValorR = do
     allHistoricoVagaValor <- runDB $ selectList [] [Asc HistoricoVagaValorId]
     sendResponse (object [pack "data" .= fmap toJSON allHistoricoVagaValor])
 
