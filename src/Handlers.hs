@@ -547,7 +547,7 @@ getConveniadoR = defaultLayout $ do
                  type: "POST",
                  data: JSON.stringify({"nome":$("#nome").val(), 
                                        "percentualDesconto":parseFloat($("#desconto").val()),
-                                       "eventoid":$("#eventoid").val() }),
+                                       "eventoid":	parseInt($("#eventoid").val()) }),
                  success: function(){
                 	
 					limpaCamposConveniado();	
@@ -779,7 +779,6 @@ getAvulsoR = defaultLayout $ do
         <h2>Cadastrar Registro Avulso</h2>
         <br>
         <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo</button>
-        <button id="btn-alt" .btn .btn-primary-outline>Alterar</button>
         <br><br>
             
         <form .form-horizontal role="form">
@@ -815,9 +814,9 @@ getAvulsoR = defaultLayout $ do
                     <select .form-control id="vagaid" required title="Selecione a vaga"></select>
             
             <div .form-group>
-                <label .control-label .col-md-2 for="convenioid">Convênio: 
+                <label .control-label .col-md-2 for="conveniadoid">Convênio: 
                 <div .col-md-5>
-                    <select .form-control id="convenioid" title="Selecione o convênio, se houver">
+                    <select .form-control id="conveniadoid" title="Selecione o convênio, se houver">
             
                 <br>
         <div .form-group  .col-md-12 .col-lg-12>    
@@ -843,7 +842,7 @@ getAvulsoR = defaultLayout $ do
      
     	$(listarAvulso());
     	$(listarVagas());
-    	$(listarConvenios());
+    	$(listarConveniados());
     	$('#btn-conc').attr("onclick","confirmarAvulso()");
     	$('#btn-canc').attr("onclick","limpaCamposAvulso()");
 		
@@ -858,7 +857,7 @@ getAvulsoR = defaultLayout $ do
                                        "saida":$("#saida").val(),
                                        "valor":parseFloat($("#valor").val()),
                                        "vagaid":parseInt($("#vagaid").val()),
-                                       "convenioid":parseInt($("#convenioid").val())}),
+                                       "conveniadoid":parseInt($("#conveniadoid").val())}),
                  success: function(){
                 	
 					limpaCamposAvulso();	
@@ -903,11 +902,11 @@ getAvulsoR = defaultLayout $ do
                 		itens+=e.data[i].vagaid;
                 		itens+="</span>"
                 		itens+="</td><td>";
-                		itens+="<span id='convenioid'>"
-                		if (e.data[i].convenioid == null){
+                		itens+="<span id='conveniadoid'>"
+                		if (e.data[i].conveniadoid == null){
                 			itens+= "Nenhum";
                 		} else {
-                			itens+=e.data[i].convenioid;
+                			itens+=e.data[i].conveniadoid;
                 		}
                 		itens+="</span>"
                 		itens+="</td><td>";
@@ -934,7 +933,7 @@ getAvulsoR = defaultLayout $ do
 			});
 		}
 		
-		function listarConvenios(){
+		function listarConveniados(){
     		var itens = "";
 			$.ajax({
 				contentType: "application/json",
@@ -946,7 +945,7 @@ getAvulsoR = defaultLayout $ do
                 		itens+=e.data[i].nome;
                 		itens+="</option>";
                 	}
-                	$("#convenioid").append(itens);
+                	$("#conveniadoid").append(itens);
 			});
 		}
 		
@@ -1357,7 +1356,7 @@ getVagaValorR = defaultLayout $ do
     <div id="formulario" .col-md-12 .col-lg-12>
         <h2>Cadastrar Valor de Vaga</h2>
         <br>
-        <div id="alteracao" .col-md-offset-2 .col-lg-offset-2 >
+        <div id="alteracao">
         <button id="btn-nv" .btn .btn-primary-outline .col-md-offset-2 .col-lg-offset-2 >Novo
         <button id="btn-alt" .btn .btn-primary-outline>Alterar
         <a href=@{HistoricoVagaValorR} id="listaHistorico" .btn .btn-default>Histórico de valor das vagas
@@ -1505,7 +1504,7 @@ getVagaValorR = defaultLayout $ do
        		dataType: "json",
        		cache: false,
 	        contentType:"application/json",    
-    	    url: "https://estacionamento-bruno-alcamin.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
+    	    url: "https://haskell-web-gustavoferreira.c9users.io/alteravagavalor/"+modeledt.vagavalorid,
       		data: JSON.stringify(modeledt),  
     	}).done(function(e){
     		limpaCampos();
@@ -1558,12 +1557,12 @@ getVagaR = defaultLayout $ do
                     <input .form-control type="text" id="nome" required placeholder="Digite o nome do funcionário" title="Digite o nome do funcionário">
 
             <div .form-group>
-                <label .control-label for="vaga">Vaga: 
+                <label .control-label .col-md-2 for="vaga">Vaga: 
                 <div .col-md-5>
                     <select .form-control id="vaga" required>
                 
             <div .form-group>
-                <label .control-label for="optDiurno">Diurno: 
+                <label .control-label .col-md-2 for="optDiurno">Diurno: 
                 <div .col-md-5>
                     <select .form-control id="optDiurno">
                         <option value="">Selecione
@@ -1572,7 +1571,7 @@ getVagaR = defaultLayout $ do
                         <option value="ocupadoAvulso">Ocupado Avulso
             
             <div .form-group>
-                <label .control-label for="optNoturno">Noturno: 
+                <label .control-label .col-md-2 for="optNoturno">Noturno: 
                 <div .col-md-5>
                     <select .form-control id="optNoturno">
                         <option value="">Selecione
@@ -1581,7 +1580,7 @@ getVagaR = defaultLayout $ do
                         <option value="ocupadoAvulso">Ocupado Avulso
             
             <div .form-group>
-                <label .control-label for="vagaValor">Id vaga valor: 
+                <label .control-label .col-md-2 for="vagaValor">Id vaga valor: 
                 <div .col-md-5>
                     <select .form-control id="vagaValor">
 

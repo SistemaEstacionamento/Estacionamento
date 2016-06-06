@@ -952,7 +952,7 @@ function confedit(){
     	$("#btn-nv").removeAttr("onclick").attr("disabled","disabled");
     	limpaCamposVaga();
     	$("#btn-alt, #btn-nv").removeAttr("onclick");
-    	$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btn-canc, #btn-conc").removeAttr("disabled","disabled");
+    	$("input, select, #tbody1, #btn-canc, #btn-conc").removeAttr("disabled","disabled");
     	$("#btn-conc").attr("onclick","confirmarVaga()");
     	$("#btn-canc").attr("onclick","cancelarVaga()");
     	$("#btn-alt").attr("disabled","disabled");
@@ -961,7 +961,7 @@ function confedit(){
 	function alterarVaga(){
     	$("tbody tr").off("click");
     	$("#btn-nv, #btn-alt").removeAttr("onclick").attr("disabled","disabled");
-		$("#optDiurno, #optNoturno, #vagaValor, #tbody1, #btn-conc, #btn-canc").removeAttr("disabled","disabled");
+		$("input, select, #tbody1, #btn-conc, #btn-canc").removeAttr("disabled","disabled");
     	$("#btn-conc").attr("onclick","confeditVaga()");
     	$("#btn-canc").attr("onclick","cancelarEditVaga()");
 	}
@@ -1019,7 +1019,7 @@ function confedit(){
 	    $("tbody tr").on("click");
 	    limpaCamposVaga();
 	    $("#btn-nv").attr("onclick","novoVaga()").removeAttr("disabled","disabled");
-	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1").attr("disabled","disabled");
+	    $("input, select, #tbody1").attr("disabled","disabled");
 	    $("#btn-alt, #btn-conc, #btn-canc").removeAttr("onclick");
 	    $("#btn-alt, #btn-conc, #btn-canc").attr("disabled","disabled");
     }
@@ -1027,12 +1027,12 @@ function confedit(){
     function ajusteEditVaga(){
 	    $("tbody tr").on("click");
 	    $("#btn-nv").attr("onclick","novoVaga()").removeAttr("disabled","disabled");
-	    $("#vaga, #optDiurno, #optNoturno, #vagaValor, #tbody1, #btn-conc, #btn-canc").attr("disabled","disabled");
+	    $("input, select, #tbody1, #btn-conc, #btn-canc").attr("disabled","disabled");
 	    $("#btn-conc, #btn-canc").removeAttr("onclick");
 	}
 	
     function limpaCamposVaga(){
-		$("#vaga, #optDiurno, #optNoturno, #vagaValor").val("");
+		$("input, select").val("");
 	}
 
 
